@@ -1,4 +1,4 @@
-package com.gardyanakbar.guardianheadpaindiary.ui.dashboard;
+package com.gardyanakbar.guardianheadpaindiary.ui.new_entry;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,15 +14,15 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 
-public class DashboardFragment extends Fragment {
+public class NewEntryFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private NewEntryViewModel dashboardViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
+                ViewModelProviders.of(this).get(NewEntryViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_new_entry, container, false);
         final TextView textView = root.findViewById(R.id.text_dashboard);
         dashboardViewModel.getText().observe(this, new Observer<String>() {
             @Override

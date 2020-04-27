@@ -1,14 +1,14 @@
-package com.gardyanakbar.guardianheadpaindiary.ui.dashboard;
+package com.gardyanakbar.guardianheadpaindiary.ui.new_entry;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
-public class DashboardViewModel extends ViewModel {
+public class NewEntryViewModel extends ViewModel {
 
     private MutableLiveData<String> mText;
 
-    public DashboardViewModel() {
+    public NewEntryViewModel() {
         mText = new MutableLiveData<>();
         mText.setValue("This is dashboard fragment");
     }
