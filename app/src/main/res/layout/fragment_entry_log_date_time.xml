@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/entryLogDateTimeLabel"
+        android:text="@string/entry_log_form_date_time_title"/>
+    <DatePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/entrylogDatePicker"
+        android:datePickerMode="spinner"
+        android:spinnersShown="false"/>
+
+    <TimePicker
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/entryLogTimePicker"
+        android:timePickerMode="spinner"
+        android:paddingTop="@dimen/general_padding"/>
+
+</LinearLayout>

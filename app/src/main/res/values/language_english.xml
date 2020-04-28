@@ -1,4 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="nav_bar_new_entry_text">New Entry</string>
+    <!-- Navigation Bar -->
+    <string name="nav_bar_new_entry_text">New Entry</string>\
+    <string name="nav_bar_graph">Graph</string>
+
+    <!--  Entry Log  -->
+    <string name="entry_log_title">Input Your Data Here</string>
+    <string name="entry_log_map_button_date_time_text">Date \u0026 Time</string>
+    <string name="entry_log_map_button_duration_intensity_text">Duration \u0026 Intensity</string>
+    <!--  Date and Time Form  -->
+    <string name="entry_log_form_date_time_title">Select Date and Time</string>
+
+    <!--  Misc  -->
+    <string name="previous_text">Previous</string>
+    <string name="next_text">Next</string>
+    <string name="save_text">Save</string>
 </resources>

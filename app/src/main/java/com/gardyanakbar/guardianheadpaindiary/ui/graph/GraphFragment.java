@@ -1,4 +1,4 @@
-package com.gardyanakbar.guardianheadpaindiary.ui.notifications;
+package com.gardyanakbar.guardianheadpaindiary.ui.graph;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 
-public class NotificationsFragment extends Fragment {
+public class GraphFragment extends Fragment {
 
-    private NotificationsViewModel notificationsViewModel;
+    private GraphViewModel graphViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        notificationsViewModel =
-                ViewModelProviders.of(this).get(NotificationsViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_notifications, container, false);
-        final TextView textView = root.findViewById(R.id.text_notifications);
-        notificationsViewModel.getText().observe(this, new Observer<String>() {
+        graphViewModel =
+                ViewModelProviders.of(this).get(GraphViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_graph, container, false);
+        final TextView textView = root.findViewById(R.id.text_graph);
+        graphViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
