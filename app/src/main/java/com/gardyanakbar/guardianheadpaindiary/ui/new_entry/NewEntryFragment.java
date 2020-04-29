@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -15,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.gardyanakbar.guardianheadpaindiary.MainActivity;
 import com.gardyanakbar.guardianheadpaindiary.R;
 
 import java.util.ArrayList;
@@ -49,6 +52,29 @@ public class NewEntryFragment extends Fragment
 
         //Properties
         this.entryLogFormSpinner.setAdapter(this.getFormsSpinnerAdapter());
+        this.entryLogFormSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+                final String selection = adapterView.getItemAtPosition(position).toString();
+
+                //Selection
+                if (selection.equals(getString(R.string.entry_log_map_button_date_time_text)))
+                {
+
+                }
+                else if (selection.equals(getString(R.string.entry_log_map_button_duration_intensity_text)))
+                {
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent)
+            {
+
+            }
+        });
 
         return root;
     }
