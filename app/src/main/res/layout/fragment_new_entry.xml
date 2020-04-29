@@ -21,6 +21,10 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Body -->
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/entryLogSelectionSpinner"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -42,7 +46,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/entry_log_map_button_duration_intensity_text"/>
-
         </LinearLayout>
     </LinearLayout>
 

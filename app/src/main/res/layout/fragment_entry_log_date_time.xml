@@ -5,24 +5,29 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:id="@+id/entryLogDateTimeLabel"
-        android:text="@string/entry_log_form_date_time_title"/>
-    <DatePicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/entrylogDatePicker"
-        android:datePickerMode="spinner"
-        android:spinnersShown="false"/>
+        android:layout_height="match_parent"
+        android:id="@+id/entryLogDateTimeScroll">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:id="@+id/entryLogDateTimeLabel"
+            android:text="@string/entry_log_form_date_time_title"/>
+        <DatePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/entryLogDatePicker"
+            android:datePickerMode="spinner"
+            android:spinnersShown="false"/>
 
-    <TimePicker
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/entryLogTimePicker"
-        android:timePickerMode="spinner"
-        android:paddingTop="@dimen/general_padding"/>
+        <TimePicker
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/entryLogTimePicker"
+            android:timePickerMode="spinner"
+            android:paddingTop="@dimen/general_padding"/>
+    </ScrollView>
 
 </LinearLayout>
