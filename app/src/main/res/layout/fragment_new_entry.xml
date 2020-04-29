@@ -21,33 +21,16 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <!-- Body -->
-    <Spinner
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/entryLogSelectionSpinner"/>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-    <!-- Entry log map panel -->
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <Button
-                android:id="@+id/entryLogMapButtonDateTime"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/entry_log_map_button_date_time_text"/>
-            <Button
-                android:id="@+id/entryLogMapButtonDurationIntensity"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/entry_log_map_button_duration_intensity_text"/>
-        </LinearLayout>
-    </LinearLayout>
+        android:background="#ffffff">
+        <Spinner
+            style="@style/Widget.AppCompat.DropDownItem.Spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/entryLogSelectionSpinner"/>
+    </RelativeLayout>
 
     <!-- Lower buttons -->
     <RelativeLayout
