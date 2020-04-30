@@ -24,11 +24,6 @@ public class DateTimeSelectFragment extends FormElement
     public DateTimeSelectFragment()
     {
         super(false);
-        this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogDateTimeScroll));
-        this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogDateTimeLabel));
-        this.setFormTitle(this.getString(R.string.entry_log_form_date_time_title));
-        this.date = (DatePicker)this.view.findViewById(R.id.entryLogDatePicker);
-        this.time = (TimePicker)this.view.findViewById(R.id.entryLogTimePicker);
     }
 
     //Overridden Methods
@@ -36,6 +31,13 @@ public class DateTimeSelectFragment extends FormElement
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         this.view = inflater.inflate(R.layout.fragment_entry_log_date_time, container, false);
+
+        this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogDateTimeScroll));
+        this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogDateTimeLabel));
+        this.setFormTitle(this.getString(R.string.entry_log_form_date_time_title));
+        this.date = (DatePicker)this.view.findViewById(R.id.entryLogDatePicker);
+        this.time = (TimePicker)this.view.findViewById(R.id.entryLogTimePicker);
+
         return this.view;
     }
 

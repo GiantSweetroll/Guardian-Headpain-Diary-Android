@@ -7,18 +7,15 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
-import android.widget.SpinnerAdapter;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.viewpager.widget.ViewPager;
 
-import com.gardyanakbar.guardianheadpaindiary.MainActivity;
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.ui.MyPageAdapter;
+import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.DateTimeSelectFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +26,8 @@ public class NewEntryFragment extends Fragment
     private NewEntryViewModel dashboardViewModel;
     private View view;
     private Spinner entryLogFormSpinner;
+    private MyPageAdapter pageAdapter;
+    private ViewPager pager;
 
     //Overridden Methods
     @Override
@@ -48,7 +47,9 @@ public class NewEntryFragment extends Fragment
 //        });
         this.view = root;
         this.entryLogFormSpinner = (Spinner)this.view.findViewById(R.id.entryLogSelectionSpinner);
-
+        this.pageAdapter = new MyPageAdapter(this.getFragmentManager(), this.getFragments());
+        this.pager = (ViewPager)this.view.findViewById(R.id.entryLogViewPager);
+        this.pager.setAdapter(this.pageAdapter);
 
         //Properties
         this.entryLogFormSpinner.setAdapter(this.getFormsSpinnerAdapter());
@@ -64,6 +65,26 @@ public class NewEntryFragment extends Fragment
 
                 }
                 else if (selection.equals(getString(R.string.entry_log_map_button_duration_intensity_text)))
+                {
+
+                }
+                else if (selection.equals(getString(R.string.entry_log_map_button_pain_location_text)))
+                {
+
+                }
+                else if (selection.equals(getString(R.string.entry_log_map_button_pain_kind)))
+                {
+
+                }
+                else if (selection.equals(getString(R.string.entry_log_map_button_trigger_text)))
+                {
+
+                }
+                else if (selection.equals(getString(R.string.entry_log_map_button_recent_medication_text)))
+                {
+
+                }
+                else if (selection.equals(getString(R.string.entry_log_map_button_comments_text)))
                 {
 
                 }
@@ -86,9 +107,22 @@ public class NewEntryFragment extends Fragment
 
         list.add(this.view.getResources().getString(R.string.entry_log_map_button_date_time_text));
         list.add(this.view.getResources().getString(R.string.entry_log_map_button_duration_intensity_text));
+        list.add(this.view.getResources().getString(R.string.entry_log_map_button_pain_location_text));
+        list.add(this.view.getResources().getString(R.string.entry_log_map_button_pain_kind));
+        list.add(this.view.getResources().getString(R.string.entry_log_map_button_trigger_text));
+        list.add(this.view.getResources().getString(R.string.entry_log_map_button_recent_medication_text));
+        list.add(this.view.getResources().getString(R.string.entry_log_map_button_comments_text));
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this.getContext(), R.layout.support_simple_spinner_dropdown_item, list);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         return adapter;
+    }
+    private List<Fragment> getFragments()
+    {
+        List<Fragment> list = new ArrayList<>();
+
+        list.add(new DateTimeSelectFragment());
+
+        return list;
     }
 }

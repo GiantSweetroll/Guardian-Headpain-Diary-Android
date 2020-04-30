@@ -8,7 +8,11 @@
     <string name="entry_log_title">Input Your Data Here</string>
     <string name="entry_log_map_button_date_time_text">Date \u0026 Time</string>
     <string name="entry_log_map_button_duration_intensity_text">Duration \u0026 Intensity</string>
-    <string name="entry_log_map_button_pain_location">Pain Location</string>
+    <string name="entry_log_map_button_pain_location_text">Pain Location</string>
+    <string name="entry_log_map_button_pain_kind">Pain Kind</string>
+    <string name="entry_log_map_button_trigger_text">Trigger</string>
+    <string name="entry_log_map_button_recent_medication_text">Recent Medication</string>
+    <string name="entry_log_map_button_comments_text">Comments</string>
     <!--  Date and Time Form  -->
     <string name="entry_log_form_date_time_title">Select Date and Time</string>
 
