@@ -32,6 +32,7 @@ public class DateTimeSelectFragment extends FormElement
     {
         this.view = inflater.inflate(R.layout.fragment_entry_log_date_time, container, false);
 
+        //Initialization
         this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogDateTimeScroll));
         this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogDateTimeLabel));
         this.setFormTitle(this.getString(R.string.entry_log_form_date_time_title));

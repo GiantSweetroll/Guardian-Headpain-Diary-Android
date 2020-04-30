@@ -5,33 +5,33 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/entryLogDateTimeLabel"
+        android:text="@string/entry_log_form_date_time_title"/>
+
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:id="@+id/entryLogDateTimeScroll">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:id="@+id/entryLogDateTimeLabel"
-                android:text="@string/entry_log_form_date_time_title"/>
             <DatePicker
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/entryLogDatePicker"
                 android:datePickerMode="spinner"
-                android:spinnersShown="fal"/>
+                android:calendarViewShown="false"/>
 
             <TimePicker
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:id="@+id/entryLogTimePicker"
-                android:timePickerMode="spinner"
-                android:paddingTop="@dimen/general_padding"/>
+                android:timePickerMode="spinner"/>
         </LinearLayout>
     </ScrollView>
 
