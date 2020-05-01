@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -47,7 +48,7 @@ public class NewEntryFragment extends Fragment
 //        });
         this.view = root;
         this.entryLogFormSpinner = (Spinner)this.view.findViewById(R.id.entryLogSelectionSpinner);
-        this.pageAdapter = new MyPageAdapter(this.getFragmentManager(), this.getFragments());
+        this.pageAdapter = new MyPageAdapter(this.getChildFragmentManager(), this.getFragments());
         this.pager = (ViewPager)this.view.findViewById(R.id.entryLogViewPager);
         this.pager.setAdapter(this.pageAdapter);
 
