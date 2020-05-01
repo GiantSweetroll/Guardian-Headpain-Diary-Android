@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
     <!-- Title -->
     <TextView
@@ -15,16 +14,18 @@
         android:layout_marginEnd="8dp"
         android:textAlignment="center"
         android:textSize="20sp"
+        android:layout_alignParentTop="true"
         android:text="@string/entry_log_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <!-- Body -->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#ffffff">
+        android:background="#ffffff"
+        android:id="@+id/entryLogBodyRelativeLayout1">
         <Spinner
             style="@style/Widget.AppCompat.DropDownItem.Spinner"
             android:layout_width="match_parent"
@@ -35,12 +36,17 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/entryLogViewPager"/>
+        android:id="@+id/entryLogViewPager"
+        android:layout_below="@id/entryLogBodyRelativeLayout1"
+        android:layout_above="@id/entryLogBodyRelativeLayout2"/>
 
     <!-- Lower buttons -->
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="60dp"
+        android:id="@+id/entryLogBodyRelativeLayout2">
 
         <Button
             android:layout_width="wrap_content"
@@ -67,4 +73,4 @@
             android:layout_alignParentRight="true"/>
 
     </RelativeLayout>
-</LinearLayout>
+</RelativeLayout>
