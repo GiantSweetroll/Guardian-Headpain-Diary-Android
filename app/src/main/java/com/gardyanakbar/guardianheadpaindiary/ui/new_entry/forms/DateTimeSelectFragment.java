@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -13,12 +14,14 @@ import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class DateTimeSelectFragment extends FormElement
 {
     //Fields
     private DatePicker date;
     private TimePicker time;
-    private View view;
 
     //Constructor
     public DateTimeSelectFragment()
@@ -65,8 +68,7 @@ public class DateTimeSelectFragment extends FormElement
     public void refresh() {}
 
     @Override
-    public void revalidateLanguage()
-    {
+    public void revalidateLanguage() {
         this.setFormTitle(this.getString(R.string.entry_log_form_date_time_title));
     }
 }

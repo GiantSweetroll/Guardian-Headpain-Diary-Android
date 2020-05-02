@@ -54,7 +54,9 @@
             android:text="@string/previous_text"
             android:id="@+id/entryLogPrevButton"
             android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:background="@color/colorButtonBase"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -62,7 +64,9 @@
             android:text="@string/save_text"
             android:id="@+id/entryLogSaveButton"
             android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:background="@color/colorButtonBase"
+            android:textColor="#FFFFFF"/>
 
         <Button
             android:layout_width="wrap_content"
@@ -70,7 +74,9 @@
             android:text="@string/next_text"
             android:id="@+id/entryLogNextButton"
             android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"/>
+            android:layout_alignParentRight="true"
+            android:background="@color/colorButtonBase"
+            android:textColor="#FFFFFF"/>
 
     </RelativeLayout>
 </RelativeLayout>

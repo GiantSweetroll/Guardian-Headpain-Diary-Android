@@ -6,7 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RelativeLayout;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -16,7 +16,9 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.ui.MyPageAdapter;
+import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.CommentsFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.DateTimeSelectFragment;
+import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.DurationIntensitySelectFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +31,7 @@ public class NewEntryFragment extends Fragment
     private Spinner entryLogFormSpinner;
     private MyPageAdapter pageAdapter;
     private ViewPager pager;
+    private Button bPrev, bSave, bNext;
 
     //Overridden Methods
     @Override
@@ -50,9 +53,12 @@ public class NewEntryFragment extends Fragment
         this.entryLogFormSpinner = (Spinner)this.view.findViewById(R.id.entryLogSelectionSpinner);
         this.pageAdapter = new MyPageAdapter(this.getChildFragmentManager(), this.getFragments());
         this.pager = (ViewPager)this.view.findViewById(R.id.entryLogViewPager);
-        this.pager.setAdapter(this.pageAdapter);
+        this.bPrev = (Button)this.view.findViewById(R.id.entryLogPrevButton);
+        this.bSave = (Button)this.view.findViewById(R.id.entryLogSaveButton);
+        this.bNext = (Button)this.view.findViewById(R.id.entryLogNextButton);
 
         //Properties
+        this.pager.setAdapter(this.pageAdapter);
         this.entryLogFormSpinner.setAdapter(this.getFormsSpinnerAdapter());
         this.entryLogFormSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -63,11 +69,11 @@ public class NewEntryFragment extends Fragment
                 //Selection
                 if (selection.equals(getString(R.string.entry_log_map_button_date_time_text)))
                 {
-
+                    pager.setCurrentItem(0);
                 }
                 else if (selection.equals(getString(R.string.entry_log_map_button_duration_intensity_text)))
                 {
-
+                    pager.setCurrentItem(1);
                 }
                 else if (selection.equals(getString(R.string.entry_log_map_button_pain_location_text)))
                 {
@@ -97,6 +103,38 @@ public class NewEntryFragment extends Fragment
 
             }
         });
+        this.bPrev.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                int index = pager.getCurrentItem();
+                if (index > 0)
+                {
+                    pager.setCurrentItem(index-1);
+                }
+            }
+        });
+        this.bSave.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                //TO-DO save entry
+            }
+        });
+        this.bNext.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                int index = pager.getCurrentItem();
+                if (index < pageAdapter.getCount())
+                {
+                    pager.setCurrentItem(index+1);
+                }
+            }
+        });
 
         return root;
     }
@@ -123,6 +161,8 @@ public class NewEntryFragment extends Fragment
         List<Fragment> list = new ArrayList<>();
 
         list.add(new DateTimeSelectFragment());
+        list.add(new DurationIntensitySelectFragment());
+        list.add(new CommentsFragment());
 
         return list;
     }

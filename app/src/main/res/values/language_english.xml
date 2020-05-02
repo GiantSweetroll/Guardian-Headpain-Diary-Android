@@ -15,9 +15,20 @@
     <string name="entry_log_map_button_comments_text">Comments</string>
     <!--  Date and Time Form  -->
     <string name="entry_log_form_date_time_title">Select Date and Time</string>
+    <!--  Duration and Intensity Form  -->
+    <string name="entry_log_form_duration_intensity_label">Select Duration and Intensity</string>
+    <string name="entry_log_form_duration_intensity_duration_text">Duration</string>
+    <string name="entry_log_form_duration_intensity_intensity_text">Intensity</string>
+    <string name="entry_log_form_duration_intensity_unit_seconds_text">Seconds</string>
+    <string name="entry_log_form_duration_intensity_unit_minutes_text">Minutes</string>
+    <string name="entry_log_form_duration_intensity_unit_hours_text">Hours</string>
+    <string name="entry_log_form_duration_intensity_unit_days_text">Days</string>
+    <string name="entry_log_form_duration_intensity_intensity_desc">0 = no pain, 10 = most painful/crying</string>
 
     <!--  Misc  -->
     <string name="previous_text">Previous</string>
     <string name="next_text">Next</string>
     <string name="save_text">Save</string>
+    <string name="choose_none_text">NONE</string>
+    <string name="other_text">Other</string>
 </resources>

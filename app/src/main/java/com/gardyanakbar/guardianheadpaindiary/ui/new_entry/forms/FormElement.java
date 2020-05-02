@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms;
 
 import android.text.Html;
+import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -15,6 +16,8 @@ public abstract class FormElement<T> extends Fragment implements GUIFunctions, L
     private TextView labName;
     private boolean required;
     private ScrollView scroll;
+
+    protected View view;
 
     //Constructor
     public FormElement(boolean required)
