@@ -4,8 +4,8 @@ import android.content.Context;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.History;
@@ -18,13 +18,13 @@ public class HistoryPanel implements GUIFunctions, LanguageListener, AdapterView
 {
     //Fields
     private HistorySpinner historySpinner;
-    private TextView tfHistory;
+    private EditText tfHistory;
     private History history;
     private String historyKey;
     private Context context;
 
     //Constructor
-    public HistoryPanel(Context context, Spinner spinner, TextView tv, History history, String patientDataConstant, String[] defaultOptions, boolean sorted, boolean haveNone)		//patientDataConstant are constants from PatientData class used for the recent selected options
+    public HistoryPanel(Context context, Spinner spinner, EditText tv, History history, String patientDataConstant, String[] defaultOptions, boolean sorted, boolean haveNone)		//patientDataConstant are constants from PatientData class used for the recent selected options
     {
         //Initialization
         this.historySpinner = new HistorySpinner(spinner, history, defaultOptions, sorted, haveNone, context);
@@ -35,7 +35,7 @@ public class HistoryPanel implements GUIFunctions, LanguageListener, AdapterView
 
         //Properties
         this.historySpinner.getSpinner().setOnItemSelectedListener(this);
-        this.tfHistory.setOnTouchListener(this );
+        this.tfHistory.setOnTouchListener(this);
     }
 
     //Public Methods

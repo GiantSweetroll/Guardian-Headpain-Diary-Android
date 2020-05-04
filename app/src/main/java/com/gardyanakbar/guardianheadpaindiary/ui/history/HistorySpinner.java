@@ -60,10 +60,7 @@ public class HistorySpinner implements GUIFunctions
             set.add(str);
         }
 
-        for (String str : set)
-        {
-            subList.add(str);
-        }
+        subList.addAll(set);
         if (this.sorted)
         {
             Collections.sort(subList);
@@ -202,6 +199,7 @@ public class HistorySpinner implements GUIFunctions
     @Override
     public void refresh()
     {
-        this.spinner.setAdapter(this.initAdapter(this.history));
+        this.adapter = this.initAdapter(this.history);
+        this.spinner.setAdapter(this.adapter);
     }
 }

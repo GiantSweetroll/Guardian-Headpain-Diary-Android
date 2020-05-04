@@ -24,6 +24,12 @@
     <string name="entry_log_form_duration_intensity_unit_hours_text">Hours</string>
     <string name="entry_log_form_duration_intensity_unit_days_text">Days</string>
     <string name="entry_log_form_duration_intensity_intensity_desc">0 = no pain, 10 = most painful/crying</string>
+    <!-- Pain Kind Form -->
+    <string name="entry_log_form_painkind_label">Kind of Headpain</string>
+    <string name="entry_log_form_painkind_default_pulsating_text">Pulsating</string>
+    <string name="entry_log_form_painkind_default_radiating_text">Radiating</string>
+    <string name="entry_log_form_painkind_default_throbbing_text">Throbbing</string>
+    <string name="entry_log_form_painkind_default_tight_band_text">Tight Band</string>
 
     <!--  Misc  -->
     <string name="previous_text">Previous</string>
