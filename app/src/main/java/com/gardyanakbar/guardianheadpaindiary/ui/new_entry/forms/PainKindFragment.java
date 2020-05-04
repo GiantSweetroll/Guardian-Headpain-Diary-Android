@@ -14,10 +14,11 @@ import androidx.annotation.NonNull;
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
+import com.gardyanakbar.guardianheadpaindiary.interfaces.HistoryListener;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 import com.gardyanakbar.guardianheadpaindiary.ui.history.HistoryPanel;
 
-public class PainKindFragment extends FormElement
+public class PainKindFragment extends FormElement implements HistoryListener
 {
     //Fields
     private HistoryPanel painKind;
@@ -29,15 +30,6 @@ public class PainKindFragment extends FormElement
     public void setPainKind(String painKind)
     {
         this.painKind.setActiveItem(painKind);
-    }
-    public void refreshHistory(PatientData patient)
-    {
-        try
-        {
-            this.painKind.refresh(Globals.HISTORY_PAIN_KIND, patient);
-            this.painKind.setActiveItem(patient.getLastPainKind());
-        }
-        catch(NullPointerException ex) {}
     }
 
     //Overridden Methods
@@ -97,7 +89,19 @@ public class PainKindFragment extends FormElement
     }
 
     @Override
-    public void revalidateLanguage() {
-        this.setFormTitle(this.getString(R.string.entry_log_form_date_time_title));
+    public void revalidateLanguage()
+    {
+        this.setFormTitle(this.getString(R.string.entry_log_form_painkind_label));
+    }
+
+    @Override
+    public void refreshHistory(PatientData patient)
+    {
+        try
+        {
+            this.painKind.refresh(Globals.HISTORY_PAIN_KIND, patient);
+            this.painKind.setActiveItem(patient.getLastPainKind());
+        }
+        catch(NullPointerException ex) {}
     }
 }
