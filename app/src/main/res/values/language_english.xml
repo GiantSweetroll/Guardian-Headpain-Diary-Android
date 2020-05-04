@@ -31,4 +31,6 @@
     <string name="save_text">Save</string>
     <string name="choose_none_text">NONE</string>
     <string name="other_text">Other</string>
+    <string name="month_text">Month</string>
+    <string name="year_text">Year</string>
 </resources>
