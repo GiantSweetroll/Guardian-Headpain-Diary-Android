@@ -30,6 +30,25 @@
     <string name="entry_log_form_painkind_default_radiating_text">Radiating</string>
     <string name="entry_log_form_painkind_default_throbbing_text">Throbbing</string>
     <string name="entry_log_form_painkind_default_tight_band_text">Tight Band</string>
+    <!-- Trigger Form -->
+    <string name="entry_log_form_trigger_label">Trigger</string>
+    <string name="entry_log_form_trigger_default_diet_text">Improper Diet/Sleep Routine</string>
+    <string name="entry_log_form_trigger_default_physical_activity_text">Physical Activity</string>
+    <string name="entry_log_form_trigger_default_stressor_text">Stressor</string>
+    <string name="entry_log_form_trigger_default_sunlight_text">Sunlight</string>
+    <!-- Recent Medication Form -->
+    <string name="entry_log_form_recent_medication_label">Enter Recent Medication</string>
+    <string name="entry_log_form_recent_medication_text">Recent Medication</string>
+    <string name="entry_log_form_recent_medication_default_capsules_text">Prescribed Mix Capsule</string>
+    <string name="entry_log_form_side_effects_text">Suspected Side Effects of Medicines</string>
+
+    <!-- Pain Locations -->
+    <string name="pain_location_eye_and_forehead_text">Eye Area and Forehead</string>
+    <string name="pain_location_face_left_and_head_text">Left-Side Face and Head</string>
+    <string name="pain_location_face_right_and_head_text">Right-Side Face and Head</string>
+    <string name="pain_location_head_all_text">Full Head</string>
+    <string name="pain_location_head_back_text">Back Head</string>
+    <string name="pain_location_head_front_text">Front Head</string>
 
     <!--  Misc  -->
     <string name="previous_text">Previous</string>
@@ -39,4 +58,6 @@
     <string name="other_text">Other</string>
     <string name="month_text">Month</string>
     <string name="year_text">Year</string>
+    <string name="presets_text">Presets</string>
+    <string name="custom_text">Custom</string>
 </resources>

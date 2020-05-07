@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/temp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/entryLogPainLocPresetLabel"
+        android:text="@string/presets_text"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/entryLogPainLocPresetScroll">
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <GridLayout
+                android:rowCount="3"
+                android:columnCount="2"
+                android:layout_height="match_parent"
+                android:layout_width="match_parent"
+                android:alignmentMode="alignMargins"
+                android:columnOrderPreserved="false"
+                android:id="@+id/entryLogPainLocPresetGrid"
+                android:padding="@dimen/general_padding">
+            </GridLayout>
+        </HorizontalScrollView>
+    </ScrollView>
+</LinearLayout>

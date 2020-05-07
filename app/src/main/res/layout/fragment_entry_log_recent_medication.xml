@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAlignment="center"
+        android:id="@+id/entryLogRecentMedicationLabel"
+        android:text="@string/entry_log_form_recent_medication_label"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/entryLogRecentMedicationScroll">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/entryLogRecentMedicationTextView"
+                android:text="@string/entry_log_form_recent_medication_text"/>
+            <include layout="@layout/history_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/entryLogRecentMedicationPanel"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/entryLogSideEffectsTextView"
+                android:text="@string/entry_log_form_side_effects_text"
+                android:paddingTop="50dp"/>
+            <include layout="@layout/history_panel"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/entryLogSideEffectsPanel"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -20,6 +20,8 @@ import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.CommentsFragmen
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.DateTimeSelectFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.DurationIntensitySelectFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.PainKindFragment;
+import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.TriggerFragment;
+import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location.PainLocationPresetSelection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -164,7 +166,9 @@ public class NewEntryFragment extends Fragment
         list.add(new DateTimeSelectFragment());
         list.add(new DurationIntensitySelectFragment());
         list.add(new PainKindFragment());
+        list.add(new TriggerFragment());
         list.add(new CommentsFragment());
+        list.add(new PainLocationPresetSelection());
 
         return list;
     }
