@@ -23,9 +23,9 @@ import java.util.List;
 public class DurationIntensitySelectFragment extends FormElement
 {
     //Fields
-    private TextView durationLabel, durationValueLabel;
+    private TextView durationLabel, durationValueLabel, intensityValueLabel;
     private Spinner durationUnits;
-    private SeekBar durationSlider;
+    private SeekBar durationSlider, intensitySlider;
 
     //Constructor
     public DurationIntensitySelectFragment()
@@ -43,10 +43,12 @@ public class DurationIntensitySelectFragment extends FormElement
         this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogDurationIntensityScroll));
         this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogDurationIntensityLabel));
         this.setFormTitle("");
+        this.intensityValueLabel = (TextView)this.view.findViewById(R.id.entryLogIntensityValue);
         this.durationLabel = (TextView)this.view.findViewById(R.id.entryLogDurationLabel);
         this.durationValueLabel = (TextView)this.view.findViewById(R.id.entryLogDurationValueLabel);
         this.durationUnits = (Spinner)this.view.findViewById(R.id.entryLogDurationUnitSpinner);
         this.durationSlider = (SeekBar)this.view.findViewById(R.id.entryLogDurationSlider);
+        this.intensitySlider = (SeekBar)this.view.findViewById(R.id.entryLogIntensitySlider);
 
         //Properties
         this.durationUnits.setAdapter(this.getDurationSpinnerAdapter());
@@ -59,19 +61,19 @@ public class DurationIntensitySelectFragment extends FormElement
 
                 if (selection.equals(getString(R.string.entry_log_form_duration_intensity_unit_seconds_text)))
                 {
-
+                    durationSlider.setMax(60);
                 }
                 else if (selection.equals(getString(R.string.entry_log_form_duration_intensity_unit_minutes_text)))
                 {
-
+                    durationSlider.setMax(60);
                 }
                 else if (selection.equals(getString(R.string.entry_log_form_duration_intensity_unit_hours_text)))
                 {
-
+                    durationSlider.setMax(24);
                 }
                 else if (selection.equals(getString(R.string.entry_log_form_duration_intensity_unit_days_text)))
                 {
-
+                    durationSlider.setMax(31);
                 }
             }
 
@@ -80,6 +82,33 @@ public class DurationIntensitySelectFragment extends FormElement
             {
 
             }
+        });
+        this.intensitySlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
+        {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                intensityValueLabel.setText(Integer.toString(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {}
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
+        });
+        this.durationSlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser)
+            {
+                durationValueLabel.setText(Integer.toString(progress));
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) { }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {}
         });
 
         return this.view;
