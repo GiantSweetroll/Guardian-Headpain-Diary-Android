@@ -20,6 +20,7 @@ import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.CommentsFragmen
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.DateTimeSelectFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.DurationIntensitySelectFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.PainKindFragment;
+import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.RecentMedicationFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.TriggerFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location.PainLocationPresetSelection;
 
@@ -80,23 +81,23 @@ public class NewEntryFragment extends Fragment
                 }
                 else if (selection.equals(getString(R.string.entry_log_map_button_pain_location_text)))
                 {
-
+                    pager.setCurrentItem(2);
                 }
                 else if (selection.equals(getString(R.string.entry_log_map_button_pain_kind)))
                 {
-
+                    pager.setCurrentItem(3);
                 }
                 else if (selection.equals(getString(R.string.entry_log_map_button_trigger_text)))
                 {
-
+                    pager.setCurrentItem(4);
                 }
                 else if (selection.equals(getString(R.string.entry_log_map_button_recent_medication_text)))
                 {
-
+                    pager.setCurrentItem(5);
                 }
                 else if (selection.equals(getString(R.string.entry_log_map_button_comments_text)))
                 {
-
+                    pager.setCurrentItem(6);
                 }
             }
 
@@ -138,6 +139,19 @@ public class NewEntryFragment extends Fragment
                 }
             }
         });
+        this.pager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {}
+
+            @Override
+            public void onPageSelected(int position)
+            {
+                entryLogFormSpinner.setSelection(position);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {}
+        });
 
         return root;
     }
@@ -165,10 +179,11 @@ public class NewEntryFragment extends Fragment
 
         list.add(new DateTimeSelectFragment());
         list.add(new DurationIntensitySelectFragment());
+        list.add(new PainLocationPresetSelection());
         list.add(new PainKindFragment());
         list.add(new TriggerFragment());
+        list.add(new RecentMedicationFragment());
         list.add(new CommentsFragment());
-        list.add(new PainLocationPresetSelection());
 
         return list;
     }
