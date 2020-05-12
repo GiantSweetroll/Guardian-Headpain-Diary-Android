@@ -32,7 +32,6 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
     private List<Button> buttons;
     private List<String> selectedPos;
     private GridLayout grid;
-    private LinearLayout temp;
 
     //Constructor
     public PainLocationPresetSelection()
@@ -53,7 +52,6 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
         }
 
         this.grid = this.view.findViewById(R.id.entryLogPainLocPresetGrid);
-        this.temp = this.view.findViewById(R.id.temp);
         int generalPad = (int)this.getResources().getDimension(R.dimen.general_padding);
         for(Map.Entry<String, LinkedHashMap<Integer, String>> entry : Methods.generatePainLocationsTextIDMap(this.getContext()).entrySet())
         {
