@@ -24,6 +24,7 @@ import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.RecentMedicatio
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.TriggerFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location.PainLocationCustomSelection;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location.PainLocationPresetSelection;
+import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location.PainLocationSelection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,7 +181,8 @@ public class NewEntryFragment extends Fragment
 
         list.add(new DateTimeSelectFragment());
         list.add(new DurationIntensitySelectFragment());
-        list.add(new PainLocationCustomSelection());
+        list.add(new PainLocationSelection());
+//        list.add(new PainLocationCustomSelection());
 //        list.add(new PainLocationPresetSelection());
         list.add(new PainKindFragment());
         list.add(new TriggerFragment());
