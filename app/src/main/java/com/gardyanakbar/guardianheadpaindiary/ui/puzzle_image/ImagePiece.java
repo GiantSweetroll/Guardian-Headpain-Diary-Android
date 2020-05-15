@@ -4,8 +4,10 @@ import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.Drawable;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -16,25 +18,29 @@ import com.gardyanakbar.guardianheadpaindiary.R;
 public class ImagePiece extends View implements View.OnTouchListener
 {
     //Fields
-    private Bitmap image;
     private Paint paint;
     private Rect rect;
     private String name;
     private boolean isColored;
+    private Drawable image;
 
     //Constructors
-    public ImagePiece(Context context, int imageDrawable)
+    public ImagePiece(Context context, int imageDrawable, String name, boolean canColor)
     {
         super(context);
-        this.image = BitmapFactory.decodeResource(context.getResources(), imageDrawable);
+        this.image = ContextCompat.getDrawable(context, imageDrawable);
         this.paint = new Paint();
         this.rect = new Rect();
-        this.name = "";
+        this.name = name;
         this.isColored = false;
 
         //Properties
+        this.image.setBounds(0, 0, this.image.getMinimumWidth(), this.image.getMinimumHeight());
         this.paint.setAntiAlias(true);
-        this.setOnTouchListener(this);
+        if (canColor)
+        {
+            this.setOnTouchListener(this);
+        }
     }
 
     //Setters and Getters
@@ -56,7 +62,7 @@ public class ImagePiece extends View implements View.OnTouchListener
     }
     public void setImage(int drawableID)
     {
-        this.image = BitmapFactory.decodeResource(this.getContext().getResources(), drawableID);
+        this.image = ContextCompat.getDrawable(this.getContext(), drawableID);
     }
     public void color()
     {
@@ -65,12 +71,17 @@ public class ImagePiece extends View implements View.OnTouchListener
             this.setColored(!this.isColored());
         }
     }
+    public Drawable getBackgroundImage()
+    {
+        return this.image;
+    }
 
     //Overridden Methods
     @Override
     public void setEnabled(boolean b)
     {
         super.setEnabled(b);
+
         if (b)
         {
             this.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorWhite));
@@ -86,7 +97,7 @@ public class ImagePiece extends View implements View.OnTouchListener
     {
         super.onDraw(canvas);
 
-        canvas.drawBitmap(this.image, null, this.rect, this.paint);     //Draw image
+        this.image.draw(canvas);
 
         //Draw highlight
         if (this.isColored())
@@ -100,6 +111,7 @@ public class ImagePiece extends View implements View.OnTouchListener
     public boolean onTouch(View v, MotionEvent event)
     {
         this.setColored(!this.isColored());
+        this.invalidate();
         return false;
     }
 }

@@ -124,9 +124,15 @@ public class ImagePuzzle extends Fragment
     {
         this.view = inflater.inflate(R.layout.fragment_image_puzzle, container, false);
 
+        return this.view;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState)
+    {
+        super.onViewCreated(view, savedInstanceState);
+
         //Initialization
         this.init();
-
-        return this.view;
     }
 }

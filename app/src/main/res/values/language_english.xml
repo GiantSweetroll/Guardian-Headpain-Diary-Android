@@ -41,6 +41,9 @@
     <string name="entry_log_form_recent_medication_text">Recent Medication</string>
     <string name="entry_log_form_recent_medication_default_capsules_text">Prescribed Mix Capsule</string>
     <string name="entry_log_form_side_effects_text">Suspected Side Effects of Medicines</string>
+    <!-- Pain Location Form -->
+    <string name="entry_log_form_painloc_custom_your_right_text">Your Right</string>
+    <string name="entry_log_form_painloc_custom_your_left_text">Your Left</string>
 
     <!-- Pain Locations -->
     <string name="pain_location_eye_and_forehead_text">Eye Area and Forehead</string>
@@ -60,4 +63,5 @@
     <string name="year_text">Year</string>
     <string name="presets_text">Presets</string>
     <string name="custom_text">Custom</string>
+    <string name="reset_text">Reset</string>
 </resources>
