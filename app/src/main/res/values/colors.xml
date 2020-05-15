@@ -6,7 +6,7 @@
     <color name="colorAppBase">#00BBD4</color>          <!-- Light Blue -->
     <color name="colorButtonBase">#174AD3</color>       <!-- Dark Blue -->
     <color name="colorWhite">#FFFFFF</color>
-    <color name="colorCustomPainLocationHighlight">#10ff16</color>
+    <color name="colorCustomPainLocationHighlight">#4C10FF16</color>
     <color name="colorDisabledComponent">#e0e0e0</color>
 
 </resources>
