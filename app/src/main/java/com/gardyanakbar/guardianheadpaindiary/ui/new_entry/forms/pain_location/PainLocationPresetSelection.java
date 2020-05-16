@@ -179,8 +179,6 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
         this.view = inflater.inflate(R.layout.fragment_entry_log_painloc_preset, container, false);
 
         //Initialization
-        this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogPainLocPresetScroll));
-        this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogPainLocPresetLabel));
         this.initButtons();
 
         return this.view;
@@ -221,7 +219,5 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
 
     @Override
     public void revalidateLanguage()
-    {
-        this.setFormTitle(this.getString(R.string.presets_text));
-    }
+    {}
 }
