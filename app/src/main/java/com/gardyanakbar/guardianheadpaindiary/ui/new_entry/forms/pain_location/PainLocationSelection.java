@@ -11,7 +11,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
+import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.FormElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PainLocationSelection extends FormElement
 {
@@ -26,7 +31,67 @@ public class PainLocationSelection extends FormElement
         super(true);
     }
 
-    //Private Methods
+    //Public Methods
+    public List<String> getSelectedPositions()
+    {
+        if (this.radPresets.isSelected())
+        {
+            List<String> list = this.presets.getSelectedPosition();
+            Methods.removeDuplicatesFromStringList(list);
+            return list;
+        }
+        else
+        {
+            List<String> list = new ArrayList<String>();
+            for (String loc : this.custom.getLocations())
+            {
+                list.add(loc);
+            }
+            Methods.removeDuplicatesFromStringList(list);
+            return list;
+        }
+    }
+    public boolean presetLocationSelected()
+    {
+        return this.radPresets.isSelected();
+    }
+    public boolean customLocationSelected()
+    {
+        return this.radCustom.isSelected();
+    }
+
+    public void setSelectedPosition(PainEntryData entry)
+    {
+        List<String> presetLocations = entry.getPresetPainLocations();
+        List<String> customLocations = entry.getCustomPainLocations();
+
+        if (presetLocations.size() == 0)
+        {
+            this.radCustom.setSelected(true);
+            List<String> list = new ArrayList<String>();
+            for (String location : customLocations)
+            {
+                try
+                {
+                    list.add(location);
+                }
+                catch(Exception ex) {}
+            }
+            this.custom.setLocations(list);
+        }
+        else
+        {
+            this.radPresets.setSelected(true);
+            for (String location : presetLocations)
+            {
+                this.presets.setSelected(location);
+            }
+        }
+    }
+    public boolean isPainLocationSelected()
+    {
+        return this.getSelectedPositions().size() > 0;
+    }
 
     //Overridden Methods
     @Override

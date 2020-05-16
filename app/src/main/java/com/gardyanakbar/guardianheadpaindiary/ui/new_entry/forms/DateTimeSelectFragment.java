@@ -1,21 +1,22 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 
-import java.util.ArrayList;
-import java.util.List;
+import giantsweetroll.date.Date;
 
 public class DateTimeSelectFragment extends FormElement
 {
@@ -27,6 +28,45 @@ public class DateTimeSelectFragment extends FormElement
     public DateTimeSelectFragment()
     {
         super(false);
+    }
+
+    //Public Methods
+    public Date getDate()
+    {
+        Date date = new Date();
+        date.setYear(this.date.getYear());
+        date.setMonth(this.date.getMonth());
+        date.setDay(this.date.getDayOfMonth());
+        return date;
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public String getTimeHour()
+    {
+        return Integer.toString(this.time.getHour());
+    }
+    @RequiresApi(api = Build.VERSION_CODES.M)
+    public String getTimeMinutes()
+    {
+        return Integer.toString(this.time.getMinute());
+    }
+    public void setDate(Date date)
+    {
+        this.date.updateDate(date.getYear(), date.getMonth(), date.getDay());
+    }
+    public void setTime(PainEntryData entry)
+    {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            this.time.setHour(Integer.parseInt(entry.getTimeHour()));
+        }
+        else
+        {
+            this.time.setCurrentHour(Integer.parseInt(entry.getTimeHour()));
+        }
+    }
+    public void setData(PainEntryData entry)
+    {
+        this.setDate(entry.getDate());
+        this.setTime(entry);
     }
 
     //Overridden Methods

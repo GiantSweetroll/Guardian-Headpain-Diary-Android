@@ -16,6 +16,9 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.XMLIdentifier;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
+import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,11 +29,83 @@ public class DurationIntensitySelectFragment extends FormElement
     private TextView durationLabel, durationValueLabel, intensityValueLabel;
     private Spinner durationUnits;
     private SeekBar durationSlider, intensitySlider;
+    //Constants
+    private final int SECONDS_INDEX = 0,
+            MINUTES_INDEX = 1,
+            HOURS_INDEX = 2,
+            DAYS_INDEX = 3;
 
     //Constructor
     public DurationIntensitySelectFragment()
     {
         super(false);
+    }
+
+    //Public Methods
+    public String getDuration()
+    {
+        if (this.durationUnits.getSelectedItemPosition() == this.SECONDS_INDEX)		//Seconds
+        {
+            return Integer.toString(this.durationSlider.getProgress());
+        }
+        else if (this.durationUnits.getSelectedItemPosition() == this.MINUTES_INDEX)	//Minutes
+        {
+            return Integer.toString(Methods.minutesToSeconds(this.durationSlider.getProgress()));
+        }
+        else if (this.durationUnits.getSelectedItemPosition() == this.HOURS_INDEX)		//Hours
+        {
+            return Integer.toString(Methods.hoursToSeconds(this.durationSlider.getProgress()));
+        }
+        else															//Days
+        {
+            return Long.toString(Methods.daysToSeconds(this.durationSlider.getProgress()));
+        }
+    }
+    public void setDuration(String duration)
+    {
+        try
+        {
+            int value = Integer.parseInt(duration);
+            int index = SECONDS_INDEX;
+
+            if (value >=86400d)								//Days
+            {
+                value = Methods.secondsToDays(value);
+                index = DAYS_INDEX;
+            }
+            else if (value>=3600d && value<86400d)	//Hours
+            {
+                value = Methods.secondsToHours(value);
+                index = HOURS_INDEX;
+            }
+            else if (value<3600d && value>=60d)		//Minutes
+            {
+                value = Methods.secondsToMinutes(value);
+                index = MINUTES_INDEX;
+            }
+
+            this.durationSlider.setProgress(value);
+            this.durationUnits.setSelection(index);
+        }
+        catch(NumberFormatException ex)
+        {
+            double val = Double.parseDouble(duration);
+            long value = (long)val;
+            value = value/86400;
+            int index = DAYS_INDEX;
+
+            this.durationSlider.setProgress(Integer.parseInt(Long.toString(value)));
+            this.durationUnits.setSelection(index);
+        }
+        catch(Exception ex) {ex.printStackTrace();}
+    }
+    public String getIntensity()
+    {
+        return Integer.toString(this.intensitySlider.getProgress());
+    }
+    public void setIntensity(String intensity)
+    {
+        this.intensitySlider.setProgress(Integer.parseInt(intensity));
     }
 
     //Overridden Methods
@@ -114,16 +189,22 @@ public class DurationIntensitySelectFragment extends FormElement
         return this.view;
     }
 
+    @Deprecated
     @Override
     public Object getData()
     {
         return null;
     }
 
+    @Deprecated
     @Override
     public void setData(Object data)
     {
-
+        if (data instanceof PainEntryData)
+        {
+            this.setDuration(((PainEntryData) data).getDuration());
+            this.setIntensity(((PainEntryData) data).getIntensity());
+        }
     }
 
     @Override

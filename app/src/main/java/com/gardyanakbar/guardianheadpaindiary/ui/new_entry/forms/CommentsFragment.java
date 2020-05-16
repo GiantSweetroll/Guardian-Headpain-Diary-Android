@@ -25,6 +25,13 @@ public class CommentsFragment extends FormElement
 
     //Overridden Methods
     @Override
+    public void resetDefaults()
+    {
+        super.resetDefaults();
+        this.taComments.setText("");
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         this.view = inflater.inflate(R.layout.fragment_entry_log_comments, container, false);

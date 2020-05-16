@@ -149,6 +149,23 @@ public class NewEntryFragment extends Fragment
             public void onPageSelected(int position)
             {
                 entryLogFormSpinner.setSelection(position);
+                if (position == 0)
+                {
+                    bPrev.setEnabled(false);
+                }
+                else
+                {
+                    bPrev.setEnabled(true);
+                }
+
+                if (position == entryLogFormSpinner.getCount()-1)
+                {
+                    bNext.setEnabled(false);
+                }
+                else
+                {
+                    bNext.setEnabled(true);
+                }
             }
 
             @Override

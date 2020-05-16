@@ -1,9 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.methods;
 
-import android.app.Activity;
 import android.content.Context;
-import android.view.View;
-import android.view.inputmethod.InputMethodManager;
+import android.content.res.Resources;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -12,12 +10,17 @@ import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.constants.ImageConstants;
 import com.gardyanakbar.guardianheadpaindiary.constants.PainLocationConstants;
+import com.gardyanakbar.guardianheadpaindiary.constants.XMLIdentifier;
 import com.gardyanakbar.guardianheadpaindiary.ui.puzzle_image.ImagePiece;
 
-import java.net.URL;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
+
+import giantsweetroll.xml.dom.XMLManager;
 
 public class Methods
 {
@@ -83,6 +86,102 @@ public class Methods
                             context.getString(R.string.entry_log_form_trigger_default_stressor_text),
                             context.getString(R.string.entry_log_form_trigger_default_sunlight_text)};
         return kinds;
+    }
+
+    /**
+     * Returns the text content of the XML Element with the given tag name (key). If multiple elements of the same tag name exists,
+     * it will return the first one to occur.
+     *
+     * @param doc
+     * @param key
+     * @return String
+     */
+    public static String getElementTextContent(Document doc, String key)			//Get text content of element from the selected document (only takes text content from the first NodeList)
+    {
+        try
+        {
+            return XMLManager.getElement(doc.getElementsByTagName(key), 0).getTextContent();
+        }
+        catch(NullPointerException ex)
+        {
+            return "";
+        }
+    }
+
+    /**
+     * Returns the text contents of the given list of Elements in a List object.
+     *
+     * @param elements
+     * @return List<String>
+     */
+    public static List<String> getTextContentsFromElements(List<Element> elements)
+    {
+        List<String> list = new ArrayList<String>();
+
+        for (Element element : elements)
+        {
+            list.add(element.getTextContent());
+        }
+
+        return list;
+    }
+
+    //Preset Pain Locations
+    /**
+     * Checks if the pain location is a part of the preset pain locations.
+     * @param painLoc
+     * @return boolean
+     */
+    public static boolean isPresetPainLocation(String painLoc)
+    {
+        if (painLoc.equals(PainLocationConstants.EYES_AND_FOREHEAD) ||
+                painLoc.equals(PainLocationConstants.FACE_LEFT_AND_HEAD) ||
+                painLoc.equals(PainLocationConstants.FACE_RIGHT_AND_HEAD) ||
+                painLoc.equals(PainLocationConstants.HEAD_BACK) ||
+                painLoc.equals(PainLocationConstants.HEAD_FRONT) ||
+                painLoc.equals(PainLocationConstants.HEAD_FULL))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Converts preset pain location ID to the provided language.
+     * @param painLoc
+     * @return String of the pain location provided by the language.
+     */
+    public static String convertPresetPainLocationToLanguage(String painLoc)
+    {
+        String str = painLoc;
+        if (painLoc.equals(PainLocationConstants.EYES_AND_FOREHEAD))
+        {
+            str = Resources.getSystem().getString(R.string.pain_location_eye_and_forehead_text);
+        }
+        else if (painLoc.equals(PainLocationConstants.FACE_LEFT_AND_HEAD))
+        {
+            str = Resources.getSystem().getString(R.string.pain_location_face_left_and_head_text);
+        }
+        else if (painLoc.equals(PainLocationConstants.FACE_RIGHT_AND_HEAD))
+        {
+            str = Resources.getSystem().getString(R.string.pain_location_face_right_and_head_text);
+        }
+        else if (painLoc.equals(PainLocationConstants.HEAD_FULL))
+        {
+            str = Resources.getSystem().getString(R.string.pain_location_head_all_text);
+        }
+        else if (painLoc.equals(PainLocationConstants.HEAD_BACK))
+        {
+            str = Resources.getSystem().getString(R.string.pain_location_head_back_text);
+        }
+        else if (painLoc.equals(PainLocationConstants.HEAD_FRONT))
+        {
+            str = Resources.getSystem().getString(R.string.pain_location_head_front_text);
+        }
+        return str;
     }
 
     //Custom Pain Locations
@@ -193,5 +292,266 @@ public class Methods
         images.add(new ImagePiece(context, R.drawable.pain_loc_custom_mukakiri20, "kir20", false));
 
         return images;
+    }
+
+    //Time operations
+    /**
+     * Converts seconds to minutes. Any remainders will be lost.
+     * @param sec
+     * @return int
+     */
+    public static int secondsToMinutes(int sec)
+    {
+        return sec/60;
+    }
+    /**
+     * Converts seconds to hours. Any remainders will be lost.
+     * @param sec
+     * @return int
+     */
+    public static int secondsToHours(int sec)
+    {
+        return sec/3600;
+    }
+    /**
+     * Converts seconds to days. Any remainders will be lost.
+     * @param sec
+     * @return int
+     */
+    public static int secondsToDays(long sec)
+    {
+        return Integer.parseInt(Long.toString(sec/86400));
+    }
+
+    /**
+     * Converts minutes to seconds.
+     * @param min
+     * @return int
+     */
+    public static int minutesToSeconds(int min)
+    {
+        return min*60;
+    }
+
+    /**
+     * Converts hours to seconds.
+     * @param hours
+     * @return int
+     */
+    public static int hoursToSeconds(int hours)
+    {
+        return hours*3600;
+    }
+
+    /**
+     * Converts days to seconds.
+     * @param days
+     * @return long
+     */
+    public static long daysToSeconds(int days)
+    {
+        return days*86400;
+    }
+
+    //ID Conversions
+    /**
+     * converts the default pain kind from the provided language into its ID.
+     * @param text
+     * @return String of the ID
+     */
+    public static String convertPainKindLanguageToID(String text)
+    {
+        if (text.equals(Resources.getSystem().getString(R.string.entry_log_form_painkind_default_pulsating_text)))
+        {
+            return XMLIdentifier.DEFAULT_PAIN_KIND_PULSATING;
+        }
+        else if (text.equals(Resources.getSystem().getString(R.string.entry_log_form_painkind_default_radiating_text)))
+        {
+            return XMLIdentifier.DEFAULT_PAIN_KIND_RADIATING;
+        }
+        else if (text.equals(Resources.getSystem().getString(R.string.entry_log_form_painkind_default_throbbing_text)))
+        {
+            return XMLIdentifier.DEFAULT_PAIN_KIND_THROBBING;
+        }
+        else if (text.equals(Resources.getSystem().getString(R.string.entry_log_form_painkind_default_tight_band_text)))
+        {
+            return XMLIdentifier.DEFAULT_PAIN_KIND_TIGHT_BAND;
+        }
+        else
+        {
+            return text;
+        }
+    }
+
+    /**
+     * converts the default pain kind ID to the one provided by the language.
+     * @param id
+     * @return String of the pain kind provided by the language.
+     */
+    public static String convertPainKindIDToLanguage(String id)
+    {
+        if (id.equals(XMLIdentifier.DEFAULT_PAIN_KIND_PULSATING))
+        {
+            return Resources.getSystem().getString(R.string.entry_log_form_painkind_default_pulsating_text);
+        }
+        else if (id.equals(XMLIdentifier.DEFAULT_PAIN_KIND_RADIATING))
+        {
+            return Resources.getSystem().getString(R.string.entry_log_form_painkind_default_radiating_text);
+        }
+        else if (id.equals(XMLIdentifier.DEFAULT_PAIN_KIND_THROBBING))
+        {
+            return Resources.getSystem().getString(R.string.entry_log_form_painkind_default_throbbing_text);
+        }
+        else if (id.equals(XMLIdentifier.DEFAULT_PAIN_KIND_TIGHT_BAND))
+        {
+            return Resources.getSystem().getString(R.string.entry_log_form_painkind_default_tight_band_text);
+        }
+        else if (id.equals(XMLIdentifier.OTHER_TEXT))
+        {
+            return Resources.getSystem().getString(R.string.other_text);
+        }
+        else
+        {
+            return id;
+        }
+    }
+    /**
+     * converts the default trigger from the provided language into its ID.
+     * @param text
+     * @return String of the ID
+     */
+    public static String convertTriggerLanguageToID(String text)
+    {
+        if (text.equals(Resources.getSystem().getString(R.string.entry_log_form_trigger_default_sunlight_text)))
+        {
+            return XMLIdentifier.DEFAULT_TRIGGERS_SUNLIGHT;
+        }
+        else if (text.equals(Resources.getSystem().getString(R.string.entry_log_form_trigger_default_diet_text)))
+        {
+            return XMLIdentifier.DEFAULT_TRIGGERS_IMPROPER_DIET_SLEEP;
+        }
+        else if (text.equals(Resources.getSystem().getString(R.string.entry_log_form_trigger_default_physical_activity_text)))
+        {
+            return XMLIdentifier.DEFAULT_TRIGGERS_PHYSICAL_ACTIVITY;
+        }
+        else if (text.equals(Resources.getSystem().getString(R.string.entry_log_form_trigger_default_stressor_text)))
+        {
+            return XMLIdentifier.DEFAULT_TRIGGERS_STRESSOR;
+        }
+        else
+        {
+            return text;
+        }
+    }
+    /**
+     * converts the default trigger ID to the one provided by the language.
+     * @param id
+     * @return String of the trigger provided by the language.
+     */
+    public static String convertTriggerIDToLanguage(String id)
+    {
+        if (id.equals(XMLIdentifier.DEFAULT_TRIGGERS_SUNLIGHT))
+        {
+            return Resources.getSystem().getString(R.string.entry_log_form_trigger_default_sunlight_text);
+        }
+        else if (id.equals(XMLIdentifier.DEFAULT_TRIGGERS_IMPROPER_DIET_SLEEP))
+        {
+            return Resources.getSystem().getString(R.string.entry_log_form_trigger_default_diet_text);
+        }
+        else if (id.equals(XMLIdentifier.DEFAULT_TRIGGERS_PHYSICAL_ACTIVITY))
+        {
+            return Resources.getSystem().getString(R.string.entry_log_form_trigger_default_physical_activity_text);
+        }
+        else if (id.equals(XMLIdentifier.DEFAULT_TRIGGERS_STRESSOR))
+        {
+            return Resources.getSystem().getString(R.string.entry_log_form_trigger_default_stressor_text);
+        }
+        else
+        {
+            return id;
+        }
+    }
+
+    //Other Operations
+
+    /**
+     * Check if the string element exists in the list. Uses linear search.
+     * @param list
+     * @param element
+     * @param ignoreCase
+     * @return boolean
+     */
+    public static boolean elementExists(List<String> list, String element, boolean ignoreCase)
+    {
+        for (String item : list)
+        {
+            if (ignoreCase)
+            {
+                if (item.equalsIgnoreCase(element))
+                {
+                    return true;
+                }
+            }
+            else
+            {
+                if (item.equals(element))
+                {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * Deletes all instances of the selected element in the list if found. Uses linear search.
+     * Once an instance is deleted, the iteration repeats from the very beginning.
+     * @param list
+     * @param element
+     * @param ignoreCase
+     */
+    public static void deleteElement(List<String> list, String element, boolean ignoreCase)
+    {
+        for (int i=0; i<list.size(); i++)
+        {
+            if (ignoreCase)
+            {
+                if (list.get(i).equalsIgnoreCase(element))
+                {
+                    list.remove(i);
+                    i=-1;
+                    continue;
+                }
+            }
+            else
+            {
+                if (list.get(i).equals(element))
+                {
+                    list.remove(i);
+                    i=-1;
+                    continue;
+                }
+            }
+        }
+    }
+
+    /**
+     * Removes duplicates within the List of String.
+     * @param list
+     */
+    public static void removeDuplicatesFromStringList(List<String> list)
+    {
+        for (int i=0; i<list.size()-1; i++)
+        {
+            for (int a=i+1; a<list.size(); a++)
+            {
+                if (list.get(i).equals(list.get(a)))
+                {
+                    list.remove(a);
+                    a=i;
+                }
+            }
+        }
     }
 }

@@ -1,5 +1,6 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location;
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -95,6 +96,79 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
                 card.addView(button);
                 this.grid.addView(card);
             }
+        }
+    }
+
+    //Public Methods
+    public void unmarkAllButtons()
+    {
+        for (Button button : this.buttons)
+        {
+            //TODO: Change button selection identifier
+//            button.setBorder(this.defaultBorder);
+//            button.setOpaque(false);
+        }
+    }
+    private void setMarked(Button button, boolean mark)
+    {
+        if (mark)
+        {
+            //TODO: Change button selection identifier
+//            button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
+//            button.setOpaque(true);
+        }
+        else
+        {
+            //TODO: Change button selection identifier
+//            button.setBorder(this.defaultBorder);
+//            button.setOpaque(false);
+        }
+    }
+    public List<String> getSelectedPosition()
+    {
+        return this.selectedPos;
+    }
+    public boolean isMarked(Button button)
+    {
+        //TODO: Create button selection identifier
+//        if (button.getBorder() == this.defaultBorder)
+//        {
+//            return false;
+//        }
+//        else
+//        {
+//            return true;
+//        }
+        return false;
+    }
+    public void enableButtons(boolean enable)
+    {
+        for (Button button : this.buttons)
+        {
+            button.setEnabled(enable);
+//            for(Component component : button.getComponents())
+//            {
+//                component.setEnabled(enable);
+//            }
+        }
+    }
+    public void setSelected(String painLocationConstant)		//Parameter is String from PainLocationConstants
+    {
+        for (Button button : this.buttons)
+        {
+            if (button.getTransitionName().equals(painLocationConstant))
+            {
+                this.setMarked(button, true);
+                this.appendLocation(painLocationConstant);
+                break;
+            }
+        }
+    }
+    public void appendLocation(String painLocationConstant)		//Parameter is String from PainLocationConstants
+    {
+        if (!Methods.elementExists(this.selectedPos, painLocationConstant, false));
+        {
+            this.selectedPos.add(painLocationConstant);
         }
     }
 

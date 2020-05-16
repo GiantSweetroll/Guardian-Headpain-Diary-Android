@@ -21,14 +21,17 @@ import com.gardyanakbar.guardianheadpaindiary.ui.puzzle_image.ImagePiece;
 import com.gardyanakbar.guardianheadpaindiary.ui.puzzle_image.ImagePuzzle;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class PainLocationCustomSelection extends FormElement implements GUIFunctions, LanguageListener
 {
 
     //Fields
-    private ImagePuzzle back, front, right, left;
-    private List<List<ImagePiece>> imagePuzzles;
+    private Map<String, ImagePiece> imagePuzzles;
     private GridLayout grid;
     private Button bReset;
 
@@ -44,16 +47,17 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
         //Initialization
         this.grid = this.view.findViewById(R.id.entryLogPainLocCustomGrid);
         int generalPad = (int)this.getResources().getDimension(R.dimen.general_padding);
-        this.imagePuzzles = new ArrayList<>();
+        this.imagePuzzles = new HashMap<>();
 
         //Add to list
-        this.imagePuzzles.add(Methods.getPainLocationFront(this.getContext()));
-        this.imagePuzzles.add(Methods.getPainLocationBack(this.getContext()));
-        this.imagePuzzles.add(Methods.getPainLocationLeft(this.getContext()));
-        this.imagePuzzles.add(Methods.getPainLocationRight(this.getContext()));
+        List<List<ImagePiece>> list = new ArrayList<>();
+        list.add(Methods.getPainLocationFront(this.getContext()));
+        list.add(Methods.getPainLocationBack(this.getContext()));
+        list.add(Methods.getPainLocationLeft(this.getContext()));
+        list.add(Methods.getPainLocationRight(this.getContext()));
 
         //Add to view
-        for(List<ImagePiece> puzzle : this.imagePuzzles)
+        for(List<ImagePiece> puzzle : list)
         {
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.height = GridLayout.LayoutParams.WRAP_CONTENT;
@@ -92,10 +96,44 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
 
                 subGridCard.addView(piece);
                 subGrid.addView(subGridCard);
+
+                this.imagePuzzles.put(piece.getName(), piece);  //Add to map
             }
 
             card.addView(subGrid);
             this.grid.addView(card);
+        }
+    }
+
+    //Public Methods
+    /**
+     * Returns a list of selected location names (by checking which buttons are highlighted)
+     * @return a List of the selected location names
+     */
+    public List<String> getLocations()
+    {
+        List<String> list = new ArrayList<String>();
+
+        for (Map.Entry entry : this.imagePuzzles.entrySet())
+        {
+            if (((ImagePiece)entry.getValue()).isColored())
+            {
+                list.add(entry.getKey().toString());
+            }
+        }
+
+        return list;
+    }
+
+    /**
+     * Highlighted the selected pain locations
+     * @param locations - a list of the selected locations String
+     */
+    public void setLocations(List<String> locations)
+    {
+        for (String location : locations)
+        {
+            this.imagePuzzles.get(location).setColored(true);
         }
     }
 

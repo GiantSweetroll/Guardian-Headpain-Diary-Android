@@ -13,6 +13,7 @@ import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.HistoryListener;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
@@ -68,12 +69,11 @@ public class TriggerFragment extends FormElement implements HistoryListener
     @Override
     public void setData(Object entry)
     {
-        //TODO: create PainEntryData class
-//        if (entry instanceof PainEntryData)
-//        {
-//            String trigger = ((PainEntryData)entry).getTrigger();
-//            this.trigger.setActiveItem(trigger);
-//        }
+        if (entry instanceof PainEntryData)
+        {
+            String trigger = ((PainEntryData)entry).getTrigger();
+            this.trigger.setActiveItem(trigger);
+        }
     }
 
     @Override
