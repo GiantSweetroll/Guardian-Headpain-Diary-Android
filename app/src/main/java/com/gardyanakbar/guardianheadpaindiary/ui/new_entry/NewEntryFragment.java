@@ -86,6 +86,8 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         this.bPrev = (Button)this.view.findViewById(R.id.entryLogPrevButton);
         this.bSave = (Button)this.view.findViewById(R.id.entryLogSaveButton);
         this.bNext = (Button)this.view.findViewById(R.id.entryLogNextButton);
+        this.oldPatient = Globals.activePatient;
+        this.setAsNewEntry(true);
 
         //Properties
         this.pager.setAdapter(this.pageAdapter);
@@ -379,7 +381,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         {
             if (!form.allFilled())
             {
-                list.add(form.getName() + "(" + Integer.toString(index) + ")");
+                list.add(form.getName());
                 index++;
             }
         }
