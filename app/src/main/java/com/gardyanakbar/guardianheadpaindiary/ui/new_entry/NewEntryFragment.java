@@ -10,6 +10,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -587,6 +588,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
             {
                 this.exportMultiple(patient, entry);
             }
+            Toast.makeText(this.getContext(), this.getString(R.string.entry_log_entry_saved_text), Toast.LENGTH_SHORT).show();
         }
         else
         {
