@@ -77,6 +77,7 @@ public class PatientData
     public PatientData()
     {
         this.dataMap = new LinkedHashMap<String, String>();
+        this.fillDefaultData();
     }
 
     //Methods
@@ -387,6 +388,33 @@ public class PatientData
     public void setLastTrigger(String trigger)
     {
         this.dataMap.put(PatientData.LAST_TRIGGER, trigger);
+    }
+    //Other Methods
+
+    /**
+     * Fills all data with default values.
+     */
+    public void fillDefaultData()
+    {
+        this.dataMap.put(PatientData.MEDICAL_RECORD_ID, "000000000000000");
+        this.dataMap.put(PatientData.NAME, "My Headpain Diary");
+        this.dataMap.put(PatientData.DOB_DAY, "1");
+        this.dataMap.put(PatientData.DOB_MONTH, "1");
+        this.dataMap.put(PatientData.DOB_YEAR, "2020");
+        this.dataMap.put(PatientData.HAS_HEAD_PAIN_HISTORY, "true");
+        this.dataMap.put(PatientData.HEAD_PAINS_SINCE, "");
+        this.dataMap.put(PatientData.HEAD_PAINS_SINCE_UNIT, PatientData.HEAD_PAINS_SINCE_UNIT_MONTH);
+        this.dataMap.put(PatientData.FREQUENCY_HEAD_PAINS_LAST_MONTH, "");
+        this.dataMap.put(PatientData.DAYS_ACTIVITIES_DISTURBED, "");
+        this.dataMap.put(PatientData.NOTES, "");
+        this.dataMap.put(PatientData.SEX, PatientData.MALE);
+        this.dataMap.put(PatientData.JOB, "");
+        this.dataMap.put(PatientData.CITY, "");
+        this.dataMap.put(PatientData.INITIAL_DIAGNOSIS, "");
+        this.dataMap.put(PatientData.FINAL_DIAGNOSIS, "");
+        this.dataMap.put(PatientData.LAST_PAIN_KIND, "");
+        this.dataMap.put(PatientData.LAST_RECENT_MEDS, "");
+        this.dataMap.put(PatientData.LAST_TRIGGER, "");
     }
 
     //Override Methods
