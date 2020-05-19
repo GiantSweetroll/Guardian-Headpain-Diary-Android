@@ -34,7 +34,7 @@ public class PainLocationSelection extends FormElement
     //Public Methods
     public List<String> getSelectedPositions()
     {
-        if (this.radPresets.isSelected())
+        if (this.radPresets.isChecked())
         {
             List<String> list = this.presets.getSelectedPosition();
             Methods.removeDuplicatesFromStringList(list);
@@ -112,15 +112,15 @@ public class PainLocationSelection extends FormElement
         return this.view;
     }
 
+    @Deprecated
     @Override
     public Object getData() {
         return null;
     }
 
+    @Deprecated
     @Override
-    public void setData(Object data) {
-
-    }
+    public void setData(Object data) {}
 
     @Override
     public boolean allFilled()
