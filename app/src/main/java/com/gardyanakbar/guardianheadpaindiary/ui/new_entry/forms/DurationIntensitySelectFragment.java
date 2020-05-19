@@ -124,6 +124,7 @@ public class DurationIntensitySelectFragment extends FormElement
         this.durationUnits = (Spinner)this.view.findViewById(R.id.entryLogDurationUnitSpinner);
         this.durationSlider = (SeekBar)this.view.findViewById(R.id.entryLogDurationSlider);
         this.intensitySlider = (SeekBar)this.view.findViewById(R.id.entryLogIntensitySlider);
+        this.setName(this.getString(R.string.entry_log_map_button_duration_intensity_text));
 
         //Properties
         this.durationUnits.setAdapter(this.getDurationSpinnerAdapter());

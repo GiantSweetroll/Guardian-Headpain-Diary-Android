@@ -37,6 +37,7 @@ public class TriggerFragment extends FormElement implements HistoryListener
         this.view = inflater.inflate(R.layout.fragment_entry_log_trigger, container, false);
 
         //Initialization
+        this.setName(this.getString(R.string.entry_log_map_button_trigger_text));
         this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogTriggerScroll));
         this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogTriggerLabel));
         this.setFormTitle(this.getString(R.string.entry_log_form_trigger_label));

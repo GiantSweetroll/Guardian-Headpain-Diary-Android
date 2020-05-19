@@ -16,6 +16,7 @@ public abstract class FormElement<T> extends Fragment implements GUIFunctions, L
     private TextView labName;
     private boolean required;
     private ScrollView scroll;
+    private String name;
 
     protected View view;
 
@@ -26,7 +27,17 @@ public abstract class FormElement<T> extends Fragment implements GUIFunctions, L
 //        this.setFormTitle(name);
     }
 
-    //Methods
+    //Protected Methods
+    /**
+     * Set the name of the form.
+     * @param name - name of the form.
+     */
+    protected void setName(String name)
+    {
+        this.name = name;
+    }
+
+    //Public Methods
     public TextView getFormTitleLabel()
     {
         return this.labName;
@@ -67,6 +78,15 @@ public abstract class FormElement<T> extends Fragment implements GUIFunctions, L
     public ScrollView getScroll()
     {
         return this.scroll;
+    }
+
+    /**
+     * Get the name of the form.
+     * @return a string of the name of the form.
+     */
+    public String getName()
+    {
+        return this.name;
     }
 
     //Overridden Methods

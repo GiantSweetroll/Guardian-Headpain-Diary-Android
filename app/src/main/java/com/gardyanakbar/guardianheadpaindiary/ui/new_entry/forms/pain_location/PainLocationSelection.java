@@ -105,8 +105,9 @@ public class PainLocationSelection extends FormElement
         this.setFormTitle(this.getString(R.string.entry_log_form_painloc_label));
         this.radPresets = (RadioButton)this.view.findViewById(R.id.entryLogPainLocRadPresets);
         this.radCustom = (RadioButton)this.view.findViewById(R.id.entryLogPainlocRadCustom);
-        this.custom = (PainLocationCustomSelection)this.getFragmentManager().findFragmentById(R.id.entryLogPainlocCustomFragment);
-        this.presets = (PainLocationPresetSelection) this.getFragmentManager().findFragmentById(R.id.entryLogPainLocPresetFragment);
+        this.custom = (PainLocationCustomSelection)this.getChildFragmentManager().findFragmentById(R.id.entryLogPainlocCustomFragment);
+        this.presets = (PainLocationPresetSelection) this.getChildFragmentManager().findFragmentById(R.id.entryLogPainLocPresetFragment);
+        this.setName(this.getString(R.string.entry_log_map_button_pain_location_text));
 
         return this.view;
     }
@@ -122,8 +123,10 @@ public class PainLocationSelection extends FormElement
     }
 
     @Override
-    public boolean allFilled() {
-        return false;
+    public boolean allFilled()
+    {
+        List<String> list = this.getSelectedPositions();
+        return list.size()!=0;
     }
 
     @Override

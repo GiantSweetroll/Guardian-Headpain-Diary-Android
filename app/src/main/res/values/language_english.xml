@@ -56,6 +56,12 @@
     <string name="pain_location_head_back_text">Back Head</string>
     <string name="pain_location_head_front_text">Front Head</string>
 
+    <!-- Alert Dialogs -->
+    <string name="dialog_confirm_overwrite_title_text">Overwrite?</string>
+    <string name="dialog_confirm_overwrite_text">Another entry of the same start time already exists. Overwrite?</string>
+    <string name="dialog_required_fields_title_text">Fill in all required fields</string>
+    <string name="dialog_required_fields_text">Please fill all required fields (marked with *)</string>
+
     <!--  Misc  -->
     <string name="previous_text">Previous</string>
     <string name="next_text">Next</string>
@@ -67,4 +73,6 @@
     <string name="presets_text">Presets</string>
     <string name="custom_text">Custom</string>
     <string name="reset_text">Reset</string>
+    <string name="ok_text">Ok</string>
+    <string name="cancel_text">Cancel</string>
 </resources>

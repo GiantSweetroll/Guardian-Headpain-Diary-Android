@@ -87,9 +87,11 @@ public class RecentMedicationFragment extends FormElement implements HistoryList
         this.view = inflater.inflate(R.layout.fragment_entry_log_recent_medication, container, false);
 
         //Initialization
+        this.setName(this.getString(R.string.entry_log_map_button_recent_medication_text));
         this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogRecentMedicationScroll));
         this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogRecentMedicationLabel));
         View layout = this.view.findViewById(R.id.entryLogRecentMedicationPanel);
+        this.setName(this.getString(R.string.entry_log_map_button_recent_medication_text));
         this.recentMedication = new HistoryPanel(this.getContext(),
                                                     (Spinner)layout.findViewById(R.id.historySpinner),
                                                     (EditText) layout.findViewById(R.id.historyEditText),

@@ -43,6 +43,7 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
     //Private Methods
     private void initButtons()
     {
+        this.selectedPos = new ArrayList<>();
         try
         {
             this.buttons.clear();
@@ -77,7 +78,7 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
                                         generalPad);
                 buttonParams.gravity = Gravity.CENTER_HORIZONTAL;
 
-                Button button = new Button(this.getContext());
+                final Button button = new Button(this.getContext());
                 button.setLayoutParams(new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT
@@ -91,6 +92,14 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
                 button.setTransitionName(subEntry.getValue());
                 button.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorButtonBase));
                 button.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorWhite));
+                button.setOnClickListener(new View.OnClickListener()
+                {
+                    @Override
+                    public void onClick(View v)
+                    {
+                        selectedPos.add(button.getTransitionName());
+                    }
+                });
 
                 this.buttons.add(button);
                 card.addView(button);

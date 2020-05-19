@@ -41,6 +41,7 @@ public class CommentsFragment extends FormElement
         this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogCommentsLabel));
         this.setFormTitle("");
         this.taComments = (EditText)this.view.findViewById(R.id.entryLogCommentsTextArea);
+        this.setName(this.getString(R.string.entry_log_map_button_comments_text));
 
         return this.view;
     }

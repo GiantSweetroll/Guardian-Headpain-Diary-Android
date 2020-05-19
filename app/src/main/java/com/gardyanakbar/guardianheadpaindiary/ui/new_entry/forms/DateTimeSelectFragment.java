@@ -39,15 +39,27 @@ public class DateTimeSelectFragment extends FormElement
         date.setDay(this.date.getDayOfMonth());
         return date;
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public String getTimeHour()
     {
-        return Integer.toString(this.time.getHour());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            return Integer.toString(this.time.getHour());
+        }
+        else
+        {
+            return Integer.toString(this.time.getCurrentHour());
+        }
     }
-    @RequiresApi(api = Build.VERSION_CODES.M)
     public String getTimeMinutes()
     {
-        return Integer.toString(this.time.getMinute());
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
+        {
+            return Integer.toString(this.time.getMinute());
+        }
+        else
+        {
+            return Integer.toString(this.time.getCurrentMinute());
+        }
     }
     public void setDate(Date date)
     {
@@ -81,6 +93,7 @@ public class DateTimeSelectFragment extends FormElement
         this.setFormTitle(this.getString(R.string.entry_log_form_date_time_title));
         this.date = (DatePicker)this.view.findViewById(R.id.entryLogDatePicker);
         this.time = (TimePicker)this.view.findViewById(R.id.entryLogTimePicker);
+        this.setName(this.getString(R.string.entry_log_map_button_date_time_text));
 
         return this.view;
     }

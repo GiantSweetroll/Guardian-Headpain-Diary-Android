@@ -40,9 +40,11 @@ public class PainKindFragment extends FormElement implements HistoryListener
         this.view = inflater.inflate(R.layout.fragment_entry_log_painkind, container, false);
 
         //Initialization
+        this.setName(this.getString(R.string.entry_log_map_button_pain_kind));
         this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogPainKindScroll));
         this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogPainKindLabel));
         View layout = this.view.findViewById(R.id.entryLogPainKindHistoryPanel);
+        this.setName(this.getString(R.string.entry_log_map_button_pain_kind));
         this.painKind = new HistoryPanel(this.getContext(),
                                             (Spinner)layout.findViewById(R.id.historySpinner),
                                             (EditText) layout.findViewById(R.id.historyEditText),

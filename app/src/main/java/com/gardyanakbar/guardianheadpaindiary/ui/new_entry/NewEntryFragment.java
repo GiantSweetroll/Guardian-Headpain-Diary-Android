@@ -1,5 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,29 +17,50 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
+import com.gardyanakbar.guardianheadpaindiary.interfaces.GUIFunctions;
+import com.gardyanakbar.guardianheadpaindiary.interfaces.HistoryListener;
+import com.gardyanakbar.guardianheadpaindiary.interfaces.LanguageListener;
+import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
+import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
+import com.gardyanakbar.guardianheadpaindiary.methods.PainDataOperation;
 import com.gardyanakbar.guardianheadpaindiary.ui.MyPageAdapter;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.CommentsFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.DateTimeSelectFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.DurationIntensitySelectFragment;
+import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.FormElement;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.PainKindFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.RecentMedicationFragment;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.TriggerFragment;
-import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location.PainLocationCustomSelection;
-import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location.PainLocationPresetSelection;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location.PainLocationSelection;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewEntryFragment extends Fragment
+import giantsweetroll.date.Date;
+
+public class NewEntryFragment extends Fragment implements HistoryListener, GUIFunctions, LanguageListener
 {
 
     private NewEntryViewModel dashboardViewModel;
     private View view;
     private Spinner entryLogFormSpinner;
     private MyPageAdapter pageAdapter;
+    private List<FormElement> forms;
     private ViewPager pager;
     private Button bPrev, bSave, bNext;
+    private DateTimeSelectFragment fDateTime;
+    private DurationIntensitySelectFragment fDurationIntensity;
+    private PainLocationSelection fPainLoc;
+    private PainKindFragment fPainKind;
+    private TriggerFragment fTrigger;
+    private RecentMedicationFragment fRecMed;
+    private CommentsFragment fComments;
+    private PainEntryData oldEntry;
+    private PatientData oldPatient;
+    private boolean isNewEntry;
 
     //Overridden Methods
     @Override
@@ -57,7 +80,8 @@ public class NewEntryFragment extends Fragment
 //        });
         this.view = root;
         this.entryLogFormSpinner = (Spinner)this.view.findViewById(R.id.entryLogSelectionSpinner);
-        this.pageAdapter = new MyPageAdapter(this.getChildFragmentManager(), this.getFragments());
+        this.initForms();
+        this.pageAdapter = new MyPageAdapter(this.getChildFragmentManager(), this.getFormsAsFragments());
         this.pager = (ViewPager)this.view.findViewById(R.id.entryLogViewPager);
         this.bPrev = (Button)this.view.findViewById(R.id.entryLogPrevButton);
         this.bSave = (Button)this.view.findViewById(R.id.entryLogSaveButton);
@@ -126,7 +150,7 @@ public class NewEntryFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                //TO-DO save entry
+                export(getSelectedPatient(), getData());
             }
         });
         this.bNext.setOnClickListener(new View.OnClickListener()
@@ -175,7 +199,52 @@ public class NewEntryFragment extends Fragment
         return root;
     }
 
-    //Other Methods
+    @Override
+    public void refreshHistory(PatientData patientData)
+    {
+        this.fPainKind.refreshHistory(patientData);
+        this.fTrigger.refreshHistory(patientData);
+        this.fRecMed.refreshHistory(patientData);
+    }
+
+    @Override
+    public void resetDefaults()
+    {
+        for (FormElement<?> form : this.forms)
+        {
+            form.resetDefaults();
+        }
+        this.pager.setCurrentItem(0);
+    }
+
+    @Override
+    public void refresh()
+    {
+        this.refreshHistory(this.oldPatient);
+    }
+
+    @Override
+    public void revalidateLanguage()
+    {
+        for (FormElement<?> form : this.forms)
+        {
+            form.revalidateLanguage();
+        }
+    }
+
+    //Private Methods
+    /**
+     * Add the FormElement objects from a list of FormElement to a list of Fragments
+     * @return
+     */
+    private List<Fragment> getFormsAsFragments()
+    {
+        List<Fragment> list = new ArrayList<>();
+
+        list.addAll(this.forms);
+
+        return list;
+    }
     private ArrayAdapter<String> getFormsSpinnerAdapter()
     {
         List<String> list = new ArrayList<>();
@@ -192,20 +261,355 @@ public class NewEntryFragment extends Fragment
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         return adapter;
     }
-    private List<Fragment> getFragments()
+    private void initForms()
     {
-        List<Fragment> list = new ArrayList<>();
+        this.forms = new ArrayList<>();
 
-        list.add(new DateTimeSelectFragment());
-        list.add(new DurationIntensitySelectFragment());
-        list.add(new PainLocationSelection());
-//        list.add(new PainLocationCustomSelection());
-//        list.add(new PainLocationPresetSelection());
-        list.add(new PainKindFragment());
-        list.add(new TriggerFragment());
-        list.add(new RecentMedicationFragment());
-        list.add(new CommentsFragment());
+        this.fDateTime = new DateTimeSelectFragment();
+        this.fDurationIntensity = new DurationIntensitySelectFragment();
+        this.fPainLoc = new PainLocationSelection();
+        this.fPainKind = new PainKindFragment();
+        this.fTrigger = new TriggerFragment();
+        this.fRecMed = new RecentMedicationFragment();
+        this.fComments = new CommentsFragment();
+
+        this.forms.add(this.fDateTime);
+        this.forms.add(this.fDurationIntensity);
+        this.forms.add(this.fPainLoc);
+        this.forms.add(this.fPainKind);
+        this.forms.add(this.fTrigger);
+        this.forms.add(this.fRecMed);
+        this.forms.add(this.fComments);
+    }
+    private void fillData(PatientData patient, PainEntryData entry)
+    {
+        this.fComments.setData(entry.getComments());
+        this.fDateTime.setDate(entry.getDate());
+        this.fDateTime.setTime(entry);
+//        this.dateTime.setAsDefaultThis();
+        this.fDurationIntensity.setDuration(entry.getDuration());
+        this.fDurationIntensity.setIntensity(entry.getIntensity());
+        this.fPainKind.setData(entry);
+        this.fPainLoc.setData(entry);
+        this.fRecMed.setData(entry.getRecentMedication(), entry.getMedicineComplaint());
+        this.fTrigger.setData(entry);
+    }
+    private void setOldPatientData(PatientData patient)
+    {
+        this.oldPatient = patient;
+    }
+    private void setOldEntry(PainEntryData entry)
+    {
+        this.oldEntry = entry;
+    }
+    private PatientData getSelectedPatient()
+    {
+        return this.oldPatient;
+    }
+
+    //Public Methods
+    public void loadData(PatientData patient, PainEntryData entry)
+    {
+        this.resetDefaults();
+//        this.activeUser.setData(patient);
+        this.setOldEntry(entry);
+        this.setOldPatientData(patient);
+        this.fillData(patient, entry);
+        this.setAsNewEntry(false);
+//        this.revalidate();
+//        this.repaint();
+    }
+
+    /**
+     * Gets the user inputs from each of the individual forms as a PainEntryData object
+     * @return a PainEtnryData object containing the inputs of the individual forms.
+     */
+    public PainEntryData getData()
+    {
+        PainEntryData entry = new PainEntryData();
+
+        entry.setComments(this.fComments.getData());
+        entry.setDate(this.fDateTime.getDate());
+        entry.setTime(this.fDateTime.getTimeHour(), this.fDateTime.getTimeMinutes());
+        entry.setDuration(this.fDurationIntensity.getDuration());
+        entry.setIntensity(fDurationIntensity.getIntensity());
+        entry.setPainKind(this.fPainKind.getData());
+        if (this.fPainLoc.presetLocationSelected())
+        {
+            entry.setPresetPainLocations(this.fPainLoc.getSelectedPositions());
+        }
+        else
+        {
+            entry.setCustomPainLocations(this.fPainLoc.getSelectedPositions());
+        }
+        entry.setRecentMedicaiton(this.fRecMed.getRecentMedication());
+        entry.setMedicineComplaint(this.fRecMed.getMedicineComplaint());
+        entry.setTrigger(this.fTrigger.getData());
+
+        return entry;
+    }
+
+    /**
+     * Checks if all FormElement objects has been filled.
+     * @return true if all forms are filled.
+     */
+    public boolean allRequiredFieldsFilled()
+    {
+        for (FormElement<?> form : this.forms)
+        {
+            if (!form.allFilled())
+            {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Get a list of the forms that have not been filled yet.
+     * @return a list of the names of the forms which has not been filled.
+     */
+    public List<String> getUnfilledRequiredFieldsNames()
+    {
+        List<String> list = new ArrayList<String>();
+
+        int index = 0;
+        for (FormElement<?> form : this.forms)
+        {
+            if (!form.allFilled())
+            {
+                list.add(form.getName() + "(" + Integer.toString(index) + ")");
+                index++;
+            }
+        }
 
         return list;
+    }
+
+    /**
+     * Flags the current entry as a new entry.
+     * @param bool - Whether it's a new entry.
+     */
+    public void setAsNewEntry(boolean bool)
+    {
+        this.isNewEntry = bool;
+    }
+    /**
+     * Checks if the current entry is a new entry.
+     * @return true if it's a new entry.
+     */
+    public boolean isNewEntry()
+    {
+        return this.isNewEntry;
+    }
+    public PainEntryData getOldPainEntryData()
+    {
+        return this.oldEntry;
+    }
+    public PatientData getOldPatientData()
+    {
+        return this.oldPatient;
+    }
+
+    //Protected Methods
+    protected boolean lastPainKindSame(PatientData patient, PainEntryData entry)
+    {
+        try
+        {
+            return patient.getLastPainKind().equals(entry.getPainKind());
+        }
+        catch(NullPointerException ex)
+        {
+            return false;
+        }
+    }
+    protected boolean lastRecentMedsSame(PatientData patient, PainEntryData entry)
+    {
+        try
+        {
+            return patient.getLastRecentMeds().equals(entry.getRecentMedication());
+        }
+        catch(NullPointerException ex)
+        {
+            return false;
+        }
+    }
+    protected boolean lastMedicineComplaintSame(PatientData patient, PainEntryData entry)
+    {
+        try
+        {
+            return patient.getLastMedicineComplaint().equals(entry.getMedicineComplaint());
+        }
+        catch(NullPointerException ex)
+        {
+            return false;
+        }
+    }
+    protected boolean lastTriggerSame(PatientData patient, PainEntryData entry)
+    {
+        try
+        {
+            return patient.getLastTrigger().equals(entry.getTrigger());
+        }
+        catch(NullPointerException ex)
+        {
+            return false;
+        }
+    }
+    protected void updateLastSelection(PatientData patient, PainEntryData entry)
+    {
+        if(!this.lastPainKindSame(patient, entry))
+        {
+            patient.setLastPainKind(entry.getPainKind());
+        }
+        if(!this.lastRecentMedsSame(patient, entry))
+        {
+            patient.setLastRecentMeds(entry.getRecentMedication());
+        }
+        if(!this.lastMedicineComplaintSame(patient, entry))
+        {
+            patient.setLastMedicineComplaint(entry.getMedicineComplaint());
+        }
+        if(!this.lastTriggerSame(patient, entry))
+        {
+            patient.setLastTrigger(entry.getTrigger());
+        }
+    }
+
+    /**
+     * Exports the current entry as a single entry.
+     * @param patient - The PatientData object corresponding to the entry.
+     * @param entry - The entry to be exported
+     */
+    protected void exportSingle(PatientData patient, PainEntryData entry)
+    {
+        this.updateLastSelection(patient, entry);
+        FileOperation.savePatientData(patient);
+        FileOperation.updateHistory(Globals.HISTORY_RECENT_MEDICATION, patient, entry.getRecentMedication());
+        FileOperation.updateHistory(Globals.HISTORY_MEDICINE_COMPLAINT, patient, entry.getMedicineComplaint());
+        FileOperation.updateHistory(Globals.HISTORY_PAIN_KIND, patient, entry.getPainKind());
+        FileOperation.updateHistory(Globals.HISTORY_TRIGGER, patient, entry.getTrigger());
+        FileOperation.exportPainData(patient, entry);
+
+        if (!this.isNewEntry())
+        {
+            if (!Date.areSameDate(this.fDateTime.getDate(), oldEntry.getDate()) || Methods.isSameTime(Integer.parseInt(this.fDateTime.getTimeHour()), Integer.parseInt(this.fDateTime.getTimeMinutes()), Integer.parseInt(oldEntry.getTimeHour()), Integer.parseInt(oldEntry.getTimeMinutes())))		//Check if the start time or date has been altered
+            {
+                FileOperation.deleteEntry(Methods.generatePainDataFilePathName(this.getSelectedPatient(), this.oldEntry));
+            }
+        }
+        //TODO: Create Graph and Table panels
+//        Globals.GRAPH_PANEL.refresh();
+//        Globals.PAIN_TABLE.refresh();
+//        Methods.refreshHistories(this.getSelectedPatient());
+        Methods.refreshHistories(this.getSelectedPatient());
+//        Globals.GRAPH_FILTER_PANEL.refresh(Globals.GRAPH_PANEL.getActivePatientPanel().getSelectedPatientData());
+        this.resetDefaults();
+    }
+    /**
+     * Exports the current entry as multiple entries.
+     * @param patient - The PatientData object corresponding to the entry.
+     * @param entry - The entry to be exported
+     */
+    protected void exportMultiple(PatientData patient, PainEntryData entry)
+    {
+        List<PainEntryData> duplicateEntries = PainDataOperation.generateDuplicates(entry, new Date(entry.getDate().getDay() + Methods.secondsToDays(Long.parseLong(entry.getDuration())),
+                entry.getDate().getMonth(),
+                entry.getDate().getYear()));
+
+        this.updateLastSelection(patient, entry);
+        FileOperation.savePatientData(patient);
+        FileOperation.updateHistory(Globals.HISTORY_RECENT_MEDICATION, this.getSelectedPatient(), entry.getRecentMedication());
+        FileOperation.updateHistory(Globals.HISTORY_MEDICINE_COMPLAINT, this.getSelectedPatient(), entry.getMedicineComplaint());
+        FileOperation.updateHistory(Globals.HISTORY_PAIN_KIND, this.getSelectedPatient(), entry.getPainKind());
+        FileOperation.updateHistory(Globals.HISTORY_TRIGGER, this.getSelectedPatient(), entry.getTrigger());
+        for (PainEntryData painEntry : duplicateEntries)
+        {
+            FileOperation.exportPainData(patient, painEntry);
+        }
+
+//        Globals.MAIN_FRAME.changePanel(PanelName.MAIN_MENU);  //TODO: Go to homepage
+        //TODO: Create graph and table panels
+//        Globals.GRAPH_PANEL.refresh();
+//        Globals.PAIN_TABLE.refresh();
+        Methods.refreshHistories(this.getSelectedPatient());
+//        Globals.GRAPH_FILTER_PANEL.refresh(Globals.GRAPH_PANEL.getActivePatientPanel().getSelectedPatientData());
+        this.refresh();
+        this.resetDefaults();
+    }
+    /**
+     * Exports the current entry. It can determine if it's a single or multiple entry.
+     * @param patient - The PatientData object corresponding to the entry.
+     * @param entry - The entry to be exported
+     */
+    protected void export(final PatientData patient, final PainEntryData entry)
+    {
+        if (this.allRequiredFieldsFilled())
+        {
+            if(entry.isSingleEntry())
+            {
+                if (FileOperation.entryExists(patient, entry) && this.isNewEntry())
+                {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+                    builder.setTitle(this.getString(R.string.dialog_confirm_overwrite_title_text));
+                    builder.setMessage(this.getString(R.string.dialog_confirm_overwrite_text));
+                    builder.setCancelable(false);
+                    builder.setPositiveButton(this.getString(R.string.ok_text), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            exportSingle(patient, entry);
+                        }
+                    });
+                    builder.setNegativeButton(this.getString(R.string.cancel_text), new DialogInterface.OnClickListener()
+                    {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            dialog.cancel();
+                        }
+                    });
+
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+                else
+                {
+                    this.exportSingle(patient, entry);
+                }
+                this.refresh();
+            }
+            else
+            {
+                this.exportMultiple(patient, entry);
+            }
+        }
+        else
+        {
+            String msg = this.getString(R.string.dialog_required_fields_text) + "\n";
+            List<String> fields = this.getUnfilledRequiredFieldsNames();
+
+            for (String name : fields)
+            {
+                msg += "\n- " + name;
+            }
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
+            builder.setTitle(this.getString(R.string.dialog_required_fields_title_text));
+            builder.setMessage(msg);
+            builder.setCancelable(false);
+            builder.setPositiveButton(this.getString(R.string.ok_text), new DialogInterface.OnClickListener()
+            {
+                @Override
+                public void onClick(DialogInterface dialog, int which)
+                {
+                    dialog.cancel();
+                }
+            });
+
+            AlertDialog alertDialog = builder.create();
+            alertDialog.show();
+        }
     }
 }

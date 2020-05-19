@@ -60,19 +60,12 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
         for(List<ImagePiece> puzzle : list)
         {
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.width = GridLayout.LayoutParams.WRAP_CONTENT;
             params.height = GridLayout.LayoutParams.WRAP_CONTENT;
-
-            CardView card = new CardView(this.getContext());
-            card.setLayoutParams(params);
-//            card.setCardElevation(0f);
-
-            CardView.LayoutParams puzzleParams = new CardView.LayoutParams(
-                    CardView.LayoutParams.WRAP_CONTENT,
-                    CardView.LayoutParams.WRAP_CONTENT);
-            puzzleParams.gravity = Gravity.CENTER_HORIZONTAL;
+            params.setGravity(Gravity.CENTER);
 
             GridLayout subGrid = new GridLayout(this.getContext());
-            subGrid.setLayoutParams(puzzleParams);
+            subGrid.setLayoutParams(params);
             subGrid.setColumnCount(4);
             subGrid.setRowCount(4);
 
@@ -100,8 +93,7 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
                 this.imagePuzzles.put(piece.getName(), piece);  //Add to map
             }
 
-            card.addView(subGrid);
-            this.grid.addView(card);
+            this.grid.addView(subGrid);
         }
     }
 
@@ -146,6 +138,19 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
         //Initialization
         this.bReset = (Button)this.view.findViewById(R.id.entryLogPainLocCustomButtonReset);
         this.initLocations();
+
+        //Properties
+        this.bReset.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                for (Map.Entry<String, ImagePiece> entrySet : imagePuzzles.entrySet())
+                {
+                    entrySet.getValue().setColored(false);
+                }
+            }
+        });
 
         return this.view;
     }

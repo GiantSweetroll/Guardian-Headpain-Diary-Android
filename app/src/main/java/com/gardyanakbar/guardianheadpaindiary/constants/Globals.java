@@ -2,6 +2,7 @@ package com.gardyanakbar.guardianheadpaindiary.constants;
 
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.History;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
 
 public final class Globals
 {
@@ -11,4 +12,6 @@ public final class Globals
     public static final History HISTORY_PAIN_KIND = new History(Constants.HISTORY_PAIN_KIND_NAME, new PatientData());
     public static final History HISTORY_TRIGGER = new History(Constants.HISTORY_TRIGGER_NAME, new PatientData());
 
+    //Settings
+    public static Settings settings;
 }

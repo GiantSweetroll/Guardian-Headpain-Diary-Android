@@ -8,14 +8,19 @@ import androidx.core.content.ContextCompat;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.constants.ImageConstants;
 import com.gardyanakbar.guardianheadpaindiary.constants.PainLocationConstants;
 import com.gardyanakbar.guardianheadpaindiary.constants.XMLIdentifier;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
 import com.gardyanakbar.guardianheadpaindiary.ui.puzzle_image.ImagePiece;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -293,6 +298,10 @@ public class Methods
 
         return images;
     }
+    public static List<ImagePiece> getCustomPainLocationList(Context context)
+    {
+
+    }
 
     //Time operations
     /**
@@ -472,8 +481,49 @@ public class Methods
         }
     }
 
-    //Other Operations
+    //Pain Entry Operations
+    /**
+     * Generates a string for the path to the folder that will be storing the specified entry.
+     * @param patient - the PatientData object
+     * @param entry - the PainEntryData object.
+     * @return the string of the folder path.
+     */
+    public static String generatePainDataFolderPathName(PatientData patient, PainEntryData entry)
+    {
+        return Globals.settings.getDataMap().get(Settings.DATABASE_PATH) + File.separator +
+                patient.getID() + File.separator +
+                Integer.toString(entry.getDate().getYear()) + File.separator +
+                Integer.toString(entry.getDate().getMonth()) + File.separator +
+                Integer.toString(entry.getDate().getDay()) + File.separator;
+    }
+    /**
+     * Generates a string for the path to the folder that will be storing the specified entry. The file name and extension is also given.
+     * @param patient - the PatientData object
+     * @param entry - the PainEntryData object.
+     * @return the string of the folder path (with the file name and extension).
+     */
+    public static String generatePainDataFilePathName(PatientData patient, PainEntryData entry)
+    {
+        return 	generatePainDataFolderPathName(patient, entry) + File.separator +
+                entry.getTimeHour() + "-" +
+                entry.getTimeMinutes()/* + "-" +
+				entry.getDataMap().get(PainDataIdentifier.TIME_SECONDS)*/ +
+                Constants.PAIN_DATA_ENTRY_FILE_EXTENSION;
+    }
 
+    /**
+     * Refreshes the History global variables.
+     * @param patient - the PatientData object
+     */
+    public static void refreshHistories(PatientData patient)
+    {
+        Globals.HISTORY_MEDICINE_COMPLAINT.refresh(patient);
+        Globals.HISTORY_RECENT_MEDICATION.refresh(patient);
+        Globals.HISTORY_PAIN_KIND.refresh(patient);
+        Globals.HISTORY_TRIGGER.refresh(patient);
+    }
+
+    //Other Operations
     /**
      * Check if the string element exists in the list. Uses linear search.
      * @param list
@@ -553,5 +603,48 @@ public class Methods
                 }
             }
         }
+    }
+
+    /**
+     * Get the string path to the entries database (where all entries are stored)
+     * @param context
+     * @return the string of the absolute path
+     */
+    public static String getDatabasePath(Context context)
+    {
+        return context.getFilesDir() + File.separator + "data" + File.separator + "database" + File.separator;
+    }
+
+    /**
+     * Get the string path to the patients database (where user patient data are stored)
+     * @param context
+     * @return the string of the absolute path
+     */
+    public static String getPatientsDatabasePath(Context context)
+    {
+        return context.getFilesDir() + File.separator + "data" + File.separator + "users" + File.separator;
+    }
+
+    /**
+     * Get the string path to the settings folder (where the app's settings are stored)
+     * @param context
+     * @return the string of the absolute path of the folder
+     */
+    public static String getSettingsFolderPath(Context context)
+    {
+        return context.getFilesDir() + File.separator + "data" + File.separator + "settings" + File.separator;
+    }
+
+    /**
+     * compares two instances of time by comparing the values of their hour and minute.
+     * @param hour1
+     * @param min1
+     * @param hour2
+     * @param min2
+     * @return returns true if they both have the same exact values.
+     */
+    public static boolean isSameTime(int hour1, int min1, int hour2, int min2)
+    {
+        return hour1==hour2 && min1==min2;
     }
 }

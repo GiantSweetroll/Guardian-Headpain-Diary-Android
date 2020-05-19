@@ -1,5 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.constants;
 
+import com.gardyanakbar.guardianheadpaindiary.R;
+
 import java.io.File;
 
 public final class Constants
@@ -12,5 +14,9 @@ public final class Constants
     public static final String HISTORY_PAIN_KIND_NAME = "pain_kind";
     public static final String HISTORY_TRIGGER_NAME = "trigger";
 
+    public static final String PAIN_DATA_ENTRY_FILE_EXTENSION = ".xml";
+
     public static final String PAIN_ENTRY_DATE_SEPARATOR = "/";
+
+    public static final String SETTINGS_FILE_NAME = "settings.xml";
 }
