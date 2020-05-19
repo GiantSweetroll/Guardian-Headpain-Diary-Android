@@ -14,4 +14,5 @@ public final class Globals
 
     //Settings
     public static Settings settings;
+    public static PatientData activePatient;
 }

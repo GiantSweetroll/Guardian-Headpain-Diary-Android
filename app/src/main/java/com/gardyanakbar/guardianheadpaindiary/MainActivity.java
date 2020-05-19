@@ -3,6 +3,7 @@ package com.gardyanakbar.guardianheadpaindiary;
 import android.os.Bundle;
 
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
@@ -31,5 +32,6 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
         Globals.settings = new Settings(this);
+        Globals.activePatient = new PatientData();
     }
 }
