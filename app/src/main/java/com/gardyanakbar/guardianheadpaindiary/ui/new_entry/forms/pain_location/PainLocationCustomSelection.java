@@ -48,7 +48,28 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
         this.grid = this.view.findViewById(R.id.entryLogPainLocCustomGrid);
         int generalPad = (int)this.getResources().getDimension(R.dimen.general_padding);
         this.imagePuzzles = new HashMap<>();
+        List<ImagePiece> list = Methods.getCustomPainLocationList(this.getContext());
 
+        //Properties
+        this.grid.setColumnCount(8);
+        this.grid.setRowCount(8);
+
+        //Add to view
+        for (ImagePiece piece : list)
+        {
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.width = piece.getBackgroundImage().getMinimumWidth();
+            params.height = piece.getBackgroundImage().getMinimumHeight();
+            params.setGravity(Gravity.CENTER_HORIZONTAL);
+
+            piece.setLayoutParams(params);
+
+
+            this.imagePuzzles.put(piece.getName(), piece);  //Add to map
+            this.grid.addView(piece);
+        }
+
+        /*
         //Add to list
         List<List<ImagePiece>> list = new ArrayList<>();
         list.add(Methods.getPainLocationFront(this.getContext()));
@@ -95,6 +116,7 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
 
             this.grid.addView(subGrid);
         }
+        */
     }
 
     //Public Methods
