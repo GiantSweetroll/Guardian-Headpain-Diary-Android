@@ -1,6 +1,5 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import android.widget.GridLayout;
 
 import androidx.annotation.NonNull;
-import androidx.cardview.widget.CardView;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.GUIFunctions;
@@ -18,14 +16,11 @@ import com.gardyanakbar.guardianheadpaindiary.interfaces.LanguageListener;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.FormElement;
 import com.gardyanakbar.guardianheadpaindiary.ui.puzzle_image.ImagePiece;
-import com.gardyanakbar.guardianheadpaindiary.ui.puzzle_image.ImagePuzzle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class PainLocationCustomSelection extends FormElement implements GUIFunctions, LanguageListener
 {
@@ -193,6 +188,16 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
     public boolean allFilled()
     {
         return false;
+    }
+
+    @Override
+    public void resetDefaults()
+    {
+        super.resetDefaults();
+        for (Map.Entry<String, ImagePiece> entry : this.imagePuzzles.entrySet())
+        {
+            entry.getValue().setColored(false);
+        }
     }
 
     @Override
