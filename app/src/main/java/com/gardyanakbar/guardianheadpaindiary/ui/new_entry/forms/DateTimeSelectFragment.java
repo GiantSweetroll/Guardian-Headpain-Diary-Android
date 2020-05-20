@@ -95,6 +95,9 @@ public class DateTimeSelectFragment extends FormElement
         this.time = (TimePicker)this.view.findViewById(R.id.entryLogTimePicker);
         this.setName(this.getString(R.string.entry_log_map_button_date_time_text));
 
+        //Properties
+        this.time.setIs24HourView(true);
+
         return this.view;
     }
 
