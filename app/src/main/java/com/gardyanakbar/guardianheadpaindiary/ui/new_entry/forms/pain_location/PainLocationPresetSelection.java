@@ -65,6 +65,7 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
                 CardView card = new CardView(this.getContext());
                 card.setLayoutParams(params);
                 card.setCardElevation(0f);
+                card.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button));
 
                 CardView.LayoutParams buttonParams = new CardView.LayoutParams(
                         CardView.LayoutParams.MATCH_PARENT,
@@ -87,15 +88,24 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
                 button.setText(entry.getKey());
                 button.setCompoundDrawablesWithIntrinsicBounds(0, subEntry.getKey(), 0,0);
                 button.setTransitionName(subEntry.getValue());
-                button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button));
                 button.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorButtonBase));
                 button.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorWhite));
+                button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button));
                 button.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
                     public void onClick(View v)
                     {
-                        selectedPos.add(button.getTransitionName());
+                        if (isMarked(button))
+                        {
+                            setMarked(button, false);
+                            Methods.deleteElement(selectedPos, button.getTransitionName(), false);
+                        }
+                        else
+                        {
+                            setMarked(button, true);
+                            appendLocation(button.getTransitionName());
+                        }
                     }
                 });
 
@@ -111,24 +121,18 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
     {
         for (Button button : this.buttons)
         {
-            //TODO: Change button selection identifier
-//            button.setBorder(this.defaultBorder);
-//            button.setOpaque(false);
+            this.setMarked(button, false);
         }
     }
     private void setMarked(Button button, boolean mark)
     {
         if (mark)
         {
-            //TODO: Change button selection identifier
-//            button.setBorder(BorderFactory.createLineBorder(Color.BLACK, 3));
-//            button.setOpaque(true);
+            button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button_border));
         }
         else
         {
-            //TODO: Change button selection identifier
-//            button.setBorder(this.defaultBorder);
-//            button.setOpaque(false);
+            button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button));
         }
     }
     public List<String> getSelectedPosition()
@@ -137,16 +141,9 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
     }
     public boolean isMarked(Button button)
     {
-        //TODO: Create button selection identifier
-//        if (button.getBorder() == this.defaultBorder)
-//        {
-//            return false;
-//        }
-//        else
-//        {
-//            return true;
-//        }
-        return false;
+//        //If it has border, that means it's selected
+//        return button.getBackground() == ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button_border);
+        return selectedPos.contains(button.getTransitionName());    //Check if button id is in list
     }
     public void enableButtons(boolean enable)
     {
