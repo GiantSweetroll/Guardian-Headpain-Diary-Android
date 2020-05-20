@@ -87,6 +87,7 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
                 button.setText(entry.getKey());
                 button.setCompoundDrawablesWithIntrinsicBounds(0, subEntry.getKey(), 0,0);
                 button.setTransitionName(subEntry.getValue());
+                button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button));
                 button.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorButtonBase));
                 button.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorWhite));
                 button.setOnClickListener(new View.OnClickListener()

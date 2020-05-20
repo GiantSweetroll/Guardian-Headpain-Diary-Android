@@ -55,7 +55,7 @@
             android:id="@+id/entryLogPrevButton"
             android:layout_alignParentLeft="true"
             android:layout_alignParentTop="true"
-            android:background="@color/colorButtonBase"
+            android:background="@drawable/rounded_button"
             android:textColor="#FFFFFF"/>
 
         <Button
@@ -65,7 +65,7 @@
             android:id="@+id/entryLogSaveButton"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:background="@color/colorButtonBase"
+            android:background="@drawable/rounded_button"
             android:textColor="#FFFFFF"/>
 
         <Button
@@ -75,7 +75,7 @@
             android:id="@+id/entryLogNextButton"
             android:layout_alignParentTop="true"
             android:layout_alignParentRight="true"
-            android:background="@color/colorButtonBase"
+            android:background="@drawable/rounded_button"
             android:textColor="#FFFFFF"/>
 
     </RelativeLayout>
