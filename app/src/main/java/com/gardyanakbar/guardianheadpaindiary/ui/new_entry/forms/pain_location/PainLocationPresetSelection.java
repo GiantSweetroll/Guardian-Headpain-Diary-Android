@@ -65,7 +65,7 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
                 CardView card = new CardView(this.getContext());
                 card.setLayoutParams(params);
                 card.setCardElevation(0f);
-                card.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button));
+                card.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.preset_pain_location_unselected));
 
                 CardView.LayoutParams buttonParams = new CardView.LayoutParams(
                         CardView.LayoutParams.MATCH_PARENT,
@@ -88,9 +88,7 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
                 button.setText(entry.getKey());
                 button.setCompoundDrawablesWithIntrinsicBounds(0, subEntry.getKey(), 0,0);
                 button.setTransitionName(subEntry.getValue());
-                button.setBackgroundColor(ContextCompat.getColor(this.getContext(), R.color.colorButtonBase));
-                button.setTextColor(ContextCompat.getColor(this.getContext(), R.color.colorWhite));
-                button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button));
+                button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.preset_pain_location_unselected));
                 button.setOnClickListener(new View.OnClickListener()
                 {
                     @Override
@@ -128,11 +126,11 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
     {
         if (mark)
         {
-            button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button_border));
+            button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.preset_pain_location_selected));
         }
         else
         {
-            button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.rounded_button));
+            button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.preset_pain_location_unselected));
         }
     }
     public List<String> getSelectedPosition()
@@ -219,6 +217,7 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
     public void resetDefaults()
     {
         super.resetDefaults();
+        this.unmarkAllButtons();
     }
 
     @Override

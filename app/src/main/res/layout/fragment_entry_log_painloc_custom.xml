@@ -60,7 +60,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/reset_text"
-        android:background="@color/colorButtonBase"
+        android:background="@drawable/rounded_button"
         android:textColor="@color/colorWhite"
+        android:layout_marginBottom="@dimen/general_padding"
         android:id="@+id/entryLogPainLocCustomButtonReset"/>
 </LinearLayout>
