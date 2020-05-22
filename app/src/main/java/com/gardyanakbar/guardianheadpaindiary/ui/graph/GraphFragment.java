@@ -14,7 +14,8 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 
-public class GraphFragment extends Fragment {
+public class GraphFragment extends Fragment
+{
 
     private GraphViewModel graphViewModel;
 
@@ -23,13 +24,13 @@ public class GraphFragment extends Fragment {
         graphViewModel =
                 ViewModelProviders.of(this).get(GraphViewModel.class);
         View root = inflater.inflate(R.layout.fragment_graph, container, false);
-        final TextView textView = root.findViewById(R.id.text_graph);
-        graphViewModel.getText().observe(this, new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                textView.setText(s);
-            }
-        });
+//        final TextView textView = root.findViewById(R.id.text_graph);
+//        graphViewModel.getText().observe(this, new Observer<String>() {
+//            @Override
+//            public void onChanged(@Nullable String s) {
+//                textView.setText(s);
+//            }
+//        });
         return root;
     }
 }

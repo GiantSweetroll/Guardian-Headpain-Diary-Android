@@ -321,7 +321,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         this.fillData(patient, entry);
         this.setAsNewEntry(false);
 //        this.revalidate();
-//        this.repaint();
+//        this.invalidate();
     }
 
     /**
