@@ -745,6 +745,25 @@ public class Methods
      */
     public static boolean isSameTime(int hour1, int min1, int hour2, int min2)
     {
-        return hour1==hour2 && min1==min2;
+        return hour1 == hour2 && min1 == min2;
+    }
+
+    /**
+     * Get the highest value from a list of Doubles
+     * @param list
+     * @return the highest value double
+     */
+    public static double getHighestValue(List<Double> list)
+    {
+        double max = 0;
+        for (int i=0; i<list.size(); i++)
+        {
+            if (list.get(i)>max)
+            {
+                max = list.get(i);
+            }
+        }
+
+        return max;
     }
 }
