@@ -16,6 +16,7 @@ import android.widget.TimePicker;
 import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.constants.XMLIdentifier;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
@@ -26,7 +27,7 @@ import java.util.List;
 public class DurationIntensitySelectFragment extends FormElement
 {
     //Fields
-    private TextView durationLabel, durationValueLabel, intensityValueLabel;
+    private TextView durationLabel, durationValueLabel, intensityValueLabel, intensityLabel;
     private Spinner durationUnits;
     private SeekBar durationSlider, intensitySlider;
     //Constants
@@ -118,6 +119,7 @@ public class DurationIntensitySelectFragment extends FormElement
         this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogDurationIntensityScroll));
         this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogDurationIntensityLabel));
         this.setFormTitle("");
+        this.intensityLabel = (TextView)this.view.findViewById(R.id.entryLogIntensityLabel);
         this.intensityValueLabel = (TextView)this.view.findViewById(R.id.entryLogIntensityValue);
         this.durationLabel = (TextView)this.view.findViewById(R.id.entryLogDurationLabel);
         this.durationValueLabel = (TextView)this.view.findViewById(R.id.entryLogDurationValueLabel);
@@ -127,6 +129,7 @@ public class DurationIntensitySelectFragment extends FormElement
         this.setName(this.getString(R.string.entry_log_map_button_duration_intensity_text));
 
         //Properties
+        this.durationLabel.setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         this.durationUnits.setAdapter(this.getDurationSpinnerAdapter());
         this.durationUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -159,6 +162,7 @@ public class DurationIntensitySelectFragment extends FormElement
 
             }
         });
+        this.intensityLabel.setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         this.intensitySlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {
             @Override

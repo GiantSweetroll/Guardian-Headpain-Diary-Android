@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
@@ -53,6 +54,9 @@ public class PainKindFragment extends FormElement implements HistoryListener
                                             Methods.getDefaultPainKinds(this.getContext()),
                                         true,
                                         false);
+
+        //Properties
+        this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
 
         return this.view;
     }

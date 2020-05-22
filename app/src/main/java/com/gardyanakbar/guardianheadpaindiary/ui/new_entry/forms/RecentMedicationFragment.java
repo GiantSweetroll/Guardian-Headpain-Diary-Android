@@ -12,6 +12,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.constants.PainDataIdentifier;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
@@ -24,6 +25,7 @@ public class RecentMedicationFragment extends FormElement implements HistoryList
     //Fields
     private HistoryPanel recentMedication;
     private HistoryPanel medicineComplaint;
+    private TextView labRecMed, labMedCom;
 
     //Constructor
     public RecentMedicationFragment() {super(false);}
@@ -92,12 +94,14 @@ public class RecentMedicationFragment extends FormElement implements HistoryList
         this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogRecentMedicationLabel));
         View layout = this.view.findViewById(R.id.entryLogRecentMedicationPanel);
         this.setName(this.getString(R.string.entry_log_map_button_recent_medication_text));
+        this.labRecMed = (TextView)this.view.findViewById(R.id.entryLogRecentMedicationTextView);
+        this.labMedCom = (TextView)this.view.findViewById(R.id.entryLogSideEffectsTextView);
         this.recentMedication = new HistoryPanel(this.getContext(),
                                                     (Spinner)layout.findViewById(R.id.historySpinner),
                                                     (EditText) layout.findViewById(R.id.historyEditText),
                                                     Globals.HISTORY_RECENT_MEDICATION,
                                                     PatientData.LAST_RECENT_MEDS,
-                                                    Methods.getDefaultPainKinds(this.getContext()),
+                                                    Methods.getDefaultRecentMedications(this.getContext()),
                                                     true,
                                                     false);
         layout = this.view.findViewById(R.id.entryLogSideEffectsPanel);
@@ -106,9 +110,14 @@ public class RecentMedicationFragment extends FormElement implements HistoryList
                                             (EditText) layout.findViewById(R.id.historyEditText),
                                             Globals.HISTORY_MEDICINE_COMPLAINT,
                                             PatientData.LAST_MEDICINE_COMPLAINT,
-                                            Methods.getDefaultPainKinds(this.getContext()),
+                                            Constants.EMPTY_STRING_ARRAY,
                                             true,
                                             false);
+
+        //Properties
+        this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
+        this.labRecMed.setTextSize(Constants.FONT_HEADER_SIZER);
+        this.labMedCom.setTextSize(Constants.FONT_HEADER_SIZER);
 
         return this.view;
     }

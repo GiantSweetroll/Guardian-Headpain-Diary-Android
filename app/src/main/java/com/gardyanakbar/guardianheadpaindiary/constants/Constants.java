@@ -9,6 +9,8 @@ import com.gardyanakbar.guardianheadpaindiary.R;
 
 import java.io.File;
 
+import giantsweetroll.numbers.GNumbers;
+
 public final class Constants
 {
     public static final String REQUIRED_IDENTIFIER = "*";
@@ -25,9 +27,14 @@ public final class Constants
 
     public static final String SETTINGS_FILE_NAME = "settings.xml";
 
+    public static final String[] EMPTY_STRING_ARRAY = {};
+
     //Font
     public static final int FONT_GENERAL_SIZE = 15;
     public static final int FONT_SIZE_A_BIT_BIGGER = FONT_GENERAL_SIZE + 3;
+    public static final int FONT_SUB_TITLE_SIZE = FONT_GENERAL_SIZE * 2;
+    public static final int FONT_TITLE_SIZE = (int) GNumbers.round(FONT_GENERAL_SIZE * 2.5f, 1);
+    public static final int FONT_HEADER_SIZER = FONT_GENERAL_SIZE + 10;
     public static final Typeface FONT_GENERAL_BOLD = (new Typeface.Builder("gothic.ttf")).build();
     public static final Typeface FONT_GENERAL = (new Typeface.Builder("gothicb.ttf")).build();
 }

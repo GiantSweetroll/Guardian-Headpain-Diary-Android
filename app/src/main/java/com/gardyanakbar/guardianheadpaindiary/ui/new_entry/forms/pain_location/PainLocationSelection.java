@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.FormElement;
@@ -108,6 +109,11 @@ public class PainLocationSelection extends FormElement
         this.custom = (PainLocationCustomSelection)this.getChildFragmentManager().findFragmentById(R.id.entryLogPainlocCustomFragment);
         this.presets = (PainLocationPresetSelection) this.getChildFragmentManager().findFragmentById(R.id.entryLogPainLocPresetFragment);
         this.setName(this.getString(R.string.entry_log_map_button_pain_location_text));
+
+        //Properties
+        this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
+        this.radPresets.setTextSize(Constants.FONT_HEADER_SIZER);
+        this.radCustom.setTextSize(Constants.FONT_HEADER_SIZER);
 
         return this.view;
     }

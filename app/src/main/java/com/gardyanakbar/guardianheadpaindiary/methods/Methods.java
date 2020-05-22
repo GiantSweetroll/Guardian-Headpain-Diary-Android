@@ -76,6 +76,11 @@ public class Methods
         return map;
     }
 
+    /**
+     * Get the default pain kind options
+     * @param context
+     * @return an array of string with the default pain kinds
+     */
     public static String[] getDefaultPainKinds(Context context)
     {
         String kinds[] = {context.getString(R.string.entry_log_form_painkind_default_throbbing_text),
@@ -84,6 +89,12 @@ public class Methods
                             context.getString(R.string.entry_log_form_painkind_default_tight_band_text)};
         return kinds;
     }
+
+    /**
+     * Get the default trigger options
+     * @param context
+     * @return an array of string with the default triggers
+     */
     public static String[] getDefaultTrigger(Context context)
     {
         String kinds[] = {context.getString(R.string.entry_log_form_trigger_default_diet_text),
@@ -91,6 +102,16 @@ public class Methods
                             context.getString(R.string.entry_log_form_trigger_default_stressor_text),
                             context.getString(R.string.entry_log_form_trigger_default_sunlight_text)};
         return kinds;
+    }
+
+    /**
+     * Get the default recent medication options
+     * @return an array of string with the default recent medications
+     */
+    public static String[] getDefaultRecentMedications(Context context)
+    {
+        String[] medications = {context.getString(R.string.entry_log_form_recent_medication_default_capsules_text)};
+        return medications;
     }
 
     /**

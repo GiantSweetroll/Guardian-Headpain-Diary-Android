@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 
 import giantsweetroll.date.Date;
@@ -96,6 +97,7 @@ public class DateTimeSelectFragment extends FormElement
         this.setName(this.getString(R.string.entry_log_map_button_date_time_text));
 
         //Properties
+        this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         this.time.setIs24HourView(true);
 
         return this.view;
