@@ -64,6 +64,21 @@
     <string name="dialog_required_fields_title_text">Fill in all required fields</string>
     <string name="dialog_required_fields_text">Please fill all required fields (marked with *)</string>
 
+    <!-- Graph Settings -->
+    <string name="graph_settings_title_text">Graph Settings</string>
+    <string name="graph_settings_category_entries_vs_date">Frequency vs Day</string>
+    <string name="graph_settings_category_avg_intensity_vs_date">Average Intensity vs Day</string>
+    <string name="graph_settings_category_avg_duration_vs_date">Average Duration vs Day</string>
+    <string name="graph_settings_category_avg_intensity_vs_month">Average Intensity vs Month</string>
+    <string name="graph_settings_category_avg_duration_vs_month">Average Duration vs Month</string>
+    <string name="graph_settings_category_intensity_vs_episode">Intensity vs Episode</string>
+    <string name="graph_settings_category_duration_vs_episode">Duration vs Episode</string>
+    <string name="graph_settings_category_trigger_vs_amount">Trigger vs Amount</string>
+    <string name="graph_settings_category_pain_kind_vs_amount">Kinds of Headpains vs Amount</string>
+    <string name="graph_settings_option_show_data_values">Show Data Values</string>
+    <string name="graph_settings_option_show_empty_data">Display Empty Data</string>
+    <string name="graph_settings_option_show_data_points">Display Data Points</string>
+
     <!--  Misc  -->
     <string name="previous_text">Previous</string>
     <string name="next_text">Next</string>
@@ -77,4 +92,10 @@
     <string name="reset_text">Reset</string>
     <string name="ok_text">Ok</string>
     <string name="cancel_text">Cancel</string>
+    <string name="settings_text">Settings</string>
+    <string name="from_text">From</string>
+    <string name="to_text">To</string>
+    <string name="set_text">Set</string>
+    <string name="change_text">Change</string>
+    <string name="show_text">Show</string>
 </resources>
