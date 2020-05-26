@@ -2,6 +2,7 @@ package com.gardyanakbar.guardianheadpaindiary.methods;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
@@ -25,6 +26,7 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
+import giantsweetroll.date.Date;
 import giantsweetroll.xml.dom.XMLManager;
 
 public class Methods
@@ -786,5 +788,15 @@ public class Methods
         }
 
         return max;
+    }
+
+    /**
+     * Converts the date picker selection to an object of Date from GG-Library
+     * @param picker - the date picker
+     * @return a Date object from GG-Library with data containing the date selection from the date picker.
+     */
+    public static Date getDateFromPicker(DatePicker picker)
+    {
+        return new Date(picker.getDayOfMonth(), picker.getMonth(), picker.getYear());
     }
 }
