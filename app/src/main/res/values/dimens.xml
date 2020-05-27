@@ -7,9 +7,9 @@
     <dimen name="title_content_padding">30dp</dimen>
 
     <!-- Font Sizes -->
-    <dimen name="general_font_size">15</dimen>
-    <dimen name="sub_title_font_size">30</dimen>        <!-- size is 2x the general font size -->
-    <dimen name="title_font_size">38</dimen>            <!-- size is 2.5x the general font size -->
-    <dimen name="general_font_size_slightly_bigger">18</dimen> <!-- general font size + 3 -->
-    <dimen name="header_font_size">25</dimen>           <!-- size if general font size + 10 -->
+    <dimen name="general_font_size">15dp</dimen>
+    <dimen name="sub_title_font_size">30dp</dimen>        <!-- size is 2x the general font size -->
+    <dimen name="title_font_size">38dp</dimen>            <!-- size is 2.5x the general font size -->
+    <dimen name="general_font_size_slightly_bigger">18dp</dimen> <!-- general font size + 3 -->
+    <dimen name="header_font_size">25dp</dimen>           <!-- size if general font size + 10 -->
 </resources>
