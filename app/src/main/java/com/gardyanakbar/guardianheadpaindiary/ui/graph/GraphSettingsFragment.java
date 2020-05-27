@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.LanguageListener;
@@ -29,11 +30,19 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
 {
     //Fields
     private TextView labDateFrom, labDateFromValue, labDateTo, labDateToValue, labGraphCat;
-    private Button btnDateFrom, btnDateTo;
+    private Button btnDateFrom, btnDateTo, btnOk;
     private Date dateFrom, dateTo;
     private DatePickerDialog dateFromDialog, dateToDialog;
     private Spinner graphCatSpinner;
     private CheckBox checkDataVal, checkDataVoid, checkDataPoints;
+    private Fragment parent;
+
+    //Constructor
+    public GraphSettingsFragment(Fragment parent)
+    {
+        super();
+        this.parent = parent;
+    }
 
     //Private Methods
     /**
@@ -70,13 +79,116 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         dateLabel.setText(date.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
     }
 
+    //Public Methods
+
+    /**
+     * Get the initial date range
+     * @return the initial date
+     */
+    public Date getDateFrom()
+    {
+        if (dateFrom == null)
+        {
+            return new Date();
+        }
+        else
+        {
+            return this.dateFrom;
+        }
+    }
+
+    /**
+     * Get the final date range
+     * @return the final date
+     */
+    public Date getDateTo()
+    {
+        if (dateTo == null)
+        {
+            return new Date();
+        }
+        else
+        {
+            return this.dateTo;
+        }
+    }
+    /**
+     * Get the graph category.
+     * @return the selected graph category string.
+     */
+    public String getGraphCategory()
+    {
+        if (this.graphCatSpinner != null)
+        {
+            return this.graphCatSpinner.getSelectedItem().toString();
+        }
+        else
+        {
+            return this.getString(R.string.graph_settings_category_entries_vs_date);
+        }
+    }
+    /**
+     * Check if the "Show Data Values" check box is selected
+     * @return
+     */
+    public boolean isShowDataValuesSelected()
+    {
+        if (this.checkDataVal == null)
+        {
+            return false;
+        }
+        else
+        {
+            return this.checkDataVal.isSelected();
+        }
+    }
+    /**
+     * Check if the "Display Empty Data" check box is selected
+     * @return
+     */
+    public boolean isDisplayEmptyDataSelected()
+    {
+        if (this.checkDataVoid == null)
+        {
+            return true;
+        }
+        else
+        {
+            return this.checkDataVoid.isSelected();
+        }
+    }
+    /**
+     * Check if the "SDisplay Data Points" check box is selected
+     * @return
+     */
+    public boolean isDisplayDataPointsSelected()
+    {
+        if (this.checkDataPoints == null)
+        {
+            return false;
+        }
+        else
+        {
+            return this.checkDataPoints.isSelected();
+        }
+    }
+
     //Overridden Methods
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
     {
+        View root = inflater.inflate(R.layout.fragment_graph_settings, container, false);
+
+        return root;
+    }
+
+    @Override
+    public void onViewCreated(View root, Bundle savedInstanceState)
+    {
+        super.onViewCreated(root, savedInstanceState);
+
         //Initialization
-        View root = inflater.inflate(R.layout.fragment_new_entry, container, false);
         this.labDateFrom = (TextView)root.findViewById(R.id.graphSettingsDateFromTextView);
         this.labDateFromValue = (TextView)root.findViewById(R.id.graphSettingsDateFromValueTextView);
         this.btnDateFrom = (Button)root.findViewById(R.id.graphSettingsDateFromChangeButton);
@@ -90,6 +202,7 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         this.checkDataPoints = (CheckBox)root.findViewById(R.id.graphSettingsDataPointsCB);
         this.dateFromDialog = new DatePickerDialog(this.getContext());
         this.dateToDialog = new DatePickerDialog(this.getContext());
+        this.btnOk = (Button)root.findViewById(R.id.graphSettingsBtnOk);
 
         //Properties
         updateDateSelection(dateFromDialog, dateFrom, labDateFromValue);
@@ -104,10 +217,7 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             }
 
             @Override
-            public void onNothingSelected(AdapterView<?> parent)
-            {
-
-            }
+            public void onNothingSelected(AdapterView<?> parent){}
         });
         this.btnDateFrom.setOnClickListener(new View.OnClickListener()
         {
@@ -115,7 +225,6 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             public void onClick(View v)
             {
                 dateFromDialog.show();
-                updateDateSelection(dateFromDialog, dateFrom, labDateFromValue);
             }
         });
         this.btnDateTo.setOnClickListener(new View.OnClickListener()
@@ -124,7 +233,6 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             public void onClick(View v)
             {
                 dateToDialog.show();
-                updateDateSelection(dateToDialog, dateTo, labDateToValue);
             }
         });
         this.dateFromDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener()
@@ -133,6 +241,7 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
                 //TODO: Update Graph data with new date range
+                updateDateSelection(dateFromDialog, dateFrom, labDateFromValue);
             }
         });
         this.dateToDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener()
@@ -141,10 +250,19 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
                 //TODO: Update Graph data with new date range
+                updateDateSelection(dateToDialog, dateTo, labDateToValue);
             }
         });
-
-        return root;
+        this.btnOk.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                FragmentTransaction transaction = parent.getFragmentManager().beginTransaction();
+                transaction.replace(R.id.graphFragmentContainer, GraphFragment.graphPanel);
+                transaction.commit();
+            }
+        });
     }
 
     @Override

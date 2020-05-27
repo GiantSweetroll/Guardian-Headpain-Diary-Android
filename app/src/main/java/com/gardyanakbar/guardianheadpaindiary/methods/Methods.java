@@ -6,6 +6,8 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 
 import androidx.core.content.ContextCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
@@ -798,5 +800,40 @@ public class Methods
     public static Date getDateFromPicker(DatePicker picker)
     {
         return new Date(picker.getDayOfMonth(), picker.getMonth(), picker.getYear());
+    }
+
+    /**
+     * Appends a leading zero to a list of string with a length of 1
+     * @param list the list to be mutated.
+     */
+    public static void addZeroesToList(List<String> list)
+    {
+        for (int i=0; i<list.size(); i++)
+        {
+            String str = list.get(i);
+            if (str.length()==1)
+            {
+                str = "0" + str;
+                list.set(i, str);
+            }
+        }
+    }
+
+    /**
+     * Removes the leading zero from a string
+     * @param str
+     * @return the string with its leading zero removed (if any)
+     */
+    public static String removeFirstZeroFromString(String str)
+    {
+        if (str.length()>=2)
+        {
+            if (str.substring(0, 1).equals("0"))
+            {
+                str = str.substring(1);
+            }
+        }
+
+        return str;
     }
 }

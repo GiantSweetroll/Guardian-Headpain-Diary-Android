@@ -64,6 +64,9 @@
     <string name="dialog_required_fields_title_text">Fill in all required fields</string>
     <string name="dialog_required_fields_text">Please fill all required fields (marked with *)</string>
 
+    <!-- Graph -->
+    <string name="graph_switch_text">Switch</string>
+    <string name="graph_export_text">Export</string>
     <!-- Graph Settings -->
     <string name="graph_settings_title_text">Graph Settings</string>
     <string name="graph_settings_category_entries_vs_date">Frequency vs Day</string>
@@ -98,4 +101,15 @@
     <string name="set_text">Set</string>
     <string name="change_text">Change</string>
     <string name="show_text">Show</string>
+    <string name="export_text">Export</string>
+    <string name="day_text">Day</string>
+    <string name="amount_of_entries_text">Number of Entries</string>
+    <string name="episode_text">Episode</string>
+    <string name="intensity_text">Intensity</string>
+    <string name="duration_text">Duration</string>
+    <string name="average_intensity_text">Average Intensity</string>
+    <string name="average_duration_text">Average Duration</string>
+    <string name="kinds_of_headpains_text">Kinds of Headpains</string>
+    <string name="trigger_text">Trigger</string>
+    <string name="amount_text">Amount</string>
 </resources>

@@ -76,7 +76,6 @@
         <Spinner
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/general_padding"
             android:textSize="@dimen/header_font_size"
             android:id="@+id/graphSettingsGraphCatSpinner"/>
     </LinearLayout>
@@ -103,4 +102,19 @@
         android:textSize="@dimen/header_font_size"
         android:text="@string/graph_settings_option_show_data_points"
         android:id="@+id/graphSettingsDataPointsCB"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:gravity="bottom|center_horizontal"
+        android:layout_marginBottom="60dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/ok_text"
+            android:layout_margin="@dimen/general_padding"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"
+            android:id="@+id/graphSettingsBtnOk"/>
+    </LinearLayout>
 </LinearLayout>
