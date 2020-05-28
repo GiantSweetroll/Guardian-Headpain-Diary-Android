@@ -1,11 +1,14 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.graph;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ScrollView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,11 +16,8 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
-import com.gardyanakbar.guardianheadpaindiary.constants.PainDataIdentifier;
-import com.gardyanakbar.guardianheadpaindiary.constants.XMLIdentifier;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
-import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 import com.gardyanakbar.guardianheadpaindiary.methods.PainDataOperation;
 
 import java.util.ArrayList;
@@ -77,7 +77,7 @@ public class GraphPanelFragment extends Fragment
             list = PainDataOperation.insertEmptyData(list, dateFrom, dateTo);
         }
 
-        if (category.equals(this.getString(R.string.graph_settings_category_entries_vs_date)))
+        if (category.equals(this.getString(R.string.graph_settings_category_entries_vs_date)) || category.equals(""))
         {
             this.graph = new LineGraph(this.getContext(), PainDataOperation.getAmountOfEntriesVSDate(list));
             this.graph.setXAxisName(this.getString(R.string.day_text));
@@ -133,7 +133,9 @@ public class GraphPanelFragment extends Fragment
         }
         this.graph.displayDataValues(GraphFragment.graphSettings.isShowDataValuesSelected());
         this.graph.displayDataPoint(GraphFragment.graphSettings.isDisplayDataPointsSelected());
-        this.initGraphScroll(graph);
+
+        //Add to scroll
+        this.scroll.addView(this.graph);
     }
 
     //Overridden Methods
@@ -144,6 +146,8 @@ public class GraphPanelFragment extends Fragment
         this.btnSettings = (Button)root.findViewById(R.id.graphButtonSetting);
         this.btnExport = (Button)root.findViewById(R.id.graphButtonExport);
         this.btnSwitch = (Button)root.findViewById(R.id.graphButtonSwitch);
+        this.scroll = (ScrollView)root.findViewById(R.id.graphScroll);
+        this.initGraph();
 
         //Properties
         this.btnSettings.setOnClickListener(new View.OnClickListener()

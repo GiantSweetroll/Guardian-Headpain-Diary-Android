@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.LanguageListener;
@@ -124,7 +123,7 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         }
         else
         {
-            return this.getString(R.string.graph_settings_category_entries_vs_date);
+            return "";
         }
     }
     /**
