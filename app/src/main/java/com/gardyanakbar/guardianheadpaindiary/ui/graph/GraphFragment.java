@@ -43,7 +43,6 @@ public class GraphFragment extends Fragment
         //Add graph panel
         FragmentTransaction transaction = this.getFragmentManager().beginTransaction();
         transaction.replace(R.id.graphFragmentContainer, GraphFragment.graphPanel);
-        transaction.addToBackStack(null);
         transaction.commit();
 
         return root;
