@@ -258,9 +258,7 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             @Override
             public void onClick(View v)
             {
-                FragmentTransaction transaction = parent.getFragmentManager().beginTransaction();
-                transaction.replace(R.id.graphFragmentContainer, GraphFragment.graphPanel);
-                transaction.commit();
+                getFragmentManager().popBackStackImmediate();
             }
         });
     }
