@@ -82,6 +82,15 @@
     <string name="graph_settings_option_show_empty_data">Display Empty Data</string>
     <string name="graph_settings_option_show_data_points">Display Data Points</string>
 
+    <!-- Table -->
+    <!-- Table Settings -->
+    <string name="table_settings_title_text">Table Settings</string>
+    <string name="table_settings_filter_pain_kind">Pain Kind</string>
+    <string name="table_settings_filter_intensity">Intensity</string>
+    <string name="table_settings_filter_duration">Duration</string>
+    <string name="table_settings_filter_trigger">Trigger</string>
+    <stirng name="table_settings_filter_comments">Comments</stirng>
+
     <!--  Misc  -->
     <string name="previous_text">Previous</string>
     <string name="next_text">Next</string>
@@ -112,4 +121,8 @@
     <string name="kinds_of_headpains_text">Kinds of Headpains</string>
     <string name="trigger_text">Trigger</string>
     <string name="amount_text">Amount</string>
+    <string name="delete_text">Delete</string>
+    <string name="refresh_text">Refresh</string>
+    <string name="filter_by_text">Filter By</string>
+    <string name="keyword_text">Keyword</string>
 </resources>
