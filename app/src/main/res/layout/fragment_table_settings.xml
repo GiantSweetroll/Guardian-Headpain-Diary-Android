@@ -1,18 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textSize="@dimen/title_font_size"
-        android:layout_gravity="center"
+        android:gravity="center"
         android:text="@string/table_settings_title_text"
         android:paddingBottom="30dp"
-        android:id="@+id/tableSettingsDateTextView"/>
+        android:layout_alignParentTop="true"
+        android:id="@+id/tableSettingsTitleTextView"/>
     <ScrollView
+        android:layout_below="@id/tableSettingsTitleTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <LinearLayout
@@ -68,13 +69,41 @@
                     android:id="@+id/tableSettingsDateToChangeButton"
                     android:text="@string/change_text"/>
             </GridLayout>
-            <TextView
-                android:paddingLeft="@dimen/general_padding"
-                android:paddingTop="20dp"
-                android:layout_width="wrap_content"
+            <GridLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/filter_by_text"
-                android:textSize="@dimen/header_font_size"/>
+                android:paddingTop="20dp"
+                android:paddingRight="@dimen/general_padding"
+                android:columnCount="2">
+                <TextView
+                    android:paddingLeft="@dimen/general_padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filter_by_text"
+                    android:textSize="@dimen/header_font_size"/>
+                <Spinner
+                    android:paddingLeft="@dimen/general_padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"/>
+                <TextView
+                    android:paddingLeft="@dimen/general_padding"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/keyword_text"
+                    android:textSize="@dimen/header_font_size"/>
+                <EditText
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </GridLayout>
         </LinearLayout>
     </ScrollView>
-</LinearLayout>
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/ok_text"
+        android:layout_marginBottom="60dp"
+        android:background="@drawable/rounded_button"
+        android:textColor="@color/colorWhite"/>
+</RelativeLayout>
