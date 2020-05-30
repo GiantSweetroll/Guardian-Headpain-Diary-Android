@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.lifecycle.ViewModelProviders;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
@@ -32,6 +33,8 @@ public class TableFragment extends Fragment
     private Button btnSelectAll, btnDeselectAll, btnDelete, btnExport, btnSettings, btnRefresh;
     private RecyclerView recView;
     private TableSettingsFragment settings;
+    private PainEntryAdapter adapter;
+    private List<PainEntryData> entries;
 
     //Constructor
     public TableFragment()
@@ -41,27 +44,34 @@ public class TableFragment extends Fragment
     }
 
     //Private Methods
-    private PainEntryAdapter getRecyclerViewAdapter()
+    private void updateEntries()
     {
-        Log.d(TAG, "getRecyclerViewAdapter: called");
-        Date dateFrom = this.settings.getDateFrom();
-        Log.d(TAG, "getRecyclerViewAdapter: Get entry from date: " + dateFrom.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
-        Date dateTo = this.settings.getDateTo();
-        Log.d(TAG, "getRecyclerViewAdapter: Get entry to date: " + dateTo.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
-        String filterType = this.settings.getFilterCategory();
-        Log.d(TAG, "getRecyclerViewAdapter: Filter category: " + filterType);
-        String keyword = this.settings.getFilterKeyword();
-        Log.d(TAG, "getRecyclerViewAdapter: Filter keyword: " + keyword);
+        this.entries.clear();
 
-        List<PainEntryData> entries = new ArrayList<PainEntryData>();
+        Log.d(TAG, "updateEntries: called");
+        Date dateFrom = this.settings.getDateFrom();
+        Log.d(TAG, "updateEntries: Get entry from date: " + dateFrom.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
+        Date dateTo = this.settings.getDateTo();
+        Log.d(TAG, "updateEntries: Get entry to date: " + dateTo.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
+        String filterType = this.settings.getFilterCategory();
+        Log.d(TAG, "updateEntries: Filter category: " + filterType);
+        String keyword = this.settings.getFilterKeyword();
+        Log.d(TAG, "updateEntries: Filter keyword: " + keyword);
+
         try
         {
+            Log.d(TAG, "updateEntries: Importing all entries...");
             entries.addAll(FileOperation.getListOfEntries(Globals.activePatient.getID(), dateFrom, dateTo));
+            Log.d(TAG, "updateEntries: Entries imported.");
         }
-        catch(NullPointerException ex){}
-        entries = PainDataOperation.getFilteredData(this.getContext(), filterType, keyword, entries);
-
-        return new PainEntryAdapter(entries);
+        catch(NullPointerException ex)
+        {
+            Log.d(TAG, "updateEntries: Something went wrong when importing entries");
+            Log.e(TAG, "updateEntries: " + ex.getMessage());
+        }
+        Log.d(TAG, "updateEntries: Entries before category filter: " + entries.size());
+        PainDataOperation.getFilteredData(this.getContext(), filterType, keyword, entries);
+        Log.d(TAG, "updateEntries: Entries after category filter: " + entries.size());
     }
 
     //Overridden Methods
@@ -80,9 +90,13 @@ public class TableFragment extends Fragment
         this.btnSettings = root.findViewById(R.id.btnSettings);
         this.btnRefresh = root.findViewById(R.id.btnRefresh);
         this.recView = root.findViewById(R.id.tableEntriesListView);
+        this.entries = new ArrayList<>();
+        this.updateEntries();
+        this.adapter = new PainEntryAdapter(this.entries);
 
         //Properties
-        this.recView.setAdapter(this.getRecyclerViewAdapter());
+        this.recView.setLayoutManager(new LinearLayoutManager(this.getContext()));
+        this.recView.setAdapter(adapter);
         this.btnSettings.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -99,8 +113,9 @@ public class TableFragment extends Fragment
             @Override
             public void onClick(View v)
             {
-                recView.setAdapter(getRecyclerViewAdapter());
-                getView().invalidate();
+                entries.clear();
+                updateEntries();
+                adapter.notifyDataSetChanged();
             }
         });
 
