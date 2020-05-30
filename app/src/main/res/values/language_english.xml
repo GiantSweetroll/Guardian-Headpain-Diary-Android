@@ -3,6 +3,7 @@
     <!-- Navigation Bar -->
     <string name="nav_bar_new_entry_text">New Entry</string>
     <string name="nav_bar_graph">Graph</string>
+    <string name="nav_bar_table">Table</string>
 
     <!--  Entry Log  -->
     <string name="entry_log_title">Input Your Data Here</string>
@@ -89,7 +90,14 @@
     <string name="table_settings_filter_intensity">Intensity</string>
     <string name="table_settings_filter_duration">Duration</string>
     <string name="table_settings_filter_trigger">Trigger</string>
-    <stirng name="table_settings_filter_comments">Comments</stirng>
+    <string name="table_settings_filter_comments">Comments</string>
+    <!-- Table Entries -->
+    <string name="table_entry_pain_kind_text">Pain Kind:</string>
+    <string name="table_entry_intensity_text">Intensity:</string>
+    <string name="table_entry_duration_text">Duration (seconds):</string>
+    <string name="table_entry_trigger_text">Trigger:</string>
+    <string name="table_entry_recent_medication_text">Recent Medication:</string>
+    <string name="table_entry_comments_text">Comments:</string>
 
     <!--  Misc  -->
     <string name="previous_text">Previous</string>

@@ -2,7 +2,8 @@
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/tableParentLayout">
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -15,6 +16,8 @@
             android:text="Deselect All"
             android:layout_alignParentLeft="true"
             android:layout_margin="@dimen/general_padding"
+            android:padding="@dimen/general_padding"
+            android:id="@+id/btnDeselectAll"
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorWhite"/>
         <Button
@@ -23,6 +26,8 @@
             android:layout_margin="@dimen/general_padding"
             android:layout_alignParentRight="true"
             android:text="Select All"
+            android:padding="@dimen/general_padding"
+            android:id="@+id/btnSelectAll"
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorWhite"/>
     </RelativeLayout>
@@ -43,12 +48,14 @@
         android:orientation="horizontal"
         android:id="@+id/lowerButtonsLayout"
         android:background="@drawable/raised_border"
+        android:paddingBottom="60dp"
         android:layout_alignParentBottom="true">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/delete_text"
             android:layout_margin="@dimen/general_padding"
+            android:id="@+id/btnDelete"
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorWhite"/>
         <Button
@@ -56,6 +63,7 @@
             android:layout_height="wrap_content"
             android:text="@string/export_text"
             android:layout_margin="@dimen/general_padding"
+            android:id="@+id/btnExport"
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorWhite"/>
         <Button
@@ -63,6 +71,7 @@
             android:layout_height="wrap_content"
             android:text="@string/settings_text"
             android:layout_margin="@dimen/general_padding"
+            android:id="@+id/btnSettings"
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorWhite"/>
         <Button
@@ -70,6 +79,7 @@
             android:layout_height="wrap_content"
             android:text="@string/refresh_text"
             android:layout_margin="@dimen/general_padding"
+            android:id="@+id/btnRefresh"
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorWhite"/>
     </LinearLayout>

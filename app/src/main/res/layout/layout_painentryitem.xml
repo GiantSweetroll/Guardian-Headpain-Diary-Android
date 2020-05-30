@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    android:id="@+id/parent_layout">
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:paddingLeft="@dimen/general_padding"
+        android:text="date goes here"
+        android:id="@+id/date"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:paddingRight="@dimen/general_padding"
+        android:text="time goes here"
+        android:id="@+id/time"/>
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/date"
+        android:paddingTop="30dp"
+        android:paddingLeft="@dimen/general_padding"
+        android:id="@+id/grid"
+        android:columnCount="2">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/table_entry_pain_kind_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lorem ipsum"
+            android:id="@+id/painKind"
+            android:paddingLeft="@dimen/general_padding"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/table_entry_intensity_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lorem ipsum"
+            android:id="@+id/intensity"
+            android:paddingLeft="@dimen/general_padding"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/table_entry_duration_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lorem ipsum"
+            android:id="@+id/duration"
+            android:paddingLeft="@dimen/general_padding"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/table_entry_trigger_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lorem ipsum"
+            android:id="@+id/trigger"
+            android:paddingLeft="@dimen/general_padding"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/table_entry_recent_medication_text"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="lorem ipsum"
+            android:id="@+id/recMed"
+            android:paddingLeft="@dimen/general_padding"/>
+    </GridLayout>
+    <TextView
+        android:paddingLeft="@dimen/general_padding"
+        android:paddingTop="@dimen/general_padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/grid"
+        android:id="@+id/commentsLabel"
+        android:text="@string/table_entry_comments_text"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="lorem ipsum thingy majig hoola hoola hehe sdkasdask kasdkas daka dkas dadjakd as"
+        android:layout_below="@id/commentsLabel"
+        android:id="@+id/comments"
+        android:paddingLeft="@dimen/general_padding"/>
+</RelativeLayout>

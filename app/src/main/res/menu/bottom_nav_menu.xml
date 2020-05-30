@@ -16,4 +16,9 @@
         android:icon="@drawable/icon_frontpage_viewgraph"
         android:title="@string/nav_bar_graph" />
 
+    <item
+        android:id="@+id/navigation_table"
+        android:icon="@drawable/icon_frontpage_viewtable"
+        android:title="@string/nav_bar_table" />
+
 </menu>

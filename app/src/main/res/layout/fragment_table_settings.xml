@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    android:background="@color/colorAppBase"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
@@ -43,6 +44,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/header_font_size"
+                    android:padding="@dimen/general_padding"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="@color/colorWhite"
                     android:id="@+id/tableSettingsDateFromChangeButton"
                     android:layout_margin="@dimen/general_padding"
                     android:text="@string/change_text"/>
@@ -65,6 +69,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="@dimen/header_font_size"
+                    android:padding="@dimen/general_padding"
+                    android:background="@drawable/rounded_button"
+                    android:textColor="@color/colorWhite"
                     android:layout_margin="@dimen/general_padding"
                     android:id="@+id/tableSettingsDateToChangeButton"
                     android:text="@string/change_text"/>
@@ -80,18 +87,22 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/filter_by_text"
+                    android:id="@+id/tableFilterCategoryTextView"
                     android:textSize="@dimen/header_font_size"/>
                 <Spinner
                     android:paddingLeft="@dimen/general_padding"
+                    android:id="@+id/tableFilterCategorySpinner"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
                 <TextView
                     android:paddingLeft="@dimen/general_padding"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:id="@+id/tableFilterKeywordTextView"
                     android:text="@string/keyword_text"
                     android:textSize="@dimen/header_font_size"/>
                 <EditText
+                    android:id="@+id/tableFilterKeywordEditText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </GridLayout>
@@ -103,6 +114,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:text="@string/ok_text"
+        android:id="@+id/tableSettingsBtnOk"
         android:layout_marginBottom="60dp"
         android:background="@drawable/rounded_button"
         android:textColor="@color/colorWhite"/>

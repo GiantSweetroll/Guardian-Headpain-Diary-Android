@@ -22,4 +22,10 @@
         android:name="com.gardyanakbar.guardianheadpaindiary.ui.graph.GraphFragment"
         android:label="@string/nav_bar_graph"
         tools:layout="@layout/fragment_graph" />
+
+    <fragment
+        android:id="@+id/navigation_table"
+        android:name="com.gardyanakbar.guardianheadpaindiary.ui.table.TableFragment"
+        android:label="@string/nav_bar_table"
+        tools:layout="@layout/fragment_table" />
 </navigation>
