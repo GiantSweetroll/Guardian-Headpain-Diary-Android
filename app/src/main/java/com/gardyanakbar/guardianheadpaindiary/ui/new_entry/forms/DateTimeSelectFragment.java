@@ -41,22 +41,22 @@ public class DateTimeSelectFragment extends FormElement
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
-            return Integer.toString(this.time.getHour());
+            return Methods.addLeadingZero(Integer.toString(this.time.getHour()), 2);
         }
         else
         {
-            return Integer.toString(this.time.getCurrentHour());
+            return Methods.addLeadingZero(Integer.toString(this.time.getCurrentHour()), 2);
         }
     }
     public String getTimeMinutes()
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)
         {
-            return Integer.toString(this.time.getMinute());
+            return Methods.addLeadingZero(Integer.toString(this.time.getMinute()), 2);
         }
         else
         {
-            return Integer.toString(this.time.getCurrentMinute());
+            return Methods.addLeadingZero(Integer.toString(this.time.getCurrentMinute()), 2);
         }
     }
     public void setDate(Date date)

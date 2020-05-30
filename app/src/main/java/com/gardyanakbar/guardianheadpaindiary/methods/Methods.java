@@ -836,4 +836,25 @@ public class Methods
 
         return str;
     }
+
+    /**
+     * Adds leading zero(es) to a string. The amount of zeroes to be added is by maxDigit - str.length().
+     * If the value is negative or zero, the original string is returned.
+     * @param str - the string to be manipulated
+     * @param maxDigit - the max length the string should have
+     * @return a new string instance with the added (or original) zeroes.
+     */
+    public static String addLeadingZero(String str, int maxDigit)
+    {
+        if (str.length() < maxDigit)
+        {
+            int missing = maxDigit - str.length();
+            for (int i=0; i<missing; i++)
+            {
+                str = "0" + str;
+            }
+        }
+
+        return str;
+    }
 }
