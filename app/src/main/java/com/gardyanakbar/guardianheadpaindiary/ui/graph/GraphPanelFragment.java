@@ -23,6 +23,7 @@ import java.util.List;
 
 import giantsweetroll.date.Date;
 
+@Deprecated
 public class GraphPanelFragment extends Fragment implements GUIFunctions
 {
     /*
