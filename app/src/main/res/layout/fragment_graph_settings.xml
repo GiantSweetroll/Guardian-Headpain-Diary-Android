@@ -35,6 +35,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/header_font_size"
+            android:padding="@dimen/general_padding"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"
             android:id="@+id/graphSettingsDateFromChangeButton"
             android:layout_margin="@dimen/general_padding"
             android:text="@string/change_text"/>
@@ -57,6 +60,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="@dimen/header_font_size"
+            android:padding="@dimen/general_padding"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"
             android:layout_margin="@dimen/general_padding"
             android:id="@+id/graphSettingsDateToChangeButton"
             android:text="@string/change_text"/>
