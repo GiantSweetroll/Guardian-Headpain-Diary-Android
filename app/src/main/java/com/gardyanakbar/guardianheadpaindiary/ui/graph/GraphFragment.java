@@ -38,7 +38,7 @@ public class GraphFragment extends Fragment
 //            }
 //        });
         this.graphPanel = new GraphPanelFragment(this);
-        this.graphSettings = new GraphSettingsFragment(this);
+        this.graphSettings = new GraphSettingsFragment();
 
         //Add graph panel
         FragmentTransaction transaction = this.getFragmentManager().beginTransaction();

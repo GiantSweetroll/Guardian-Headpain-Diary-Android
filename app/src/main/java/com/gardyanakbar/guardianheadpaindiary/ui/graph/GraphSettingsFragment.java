@@ -12,6 +12,7 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -34,14 +35,6 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
     private DatePickerDialog dateFromDialog, dateToDialog;
     private Spinner graphCatSpinner;
     private CheckBox checkDataVal, checkDataVoid, checkDataPoints;
-    private Fragment parent;
-
-    //Constructor
-    public GraphSettingsFragment(Fragment parent)
-    {
-        super();
-        this.parent = parent;
-    }
 
     //Private Methods
     /**
@@ -79,7 +72,6 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
     }
 
     //Public Methods
-
     /**
      * Get the initial date range
      * @return the initial date
@@ -266,5 +258,12 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
     public void revalidateLanguage()
     {
 
+    }
+
+    @Override
+    public void onPause()
+    {
+        super.onPause();
+        GraphFragment.graphPanel.refresh();
     }
 }
