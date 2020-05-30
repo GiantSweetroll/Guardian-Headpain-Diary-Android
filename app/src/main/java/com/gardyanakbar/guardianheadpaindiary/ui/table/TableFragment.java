@@ -48,14 +48,16 @@ public class TableFragment extends Fragment
     {
         this.entries.clear();
 
+        Log.d(TAG, "updateEntries: Table Settings data driver dateFrom is null: " + (Globals.tableSettings.getDateFrom() == null));
+
         Log.d(TAG, "updateEntries: called");
-        Date dateFrom = this.settings.getDateFrom();
+        Date dateFrom = Globals.tableSettings.getDateFrom();
         Log.d(TAG, "updateEntries: Get entry from date: " + dateFrom.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
-        Date dateTo = this.settings.getDateTo();
+        Date dateTo = Globals.tableSettings.getDateTo();
         Log.d(TAG, "updateEntries: Get entry to date: " + dateTo.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
-        String filterType = this.settings.getFilterCategory();
+        String filterType = Globals.tableSettings.getFilterCategory();
         Log.d(TAG, "updateEntries: Filter category: " + filterType);
-        String keyword = this.settings.getFilterKeyword();
+        String keyword = Globals.tableSettings.getFilterKeyword();
         Log.d(TAG, "updateEntries: Filter keyword: " + keyword);
 
         try

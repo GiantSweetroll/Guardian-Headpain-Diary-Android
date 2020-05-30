@@ -5,6 +5,7 @@ import android.os.Bundle;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.TableSettings;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,7 @@ import androidx.navigation.ui.NavigationUI;
 
 public class MainActivity extends AppCompatActivity
 {
+    private static final String TAG = "MainActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -33,5 +35,6 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupWithNavController(navView, navController);
         Globals.settings = new Settings(this);
         Globals.activePatient = new PatientData();
+        Globals.tableSettings = new TableSettings();
     }
 }

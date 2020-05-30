@@ -2,10 +2,10 @@ package com.gardyanakbar.guardianheadpaindiary.ui.table;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -17,6 +17,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ import giantsweetroll.date.Date;
 public class TableSettingsFragment extends Fragment
 {
     //Fields
+    private static final String TAG = "TableSettingsFragment";
     private TextView labDateFrom, labDateFromValue, labDateTo, labDateToValue;
     private Date dateFrom, dateTo;
     private DatePickerDialog dateFromDialog, dateToDialog;
@@ -55,14 +57,12 @@ public class TableSettingsFragment extends Fragment
     }
 
     /**
-     * Updates the date selection from the date picker
-     * @param dialog - the DatePickerDialog object
+     * Updates the date value label
      * @param date - the Date object to hold the new date information
      * @param dateLabel - the TextView to display the current selected date
      */
-    private void updateDateSelection(DatePickerDialog dialog, Date date, TextView dateLabel)
+    private void updateDateSelection(Date date, TextView dateLabel)
     {
-        date = Methods.getDateFromPicker(dialog.getDatePicker());
         dateLabel.setText(date.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
     }
 
@@ -110,7 +110,25 @@ public class TableSettingsFragment extends Fragment
         }
         else
         {
+            Log.d(TAG, "getFilterCategory: filterCatSpinner is null");
             return "";
+        }
+    }
+
+    /**
+     * Get the graph category index from the spinner.
+     * @return the selected graph category index.
+     */
+    public int getFilterCategoryIndex()
+    {
+        if (this.filterCatSpinner != null)
+        {
+            return this.filterCatSpinner.getSelectedItemPosition();
+        }
+        else
+        {
+            Log.d(TAG, "getFilterCategory: filterCatSpinner is null");
+            return 0;
         }
     }
     /**
@@ -158,20 +176,15 @@ public class TableSettingsFragment extends Fragment
         this.tfKeyword = (EditText)root.findViewById(R.id.tableFilterKeywordEditText);
 
         //Properties
-        updateDateSelection(dateFromDialog, dateFrom, labDateFromValue);
-        updateDateSelection(dateToDialog, dateTo, labDateToValue);
+        this.dateFrom = Globals.tableSettings.getDateFrom();
+        this.dateTo = Globals.tableSettings.getDateTo();
+        Methods.setDateOnPicker(this.dateFromDialog.getDatePicker(), this.dateFrom);
+        Methods.setDateOnPicker(this.dateToDialog.getDatePicker(), this.dateTo);
+        updateDateSelection(this.dateFrom, this.labDateFromValue);
+        updateDateSelection(this.dateTo, this.labDateToValue);
         this.filterCatSpinner.setAdapter(this.getTableFilterCatSpinnerAdapter());
-        this.filterCatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
-        {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id)
-            {
-                //TODO: Change table data
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent){}
-        });
+        this.filterCatSpinner.setSelection(Globals.tableSettings.getFilterCategoryIndex());
+        this.tfKeyword.setText(Globals.tableSettings.getFilterKeyword());
         this.btnDateFrom.setOnClickListener(new View.OnClickListener()
         {
             @Override
@@ -193,8 +206,8 @@ public class TableSettingsFragment extends Fragment
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
-                //TODO: Update table data with new date range
-                updateDateSelection(dateFromDialog, dateFrom, labDateFromValue);
+                Methods.updateDateFromPicker(view, dateFrom);
+                updateDateSelection(dateFrom, labDateFromValue);
             }
         });
         this.dateToDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener()
@@ -202,8 +215,8 @@ public class TableSettingsFragment extends Fragment
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
-                //TODO: Update table data with new date range
-                updateDateSelection(dateToDialog, dateTo, labDateToValue);
+                Methods.updateDateFromPicker(view, dateTo);
+                updateDateSelection(dateTo, labDateToValue);
             }
         });
         this.btnOk.setOnClickListener(new View.OnClickListener()
@@ -214,5 +227,18 @@ public class TableSettingsFragment extends Fragment
                 getFragmentManager().popBackStackImmediate();
             }
         });
+    }
+
+    @Override
+    public void onPause()
+    {
+        Globals.tableSettings.setDateFrom(this.dateFrom);
+        Globals.tableSettings.setDateTo(this.dateTo);
+        Globals.tableSettings.setFilterCategory(this.getFilterCategory());
+        Globals.tableSettings.setFilterCategoryIndex(this.getFilterCategoryIndex());
+        Globals.tableSettings.setFilterKeyword(this.getFilterKeyword());
+        super.onPause();
+
+        Log.d(TAG, "onPause: Fragment paused");
     }
 }

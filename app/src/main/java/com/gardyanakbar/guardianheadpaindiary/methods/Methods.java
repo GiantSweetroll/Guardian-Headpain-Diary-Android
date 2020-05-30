@@ -793,13 +793,35 @@ public class Methods
     }
 
     /**
-     * Converts the date picker selection to an object of Date from GG-Library
+     * Converts the date picker selection to an object of Date from GG-Library. It returns a new Date
      * @param picker - the date picker
      * @return a Date object from GG-Library with data containing the date selection from the date picker.
      */
     public static Date getDateFromPicker(DatePicker picker)
     {
         return new Date(picker.getDayOfMonth(), picker.getMonth() + 1, picker.getYear());
+    }
+
+    /**
+     * Updates the specified Date with the data from the date picker. Does not return a new instance of Date
+     * @param picker - the date picker
+     * @param date -  a Date object to be manipulated.
+     */
+    public static void updateDateFromPicker(DatePicker picker, Date date)
+    {
+        date.setYear(picker.getYear());
+        date.setMonth(picker.getMonth() + 1);
+        date.setDay(picker.getDayOfMonth());
+    }
+
+    /**
+     * Sets the date on the date picker
+     * @param picker - the DatePicker object
+     * @param date -  the Date object
+     */
+    public static void setDateOnPicker(DatePicker picker, Date date)
+    {
+        picker.updateDate(date.getYear(), date.getMonth()-1, date.getDay());
     }
 
     /**

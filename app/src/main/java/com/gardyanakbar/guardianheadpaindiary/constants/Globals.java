@@ -3,6 +3,7 @@ package com.gardyanakbar.guardianheadpaindiary.constants;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.History;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.TableSettings;
 
 public final class Globals
 {
@@ -15,4 +16,5 @@ public final class Globals
     //Settings
     public static Settings settings;
     public static PatientData activePatient;
+    public static TableSettings tableSettings;
 }
