@@ -1,5 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.methods;
 
+import android.util.Log;
+
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.History;
@@ -7,12 +9,15 @@ import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
 
+import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import java.io.BufferedWriter;
+import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashMap;
@@ -20,6 +25,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.transform.TransformerException;
 
@@ -30,6 +37,8 @@ import giantsweetroll.xml.dom.XMLManager;
 
 public class FileOperation
 {
+    private static final String TAG = "FileOperation";
+
     /**
      * Loads the contents of a file and saves it in a List of String, with each element containing each line.
      * @param file
@@ -136,6 +145,8 @@ public class FileOperation
      */
     public static List<PainEntryData> getListOfEntries(String patientID, Date from, Date to)
     {
+        Log.d(TAG, "getListOfEntries: Getting list of entries...");
+        Log.d(TAG, "getListOfEntries: date range: " + from.toString(Date.DAY, Date.MONTH, Date.YEAR, "-") + " to " + to.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
         List<PainEntryData> list = new ArrayList<PainEntryData>();
         try
         {
@@ -148,6 +159,7 @@ public class FileOperation
                     false, FileManager.FOLDER_ONLY,
                     FileManager.NAME_ONLY);
 //			MessageManager.printLine("Size of years: " + legibleYears.size());
+            Log.d(TAG, "getListOfEntries: size of years before filtering: " + legibleYears.size());
             for (int i=0; i<legibleYears.size(); i++)
             {
                 try
@@ -171,10 +183,12 @@ public class FileOperation
             //Add leading zeroes to String, then sort
             Methods.addZeroesToList(legibleYears);
             Collections.sort(legibleYears);
+            Log.d(TAG, "getListOfEntries: size of years after filtering: " + legibleYears.size());
             //		MessageManager.printLine("Size of elligible years: " + legibleYears.size());
 
             //Get month range
             LinkedHashMap<String, List<String>> legibleMonthsMap = new LinkedHashMap<String, List<String>>();
+            Log.d(TAG, "getListOfEntries: Size of months before filtering: " + legibleMonthsMap.size());
             //		MessageManager.printLine("Size of eligible months before: " + legibleMonthsMap.size());
             if (legibleYears.size() == 1)
             {
@@ -220,6 +234,7 @@ public class FileOperation
                 }
                 //If not, accept all months
 
+                Log.d(TAG, "getListOfEntries: Size of months after fitler: " + legibleMonths.size());
 //				MessageManager.printLine("Number of months after filter: " + legibleMonths.size() + " (" + legibleYears.get(0) + ")");
                 legibleMonthsMap.put(legibleYears.get(0), legibleMonths);
             }
@@ -309,6 +324,7 @@ public class FileOperation
                     path = userDatabasePath + entry.getKey() + File.separator + path;
                     //		System.out.println(path);
                     FileManager.getListOfFiles(legibleDays, path, false, FileManager.FOLDER_ONLY, FileManager.NAME_ONLY);
+                    Log.d(TAG, "getListOfEntries: Amount of legible days from month " + entry.getValue().get(i) + " before filter: " + legibleDays.size());
                     //			MessageManager.printLine("Amount of legible days from month " + entry.getValue().get(i) + "before filter: " + legibleDays.size());
 
                     if (entry.getKey().equals(Integer.toString(from.getYear())))		//if the first eligible year is equal to the min year
@@ -401,7 +417,9 @@ public class FileOperation
 
                         List<String> fileList = new ArrayList<String>();
 //						FileManager.getListOfFiles(fileList, userDatabasePath + entryYear.getKey() + File.separator + entryMonth.getKey() + File.separator + entryMonth.getValue().get(i), false, FileManager.FILE_ONLY, FileManager.ABSOLUTE_PATH);
-                        FileManager.getListOfFiles(fileList, userDatabasePath + year + File.separator + month + File.separator + day, false, FileManager.FILE_ONLY, FileManager.ABSOLUTE_PATH);
+                        String directory = userDatabasePath + year + File.separator + month + File.separator + day;
+                        Log.d(TAG, "getListOfEntries: directory: " + directory);
+                        FileManager.getListOfFiles(fileList, directory, false, FileManager.FILE_ONLY, FileManager.ABSOLUTE_PATH);
                         for (int a=0; a<fileList.size(); a++)
                         {
                             filePaths.add(fileList.get(a));
@@ -411,15 +429,26 @@ public class FileOperation
             }
 
             //Parse into PainEntryData
+            Log.d(TAG, "getListOfEntries: parsing into PainEntryData...");
             for (int i=0; i<filePaths.size(); i++)
             {
+
                 try
                 {
+                    Log.d(TAG, "getListOfEntries: parsing " + filePaths.get(i) + "...");
                     list.add(new PainEntryData(XMLManager.createDocument(filePaths.get(i), false)));
+                    Log.d(TAG, "getListOfEntries: " + (i+1) + " items parsed");
                 }
-                catch (ParserConfigurationException | SAXException | IOException ex)
+                catch (ParserConfigurationException | SAXException ex)
                 {
+                    Log.d(TAG, "getListOfEntries: Failed to parse " + filePaths.get(i));
+                    Log.e(TAG, "getListOfEntries: " + ex.getMessage());
                     ex.printStackTrace();
+                }
+                catch(IOException ex)
+                {
+                    Log.d(TAG, "getListOfEntries: Failed to parse " + filePaths.get(i) + " due to an IOException: " + ex.getMessage());
+                    Log.e(TAG, "getListOfEntries: " + ex.getMessage());
                 }
             }
 
@@ -431,6 +460,8 @@ public class FileOperation
         {
 //			ex.printStackTrace();
         }
+
+        Log.d(TAG, "getListOfEntries: entries collected with a size of " + Integer.toString(list.size()));
 
         return list;
     }
@@ -790,5 +821,21 @@ public class FileOperation
     {
         history.add(item);
         FileOperation.saveHistory(history, patient);
+    }
+
+    /**
+     * Parses an xml file using DOMParser.
+     * @param path
+     * @return a Document object of the XML
+     * @throws ParserConfigurationException
+     * @throws IOException
+     * @throws SAXException
+     */
+    public static Document createDocument(String path) throws ParserConfigurationException, IOException, SAXException
+    {
+        InputStream is = new ByteArrayInputStream(path.getBytes("UTF-8"));
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+        DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+        return dBuilder.parse(is);
     }
 }
