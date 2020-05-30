@@ -1,5 +1,8 @@
 package com.gardyanakbar.guardianheadpaindiary.methods;
 
+import android.content.Context;
+
+import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.PainDataIdentifier;
 import com.gardyanakbar.guardianheadpaindiary.constants.XMLIdentifier;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
@@ -250,41 +253,49 @@ public class PainDataOperation
         return map;
     }
 
+    /**
+     * Filters entries based upon a certain category and keyword
+     * @param context - the context
+     * @param filterType - filter category
+     * @param filter - filter keyword
+     * @param list - the list of entries
+     * @return a list of the entries that contains the specified keyword in the category
+     */
     @Deprecated
-    public static List<PainEntryData> getFilteredData(String filterType, String filter, List<PainEntryData> list)
+    public static List<PainEntryData> getFilteredData(Context context, String filterType, String filter, List<PainEntryData> list)
     {
         if (!filter.equals(""))			//If filter is not empty
         {
             loop:
             for (int i=0; i<list.size(); i++)
             {
-                if (filterType.equals(XMLIdentifier.TABLE_FILTER_TYPE_PAIN_AMOUNT_TEXT))		//If filtered by amount of pain
-                {
-                    if (!list.get(i).getDataMap().get(PainDataIdentifier.PAIN_AMOUNT).toString().equalsIgnoreCase(filter))
-                    {
-                        list.remove(i);
-                        i=-1;
-                        continue loop;
-                    }
-                }
-                else if (filterType.equals(XMLIdentifier.TABLE_FILTER_TYPE_PAIN_POSITIONS_TEXT))		//If filtered by pain position
-                {
-                    String positions = list.get(i).getPainPositionsAsString();
-                    for (int a=0; a<positions.length(); a++)
-                    {
-                        for (int b=a+1; b<=positions.length(); b++)
-                        {
-                            if (positions.substring(a, b).equalsIgnoreCase(filter))
-                            {
-                                continue loop;
-                            }
-                        }
-                    }
-                    list.remove(i);
-                    i=-1;
-                    continue loop;
-                }
-                else if (filterType.equals(XMLIdentifier.TABLE_FILTER_TYPE_PAIN_KINDS_TEXT))		//If filtered by pain kinds
+//                if (filterType.equals(XMLIdentifier.TABLE_FILTER_TYPE_PAIN_AMOUNT_TEXT))		//If filtered by amount of pain
+//                {
+//                    if (!list.get(i).getDataMap().get(PainDataIdentifier.PAIN_AMOUNT).toString().equalsIgnoreCase(filter))
+//                    {
+//                        list.remove(i);
+//                        i=-1;
+//                        continue loop;
+//                    }
+//                }
+//                else if (filterType.equals(XMLIdentifier.TABLE_FILTER_TYPE_PAIN_POSITIONS_TEXT))		//If filtered by pain position
+//                {
+//                    String positions = list.get(i).getPainPositionsAsString();
+//                    for (int a=0; a<positions.length(); a++)
+//                    {
+//                        for (int b=a+1; b<=positions.length(); b++)
+//                        {
+//                            if (positions.substring(a, b).equalsIgnoreCase(filter))
+//                            {
+//                                continue loop;
+//                            }
+//                        }
+//                    }
+//                    list.remove(i);
+//                    i=-1;
+//                    continue loop;
+//                }
+                if (filterType.equals(context.getString(R.string.table_settings_filter_pain_kind)))		//If filtered by pain kinds
                 {
                     String painKinds = list.get(i).getPainKind();
                     for (int a=0; a<painKinds.length(); a++)
@@ -301,7 +312,7 @@ public class PainDataOperation
                     i=-1;
                     continue loop;
                 }
-                else if (filterType.equals(XMLIdentifier.TABLE_FILTER_TYPE_INTENSITIES_TEXT))		//If filtered by intensities
+                else if (filterType.equals(context.getString(R.string.table_settings_filter_intensity)))		//If filtered by intensities
                 {
                     //			String intensities = list.get(i).getIntensitiesAsString();
                     String intensities = list.get(i).getIntensity();
@@ -319,7 +330,7 @@ public class PainDataOperation
                     i=-1;
                     continue loop;
                 }
-                else if (filterType.equals(XMLIdentifier.TABLE_FILTER_TYPE_DURATIONS_TEXT))		//If filtered by durations
+                else if (filterType.equals(context.getString(R.string.table_settings_filter_duration)))		//If filtered by durations
                 {
                     String durations = list.get(i).getDuration();
                     for (int a=0; a<durations.length(); a++)
@@ -336,7 +347,7 @@ public class PainDataOperation
                     i=-1;
                     continue loop;
                 }
-                else if (filterType.equals(XMLIdentifier.TABLE_FILTER_TYPE_TRIGGER_TEXT))		//If filtered by activity
+                else if (filterType.equals(context.getString(R.string.table_settings_filter_trigger)))		//If filtered by trigger
                 {
                     String activity = list.get(i).getTrigger();
                     for (int a=0; a<activity.length(); a++)
@@ -353,7 +364,7 @@ public class PainDataOperation
                     i=-1;
                     continue loop;
                 }
-                else if (filterType.equals(XMLIdentifier.TABLE_FILTER_TYPE_COMMENTS_TEXT))		//If filtered by comments
+                else if (filterType.equals(context.getString(R.string.table_settings_filter_comments)))		//If filtered by comments
                 {
                     String comment = list.get(i).getComments();
                     for (int a=0; a<comment.length(); a++)
@@ -376,7 +387,6 @@ public class PainDataOperation
 
         return list;
     }
-
 
     public static List<PainEntryData> insertEmptyData(List<PainEntryData> source, Date dateFrom, Date dateTo)
     {
