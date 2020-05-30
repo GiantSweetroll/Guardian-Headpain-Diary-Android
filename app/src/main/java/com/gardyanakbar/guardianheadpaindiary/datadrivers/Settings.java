@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.datadrivers;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
@@ -22,6 +23,7 @@ public class Settings
     private Context context;
 
     //Constants
+    private static final String TAG = "Settings";
     public static final String ROOT_NODE_NAME = "settings";
     public static final String DATABASE_PATH = "database_path";
     public static final String DATABASE_USERS_PATH = "database_users_path";
@@ -153,6 +155,7 @@ public class Settings
     }
     public String getEntriesDatabasePath()
     {
+        Log.d(TAG, "getEntriesDatabasePath: database path: " + this.getDataMap().get(Settings.DATABASE_PATH));
         return this.getDataMap().get(Settings.DATABASE_PATH);
     }
     public String getUserDatabaseFolderName()
