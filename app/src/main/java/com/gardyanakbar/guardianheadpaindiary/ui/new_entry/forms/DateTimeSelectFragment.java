@@ -16,6 +16,7 @@ import androidx.annotation.RequiresApi;
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
+import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
 import giantsweetroll.date.Date;
 
@@ -34,11 +35,7 @@ public class DateTimeSelectFragment extends FormElement
     //Public Methods
     public Date getDate()
     {
-        Date date = new Date();
-        date.setYear(this.date.getYear());
-        date.setMonth(this.date.getMonth());
-        date.setDay(this.date.getDayOfMonth());
-        return date;
+        return Methods.getDateFromPicker(this.date);
     }
     public String getTimeHour()
     {
