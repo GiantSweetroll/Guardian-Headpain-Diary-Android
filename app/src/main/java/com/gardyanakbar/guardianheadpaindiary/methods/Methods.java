@@ -2,12 +2,9 @@ package com.gardyanakbar.guardianheadpaindiary.methods;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TextView;
-
-import androidx.core.content.ContextCompat;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
@@ -33,6 +30,8 @@ import giantsweetroll.xml.dom.XMLManager;
 
 public class Methods
 {
+    private static final String TAG = "Methods";
+
     public static final String createTextWithRequiredIdentifier(String text)
     {
         return "<html>" + text + "<font color='red'>" + Constants.REQUIRED_IDENTIFIER + "</font></html>";
@@ -737,7 +736,8 @@ public class Methods
      */
     public static String getDatabasePath(Context context)
     {
-        return context.getFilesDir() + File.separator + "data" + File.separator + "database" + File.separator;
+        Log.d(TAG, "getDatabasePath: files dir: " + context.getFilesDir());
+        return context.getFilesDir().getParentFile().getPath() + File.separator + "data" + File.separator + "database" + File.separator;
     }
 
     /**
@@ -799,7 +799,7 @@ public class Methods
      */
     public static Date getDateFromPicker(DatePicker picker)
     {
-        return new Date(picker.getDayOfMonth(), picker.getMonth(), picker.getYear());
+        return new Date(picker.getDayOfMonth(), picker.getMonth() + 1, picker.getYear());
     }
 
     /**
