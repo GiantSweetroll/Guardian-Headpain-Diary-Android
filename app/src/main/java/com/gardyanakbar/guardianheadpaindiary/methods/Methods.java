@@ -737,7 +737,7 @@ public class Methods
     public static String getDatabasePath(Context context)
     {
         Log.d(TAG, "getDatabasePath: files dir: " + context.getFilesDir());
-        return context.getFilesDir().getParentFile().getPath() + File.separator + "data" + File.separator + "database" + File.separator;
+        return context.getFilesDir() + File.separator + "data" + File.separator + "database" + File.separator;
     }
 
     /**
@@ -757,7 +757,7 @@ public class Methods
      */
     public static String getSettingsFolderPath(Context context)
     {
-        return context.getFilesDir() + File.separator + "data" + File.separator + "settings" + File.separator;
+        return File.separator + "data" + File.separator + "settings" + File.separator;
     }
 
     /**

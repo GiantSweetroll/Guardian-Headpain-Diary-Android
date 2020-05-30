@@ -1,5 +1,6 @@
 package com.gardyanakbar.guardianheadpaindiary.methods;
 
+import android.content.Context;
 import android.util.Log;
 
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
@@ -8,13 +9,14 @@ import com.gardyanakbar.guardianheadpaindiary.datadrivers.History;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
+import com.gardyanakbar.guardianheadpaindiary.ui.table.PainEntryAdapter;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
 
 import java.io.BufferedWriter;
-import java.io.ByteArrayInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -436,7 +438,8 @@ public class FileOperation
                 try
                 {
                     Log.d(TAG, "getListOfEntries: parsing " + filePaths.get(i) + "...");
-                    list.add(new PainEntryData(XMLManager.createDocument(filePaths.get(i), false)));
+                    PainEntryData entry = new PainEntryData(FileOperation.createDocument(filePaths.get(i)));
+                    list.add(entry);
                     Log.d(TAG, "getListOfEntries: " + (i+1) + " items parsed");
                 }
                 catch (ParserConfigurationException | SAXException ex)
@@ -833,7 +836,8 @@ public class FileOperation
      */
     public static Document createDocument(String path) throws ParserConfigurationException, IOException, SAXException
     {
-        InputStream is = new ByteArrayInputStream(path.getBytes("UTF-8"));
+        File file = new File(path);
+        InputStream is = new FileInputStream(file);
         DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
         return dBuilder.parse(is);
