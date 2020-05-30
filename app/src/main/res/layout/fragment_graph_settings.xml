@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@color/colorAppBase"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <TextView
@@ -113,12 +114,11 @@
         android:layout_height="match_parent"
         android:orientation="horizontal"
         android:gravity="bottom|center_horizontal"
-        android:layout_marginBottom="60dp">
+        android:paddingBottom="60dp">
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ok_text"
-            android:layout_margin="@dimen/general_padding"
             android:background="@drawable/rounded_button"
             android:textColor="@color/colorWhite"
             android:id="@+id/graphSettingsBtnOk"/>

@@ -3,6 +3,7 @@ package com.gardyanakbar.guardianheadpaindiary;
 import android.os.Bundle;
 
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.GraphSettings;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.TableSettings;
@@ -36,5 +37,6 @@ public class MainActivity extends AppCompatActivity
         Globals.settings = new Settings(this);
         Globals.activePatient = new PatientData();
         Globals.tableSettings = new TableSettings();
+        Globals.graphSettings = new GraphSettings();
     }
 }

@@ -1,14 +1,11 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.graph;
 
 import android.os.Bundle;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ScrollView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -17,6 +14,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
+import com.gardyanakbar.guardianheadpaindiary.interfaces.GUIFunctions;
 import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
 import com.gardyanakbar.guardianheadpaindiary.methods.PainDataOperation;
 
@@ -25,12 +23,12 @@ import java.util.List;
 
 import giantsweetroll.date.Date;
 
-public class GraphPanelFragment extends Fragment
+public class GraphPanelFragment extends Fragment implements GUIFunctions
 {
     //Fields
-    private Graph graph;
+    public Graph graph;
     private Button btnSettings, btnExport, btnSwitch;
-    private ScrollView scroll;
+    public ScrollView scroll;
     private Fragment parent;
     private boolean graphReversed;
 
@@ -163,5 +161,14 @@ public class GraphPanelFragment extends Fragment
         });
 
         return root;
+    }
+
+    @Override
+    public void resetDefaults() {}
+
+    @Override
+    public void refresh()
+    {
+        this.initGraph();
     }
 }

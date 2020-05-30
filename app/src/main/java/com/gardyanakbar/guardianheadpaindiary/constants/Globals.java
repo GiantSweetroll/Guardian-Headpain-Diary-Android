@@ -1,5 +1,6 @@
 package com.gardyanakbar.guardianheadpaindiary.constants;
 
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.GraphSettings;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.History;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
@@ -17,4 +18,5 @@ public final class Globals
     public static Settings settings;
     public static PatientData activePatient;
     public static TableSettings tableSettings;
+    public static GraphSettings graphSettings;
 }

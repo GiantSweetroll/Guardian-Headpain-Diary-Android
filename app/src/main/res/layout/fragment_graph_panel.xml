@@ -5,40 +5,5 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/graphScroll">
 
-    </ScrollView>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:gravity="center">
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/settings_text"
-            android:layout_margin="@dimen/general_padding"
-            android:textColor="@color/colorWhite"
-            android:background="@drawable/rounded_button"
-            android:id="@+id/graphButtonSetting"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:layout_margin="@dimen/general_padding"
-            android:background="@drawable/rounded_button"
-            android:text="@string/graph_export_text"
-            android:id="@+id/graphButtonExport"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:layout_margin="@dimen/general_padding"
-            android:background="@drawable/rounded_button"
-            android:text="@string/graph_switch_text"
-            android:id="@+id/graphButtonSwitch"/>
-    </LinearLayout>
 </LinearLayout>

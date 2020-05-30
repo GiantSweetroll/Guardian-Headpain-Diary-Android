@@ -1,9 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/graphFragmentContainer">
-</LinearLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:id="@+id/graphScroll">
+    </ScrollView>
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingBottom="60dp"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="@dimen/general_padding"
+            android:background="@drawable/rounded_button"
+            android:text="@string/graph_export_text"
+            android:id="@+id/graphButtonExport"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/settings_text"
+            android:layout_margin="@dimen/general_padding"
+            android:textColor="@color/colorWhite"
+            android:background="@drawable/rounded_button"
+            android:id="@+id/graphButtonSetting"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="@dimen/general_padding"
+            android:background="@drawable/rounded_button"
+            android:text="@string/graph_switch_text"
+            android:id="@+id/graphButtonSwitch"/>
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/colorWhite"
+            android:layout_margin="@dimen/general_padding"
+            android:background="@drawable/rounded_button"
+            android:text="@string/refresh_text"
+            android:id="@+id/graphButtonRefresh"/>
+    </LinearLayout>
+</RelativeLayout>

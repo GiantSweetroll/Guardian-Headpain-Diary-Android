@@ -18,6 +18,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.LanguageListener;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
@@ -60,14 +61,12 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
     }
 
     /**
-     * Updates the date selection from the date picker
-     * @param dialog - the DatePickerDialog object
+     * Updates the date value label
      * @param date - the Date object to hold the new date information
      * @param dateLabel - the TextView to display the current selected date
      */
-    private void updateDateSelection(DatePickerDialog dialog, Date date, TextView dateLabel)
+    private void updateDateSelection(Date date, TextView dateLabel)
     {
-        date = Methods.getDateFromPicker(dialog.getDatePicker());
         dateLabel.setText(date.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
     }
 
@@ -116,6 +115,22 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         else
         {
             return "";
+        }
+    }
+
+    /**
+     * Get the graph category index.
+     * @return the index of the selected item
+     */
+    public int getGraphCategoryIndex()
+    {
+        if (this.graphCatSpinner != null)
+        {
+            return this.graphCatSpinner.getSelectedItemPosition();
+        }
+        else
+        {
+            return 0;
         }
     }
     /**
@@ -196,8 +211,10 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         this.btnOk = (Button)root.findViewById(R.id.graphSettingsBtnOk);
 
         //Properties
-        updateDateSelection(dateFromDialog, dateFrom, labDateFromValue);
-        updateDateSelection(dateToDialog, dateTo, labDateToValue);
+        this.dateFrom = Globals.graphSettings.getDateFrom();
+        this.dateTo = Globals.graphSettings.getDateTo();
+        updateDateSelection(dateFrom, labDateFromValue);
+        updateDateSelection(dateTo, labDateToValue);
         this.graphCatSpinner.setAdapter(this.getGraphCatSpinnerAdapter());
         this.graphCatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -232,7 +249,8 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
                 //TODO: Update Graph data with new date range
-                updateDateSelection(dateFromDialog, dateFrom, labDateFromValue);
+                Methods.updateDateFromPicker(view, dateFrom);
+                updateDateSelection(dateFrom, labDateFromValue);
             }
         });
         this.dateToDialog.setOnDateSetListener(new DatePickerDialog.OnDateSetListener()
@@ -241,7 +259,8 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
                 //TODO: Update Graph data with new date range
-                updateDateSelection(dateToDialog, dateTo, labDateToValue);
+                Methods.updateDateFromPicker(view, dateTo);
+                updateDateSelection(dateTo, labDateToValue);
             }
         });
         this.btnOk.setOnClickListener(new View.OnClickListener()
@@ -263,7 +282,13 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
     @Override
     public void onPause()
     {
+        Globals.graphSettings.setDateFrom(this.getDateFrom());
+        Globals.graphSettings.setDateTo(this.getDateTo());
+        Globals.graphSettings.setCategory(this.getGraphCategory());
+        Globals.graphSettings.setCategoryIndex(this.getGraphCategoryIndex());
+        Globals.graphSettings.setShowDataValues(this.isShowDataValuesSelected());
+        Globals.graphSettings.setShowDataVoid(this.isDisplayEmptyDataSelected());
+        Globals.graphSettings.setShowDataPoints(this.isDisplayDataPointsSelected());
         super.onPause();
-        GraphFragment.graphPanel.refresh();
     }
 }
