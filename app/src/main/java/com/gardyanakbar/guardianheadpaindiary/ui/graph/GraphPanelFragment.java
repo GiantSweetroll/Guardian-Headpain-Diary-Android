@@ -25,6 +25,10 @@ import giantsweetroll.date.Date;
 
 public class GraphPanelFragment extends Fragment implements GUIFunctions
 {
+    /*
+            THIS CLASS IS NOT USED
+     */
+
     //Fields
     public Graph graph;
     private Button btnSettings, btnExport, btnSwitch;
