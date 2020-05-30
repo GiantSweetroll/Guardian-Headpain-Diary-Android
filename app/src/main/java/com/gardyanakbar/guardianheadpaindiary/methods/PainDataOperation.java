@@ -259,10 +259,10 @@ public class PainDataOperation
      * @param filterType - filter category
      * @param filter - filter keyword
      * @param list - the list of entries
-     * @return a list of the entries that contains the specified keyword in the category
+     * @return
      */
     @Deprecated
-    public static List<PainEntryData> getFilteredData(Context context, String filterType, String filter, List<PainEntryData> list)
+    public static void getFilteredData(Context context, String filterType, String filter, List<PainEntryData> list)
     {
         if (!filter.equals(""))			//If filter is not empty
         {
@@ -384,8 +384,6 @@ public class PainDataOperation
 
             }
         }
-
-        return list;
     }
 
     public static List<PainEntryData> insertEmptyData(List<PainEntryData> source, Date dateFrom, Date dateTo)
