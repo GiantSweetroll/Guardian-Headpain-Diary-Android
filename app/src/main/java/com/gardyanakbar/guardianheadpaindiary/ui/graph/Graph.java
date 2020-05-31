@@ -111,7 +111,7 @@ public abstract class Graph extends View implements LanguageListener
         this.graph2DImage = new Canvas(this.graphImage);
 
         //Properties
-        this.paint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        this.paint.setAntiAlias(true);
 
         this.enableDataValueMarkers = false;
         this.displayDataPoint = true;
