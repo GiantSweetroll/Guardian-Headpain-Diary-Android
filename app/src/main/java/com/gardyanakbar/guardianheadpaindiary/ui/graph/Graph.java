@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
@@ -27,6 +28,7 @@ import giantsweetroll.numbers.GNumbers;
 public abstract class Graph extends View implements LanguageListener
 {
     //Fields
+    private static final String TAG = "Graph";
     private String xAxisName;
     private String yAxisName;
     private LinkedHashMap<String, Double> dataMap;
@@ -50,7 +52,7 @@ public abstract class Graph extends View implements LanguageListener
     protected int xAxisNameTextHeight;
     protected Canvas graph2DImage;
     protected Paint paint;
-    protected final Point graphImageSize = new Point(1280, 720);
+    protected final Point graphImageSize = new Point(1920, 1920);
 
     //Options
     protected boolean enableDataValueMarkers;
@@ -95,6 +97,7 @@ public abstract class Graph extends View implements LanguageListener
     //Private Methods
     private void init(LinkedHashMap<String, Double> dataMap, String xAxisName, String yAxisName)
     {
+        Log.d(TAG, "init: Initializer called");
         //Initialization
         this.dataMap = dataMap;
         this.xAxisName = xAxisName;
@@ -108,7 +111,6 @@ public abstract class Graph extends View implements LanguageListener
         this.dataPoints = new ArrayList<Point>();
         this.paint = new Paint();
         this.graphImage = Bitmap.createBitmap(this.graphImageSize.x, this.graphImageSize.y, Bitmap.Config.ARGB_8888);
-        this.graph2DImage = new Canvas(this.graphImage);
 
         //Properties
         this.paint.setAntiAlias(true);
@@ -127,9 +129,6 @@ public abstract class Graph extends View implements LanguageListener
                 this.yAxisValues.add(entry.getValue());
             }
         }
-
-        this.setMinimumWidth(this.graphImageSize.x);
-        this.setMinimumHeight(this.graphImageSize.y);
     }
 
     //Protected Methods
@@ -141,12 +140,12 @@ public abstract class Graph extends View implements LanguageListener
     protected void setXAxisName(String text)
     {
         this.xAxisName = text;
-        this.invalidate();
+        this.postInvalidate();
     }
     protected void setYAxisName(String text)
     {
         this.yAxisName = text;
-        this.invalidate();
+        this.postInvalidate();
     }
     protected String getXAxisName()
     {
@@ -204,7 +203,6 @@ public abstract class Graph extends View implements LanguageListener
     }
     //Draw Sections
     protected abstract void drawDataPoints(Canvas canvas, Paint paint, int color, int width);
-
     /**
      * Draws the axes of the cartesian plane (positive x and y only)
      * @param canvas
@@ -540,14 +538,15 @@ public abstract class Graph extends View implements LanguageListener
     @Override
     protected void onDraw(Canvas canvas)
     {
+        Log.d(TAG, "onDraw: called");
         super.onDraw(canvas);
 
         this.paint.setColor(ContextCompat.getColor(this.getContext(), R.color.colorWhite));
         this.paint.setStrokeWidth(this.STROKE_SIZE);
         this.paint.setStyle(Paint.Style.FILL);
-        this.graph2DImage.drawRect(new Rect(0, 0, this.graphImageSize.x, this.graphImageSize.y), this.paint);
+        this.graph2DImage.drawRect(new Rect(0, 0, this.getWidth(), this.getHeight()), this.paint);
 
-        this.axesOrigin = new Point(this.axesPaddingWithPanelEdgeSides, this.graphImageSize.y-this.axesPaddingWithPanelEdgeBelow);
+        this.axesOrigin = new Point(this.axesPaddingWithPanelEdgeSides, this.graphImage.getHeight()-this.axesPaddingWithPanelEdgeBelow);
         this.drawAxesWithDefaultSettings();
         try
         {
@@ -582,5 +581,26 @@ public abstract class Graph extends View implements LanguageListener
         {
 //			ex.printStackTrace();
         }
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec)
+    {
+        Log.d(TAG, "onMeasure: called");
+        super.onMeasure(widthMeasureSpec, heightMeasureSpec);
+        this.setMeasuredDimension(widthMeasureSpec, heightMeasureSpec);
+    }
+
+    @Override
+    protected void onSizeChanged(int w, int h, int oldw, int oldh)
+    {
+        Log.d(TAG, "onSizeChanged: called");
+        super.onSizeChanged(w, h, oldw, oldh);
+
+        this.graphImageSize.set(w, h);
+        Log.d(TAG, "onMeasure: graph image sized to be " + graphImageSize.x + " x " + graphImageSize.y);
+        this.graphImage = Bitmap.createBitmap(this.graphImage, 0, 0, this.graphImageSize.x, this.graphImageSize.y);
+        this.graph2DImage = new Canvas(this.graphImage);
+        Log.d(TAG, "onMeasure: Graph image dims: " + this.graphImage.getWidth() + " x " + this.graphImage.getHeight());
     }
 }
