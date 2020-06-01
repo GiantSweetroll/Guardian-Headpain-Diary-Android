@@ -215,6 +215,9 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         this.dateTo = Globals.graphSettings.getDateTo();
         updateDateSelection(dateFrom, labDateFromValue);
         updateDateSelection(dateTo, labDateToValue);
+        this.checkDataPoints.setChecked(Globals.graphSettings.isShowDataPoints());
+        this.checkDataVoid.setChecked(Globals.graphSettings.isShowDataVoid());
+        this.checkDataVal.setChecked(Globals.graphSettings.isShowDataValues());
         this.graphCatSpinner.setAdapter(this.getGraphCatSpinnerAdapter());
         this.graphCatSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
