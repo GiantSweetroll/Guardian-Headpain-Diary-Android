@@ -12,7 +12,6 @@ import android.widget.CheckBox;
 import android.widget.DatePicker;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -145,7 +144,7 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         }
         else
         {
-            return this.checkDataVal.isSelected();
+            return this.checkDataVal.isChecked();
         }
     }
     /**
@@ -160,7 +159,7 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         }
         else
         {
-            return this.checkDataVoid.isSelected();
+            return this.checkDataVoid.isChecked();
         }
     }
     /**
@@ -175,7 +174,7 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         }
         else
         {
-            return this.checkDataPoints.isSelected();
+            return this.checkDataPoints.isChecked();
         }
     }
 
