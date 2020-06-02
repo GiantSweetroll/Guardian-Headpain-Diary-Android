@@ -2,6 +2,9 @@ package com.gardyanakbar.guardianheadpaindiary.methods;
 
 import android.content.Context;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.graphics.RectF;
 import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TextView;
@@ -878,5 +881,24 @@ public class Methods
         }
 
         return str;
+    }
+
+    /**
+     * Resizes the bitmap
+     * @param bitmap - the bitmap to be resized
+     * @param width - the new width
+     * @param height - the new height
+     * @return a new bitmap with the old bitmap resized.
+     */
+    public static Bitmap getResizedBitmap(Bitmap bitmap, int width, int height)
+    {
+        Matrix matrix = new Matrix();
+
+        RectF src = new RectF(0,0, bitmap.getWidth(), bitmap.getHeight());
+        RectF dst = new RectF(0, 0, width, height);
+
+        matrix.setRectToRect(src, dst, Matrix.ScaleToFit.CENTER);
+
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(), bitmap.getHeight(), matrix, true);
     }
 }
