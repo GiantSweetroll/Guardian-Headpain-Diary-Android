@@ -4,27 +4,29 @@
     android:background="@color/colorAppBase"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/title_font_size"
-        android:gravity="center"
-        android:text="@string/table_settings_title_text"
-        android:paddingBottom="30dp"
-        android:layout_alignParentTop="true"
-        android:id="@+id/tableSettingsTitleTextView"/>
     <ScrollView
-        android:layout_below="@id/tableSettingsTitleTextView"
+        android:layout_alignParentTop="true"
+        android:layout_above="@id/buttonLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
+        android:layout_height="match_parent">
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/title_font_size"
+                android:gravity="center"
+                android:text="@string/table_settings_title_text"
+                android:paddingBottom="30dp"
+                android:layout_alignParentTop="true"
+                android:id="@+id/tableSettingsTitleTextView"/>
             <GridLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:id="@+id/dateGrid"
+                android:layout_below="@id/tableSettingsTitleTextView"
                 android:columnCount="3">
                 <TextView
                     android:layout_width="wrap_content"
@@ -37,6 +39,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="01/06/2020"
                     android:padding="@dimen/general_padding"
                     android:textSize="@dimen/header_font_size"
                     android:id="@+id/tableSettingsDateFromValueTextView"/>
@@ -62,6 +65,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:text="01/06/2020"
                     android:textSize="@dimen/header_font_size"
                     android:padding="@dimen/general_padding"
                     android:id="@+id/tableSettingsDateToValueTextView"/>
@@ -80,6 +84,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingTop="20dp"
+                android:id="@+id/filterGrid"
+                android:layout_below="@id/dateGrid"
                 android:paddingRight="@dimen/general_padding"
                 android:columnCount="2">
                 <TextView
@@ -106,16 +112,23 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </GridLayout>
-        </LinearLayout>
+        </RelativeLayout>
     </ScrollView>
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:text="@string/ok_text"
-        android:id="@+id/tableSettingsBtnOk"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/rounded_button"
-        android:textColor="@color/colorWhite"/>
+        android:gravity="center"
+        android:background="@drawable/raised_border"
+        android:id="@+id/buttonLayout"
+        android:paddingBottom="60dp">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/general_padding"
+            android:text="@string/ok_text"
+            android:id="@+id/tableSettingsBtnOk"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"/>
+    </LinearLayout>
 </RelativeLayout>
