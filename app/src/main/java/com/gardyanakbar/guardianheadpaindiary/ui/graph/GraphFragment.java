@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.FrameLayout;
+import android.widget.HorizontalScrollView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -36,7 +37,7 @@ public class GraphFragment extends Fragment implements GUIFunctions
     public static GraphSettingsFragment graphSettings;
     public Graph graph;
     private Button btnSettings, btnExport, btnSwitch, btnRefresh;
-    public ScrollView scroll;
+    public HorizontalScrollView scroll;
     private boolean graphReversed;
 
     //Private Methods
@@ -133,7 +134,7 @@ public class GraphFragment extends Fragment implements GUIFunctions
         this.graph.displayDataPoint(GraphFragment.graphSettings.isDisplayDataPointsSelected());
 
         //Add to scroll
-        ScrollView.LayoutParams params = new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.MATCH_PARENT);
+        HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(HorizontalScrollView.LayoutParams.MATCH_PARENT, HorizontalScrollView.LayoutParams.MATCH_PARENT);
         this.graph.setLayoutParams(params);
         this.scroll.addView(this.graph);
     }
@@ -157,7 +158,7 @@ public class GraphFragment extends Fragment implements GUIFunctions
         this.btnExport = (Button)root.findViewById(R.id.graphButtonExport);
         this.btnSwitch = (Button)root.findViewById(R.id.graphButtonSwitch);
         this.btnRefresh = (Button)root.findViewById(R.id.graphButtonRefresh);
-        this.scroll = (ScrollView)root.findViewById(R.id.graphScroll);
+        this.scroll = (HorizontalScrollView)root.findViewById(R.id.graphScroll);
         this.initGraph();
 
         //Properties
