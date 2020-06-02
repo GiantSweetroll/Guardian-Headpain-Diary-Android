@@ -59,7 +59,6 @@ public abstract class Graph extends View implements LanguageListener
     protected Paint paint;
     protected Point xAxisNameLabelPos = new Point(0, 0);
     protected Point yAxisNameLabelPos = new Point(0, 0);
-    protected final Point graphImageSize = new Point(1920, 1920);
 
     //Options
     protected boolean enableDataValueMarkers;
@@ -121,7 +120,6 @@ public abstract class Graph extends View implements LanguageListener
         this.xAxisMarkerLabelsPos = new ArrayList<>();
         this.yAxisMarkerLabelPos = new ArrayList<>();
         this.paint = new Paint();
-        this.graphImage = Bitmap.createBitmap(this.graphImageSize.x, this.graphImageSize.y, Bitmap.Config.ARGB_8888);
 
         //Properties
         this.paint.setAntiAlias(true);
@@ -594,55 +592,6 @@ public abstract class Graph extends View implements LanguageListener
     }
 
     //Overridden Methods
-    /*
-    @Override
-    protected void onDraw(Canvas canvas)
-    {
-        Log.d(TAG, "onDraw: called");
-        super.onDraw(canvas);
-
-        this.paint.setColor(ContextCompat.getColor(this.getContext(), R.color.colorWhite));
-        this.paint.setStrokeWidth(this.STROKE_SIZE);
-        this.paint.setStyle(Paint.Style.FILL);
-        this.paint.setTextSize(50);
-        this.graph2DImage.drawRect(new Rect(0, 0, this.getWidth(), this.getHeight()), this.paint);
-
-        this.drawAxesWithDefaultSettings();
-        try
-        {
-            this.generateDataPoints(this.yAxisValues);
-            this.drawAxesMarkers(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), R.color.colorBlack));
-            this.drawXAxisMarkerLabels(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), R.color.colorGraphAxesMarkerLabels), Constants.FONT_GENERAL_BOLD);
-            this.drawYAxisMarkerLabels(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), R.color.colorGraphAxesMarkerLabels), Constants.FONT_GENERAL_BOLD);
-            this.drawGraphLines(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), android.R.color.darker_gray));
-            this.drawAxisNames(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), R.color.colorBlack), ContextCompat.getColor(this.getContext(), R.color.colorBlack), this.xAxisName, this.yAxisName);
-            this.drawRecentMedicationText(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), R.color.colorBlack));
-            this.paint.setTypeface(Constants.FONT_GENERAL);
-            if (this.enableDataValueMarkers)
-            {
-                this.drawDataValues(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), R.color.colorBlack));
-            }
-
-            if (this.getBehindAxesDifferenceWithPanelEdgeLeft()>0)
-            {
-                this.axesPaddingWithPanelEdgeSides += this.getBehindAxesDifferenceWithPanelEdgeLeft();
-            }
-            else if (this.getBelowAxesDifferenceWithPanelEdgeBelow()>0)
-            {
-                this.axesPaddingWithPanelEdgeBelow += this.getBelowAxesDifferenceWithPanelEdgeBelow();
-            }
-
-            if (this.displayDataPoint)
-            {
-                this.drawDataPoints(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), android.R.color.holo_green_dark), this.DATA_POINT_WIDTH);
-            }
-        }
-        catch(ArithmeticException ex)
-        {
-//			ex.printStackTrace();
-        }
-    }   */
-
     @Override
     protected void onDraw(Canvas canvas)
     {
@@ -650,7 +599,7 @@ public abstract class Graph extends View implements LanguageListener
         super.onDraw(canvas);
 
         //Draw graph background
-        this.graph2DImage.drawRect(new Rect(0, 0, this.getWidth(), this.getHeight()), this.paint);
+        this.graph2DImage.drawRect(new Rect(0, 0, this.graphImage.getWidth(), this.graphImage.getHeight()), this.paint);
 
         this.drawAxes();
         try
@@ -683,9 +632,8 @@ public abstract class Graph extends View implements LanguageListener
         super.onSizeChanged(w, h, oldw, oldh);
 
         //Set the canvas size
-        this.graphImageSize.set(w, h);
-        Log.d(TAG, "onMeasure: graph image sized to be " + graphImageSize.x + " x " + graphImageSize.y);
-        this.graphImage = Bitmap.createBitmap(this.graphImage, 0, 0, this.graphImageSize.x, this.graphImageSize.y);
+        Log.d(TAG, "onMeasure: graph image sized to be " + w + " x " + h);
+        this.graphImage = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         this.graph2DImage = new Canvas(this.graphImage);
         Log.d(TAG, "onMeasure: Graph image dims: " + this.graphImage.getWidth() + " x " + this.graphImage.getHeight());
 
