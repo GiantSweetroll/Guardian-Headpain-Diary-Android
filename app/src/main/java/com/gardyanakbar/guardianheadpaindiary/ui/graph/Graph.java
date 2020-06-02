@@ -263,7 +263,7 @@ public abstract class Graph extends View implements LanguageListener
      */
     protected void calculateYAxisMarkerLabelsMaxLength()
     {
-        double highestVal = Methods.getHighestValue(this.yAxisValues);		//Get highest value
+        double highestVal = GNumbers.round(Methods.getHighestValue(this.yAxisValues), this.DECIMAL_PLACES);		//Get highest value
         double diff = highestVal/(double)this.MAX_MARKERS_IN_Y_AXIS;			//Get unit increment
 
         Rect bounds = new Rect();
