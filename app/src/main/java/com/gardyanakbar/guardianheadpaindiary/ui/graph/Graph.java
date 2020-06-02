@@ -609,6 +609,12 @@ public abstract class Graph extends View implements LanguageListener
             this.drawYAxisMarkerLabels();
             this.drawGraphLines();
             this.drawAxisNames();
+
+            if (this.displayDataPoint)
+            {
+                this.drawDataPoints(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), android.R.color.holo_green_light), 20);
+            }
+
             if (this.enableDataValueMarkers)
             {
                 this.drawDataValues();

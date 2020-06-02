@@ -62,7 +62,9 @@ public class LineGraph extends Graph
     @Override
     protected void drawDataPoints(Canvas canvas, Paint paint, int color, int width)
     {
+        int oldColor = this.paint.getColor();
         paint.setColor(color);
+        Paint.Style oldStyle = paint.getStyle();
         paint.setStyle(Paint.Style.FILL_AND_STROKE);
         for (int i=0; i<this.dataPoints.size(); i++)
         {
@@ -70,13 +72,12 @@ public class LineGraph extends Graph
             {
                 continue;
             }
-            canvas.drawOval(this.dataPoints.get(i).x - width / 2,
-                    this.dataPoints.get(i).y - width / 2,
-                    width,
-                    width,
-                    paint);
+            canvas.drawCircle(this.dataPoints.get(i).x,
+                                this.dataPoints.get(i).y,
+                                width, this.paint);
         }
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(oldStyle);
+        paint.setColor(oldColor);
     }
 
     @Deprecated
