@@ -11,6 +11,9 @@ import java.util.LinkedHashMap;
 
 public class LineGraph extends Graph
 {
+    //Fields
+    private static final String TAG = "LineGraph";
+
     //Constructor
     public LineGraph(Context context,  LinkedHashMap<String, Double> dataMap)
     {
@@ -22,7 +25,6 @@ public class LineGraph extends Graph
     }
 
     //Private Methods
-
     /**
      * Draws the connecting lines between data points to simulate a line graph
      * @param canvas
@@ -32,6 +34,8 @@ public class LineGraph extends Graph
     private void drawConnectingLines(Canvas canvas, Paint paint, int color)
     {
         paint.setColor(color);
+        float temp = this.paint.getStrokeWidth();
+        this.paint.setStrokeWidth(10);
 
         for (int i=0; i<this.dataPoints.size()-1; i++)
         {
@@ -41,6 +45,8 @@ public class LineGraph extends Graph
                     this.dataPoints.get(i+1).y,
                     paint);
         }
+
+        this.paint.setStrokeWidth(temp);
     }
 
     //Overridden Methods
@@ -49,9 +55,8 @@ public class LineGraph extends Graph
     {
         super.onDraw(canvas);
 
-        this.drawConnectingLines(canvas, this.paint, ContextCompat.getColor(this.getContext(), android.R.color.holo_red_dark));
-        super.drawAxesWithDefaultSettings();
         canvas.drawBitmap(this.getGraphImage(), 0, 0, this.paint);
+        this.drawConnectingLines(canvas, this.paint, ContextCompat.getColor(this.getContext(), android.R.color.holo_red_dark));
     }
 
     @Override

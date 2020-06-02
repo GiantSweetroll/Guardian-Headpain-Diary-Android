@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -132,6 +133,8 @@ public class GraphFragment extends Fragment implements GUIFunctions
         this.graph.displayDataPoint(GraphFragment.graphSettings.isDisplayDataPointsSelected());
 
         //Add to scroll
+        ScrollView.LayoutParams params = new ScrollView.LayoutParams(ScrollView.LayoutParams.MATCH_PARENT, ScrollView.LayoutParams.MATCH_PARENT);
+        this.graph.setLayoutParams(params);
         this.scroll.addView(this.graph);
     }
 

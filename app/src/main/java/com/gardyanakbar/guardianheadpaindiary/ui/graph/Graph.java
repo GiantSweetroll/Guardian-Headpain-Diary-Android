@@ -3,11 +3,9 @@ package com.gardyanakbar.guardianheadpaindiary.ui.graph;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.util.Log;
 import android.view.View;
 
@@ -41,17 +39,26 @@ public abstract class Graph extends View implements LanguageListener
     protected List<Point> dataPoints;
     protected List<String> xAxisLabels;
     protected List<Double> yAxisValues;
-    protected List<Point> yAxisMarkerPoints;
+    protected List<Point> yAxisMarkersPos;
     protected int maxYAxisMarkerLabelLength;
     protected int maxXAxisMarkerLabelHeight;
     protected int yAxisNameTextHeight;
     protected int maxMarkersXAxis;
     protected int axesPaddingWithPanelEdgeSides = 50;
-    protected int axesPaddingWithPanelEdgeBelow = 50;
+    protected int axesPaddingWithPanelEdgeBelow = 20;
     protected int axesPaddingWithPanelEdgeTop = 50;
     protected int xAxisNameTextHeight;
+    protected int xAxisMarkerLabelYPos;
+    protected int xAxisMarkerYPos;
+    protected int yAxisMarkerXPos;
+    protected int xAxisMarkerLabelDiff;
+    protected double yAxisMarkerLabelDiff;
+    protected List<Point> yAxisMarkerLabelPos;
+    protected List<Point> xAxisMarkerLabelsPos;
     protected Canvas graph2DImage;
     protected Paint paint;
+    protected Point xAxisNameLabelPos = new Point(0, 0);
+    protected Point yAxisNameLabelPos = new Point(0, 0);
     protected final Point graphImageSize = new Point(1920, 1920);
 
     //Options
@@ -61,9 +68,9 @@ public abstract class Graph extends View implements LanguageListener
     protected boolean showGraphLinesOfX;
 
     //Constants
-    protected final int DATA_POINT_WIDTH = 10;
-    protected final int AXES_POINTERS_LENGTH = 15;
-    protected final int MARKER_LABEL_PADDING = 5;
+    protected final int DATA_POINT_WIDTH = 40;
+    protected final int AXES_POINTERS_LENGTH = 40;
+    protected final int MARKER_LABEL_PADDING = 10;
     protected final int MAX_MARKERS_IN_Y_AXIS = 10;
     protected final int MAX_MARKERS_IN_X_AXIS = 5;
     protected final int GENERAL_PADDING = 10;
@@ -105,15 +112,23 @@ public abstract class Graph extends View implements LanguageListener
         this.maxYAxisMarkerLabelLength = 0;
         this.maxXAxisMarkerLabelHeight = 0;
         this.yAxisNameTextHeight = 0;
+        this.axesOrigin = new Point();
+        this.axesLength = new Point();
         this.xAxisLabels = new ArrayList<String>();
         this.yAxisValues = new ArrayList<Double>();
-        this.yAxisMarkerPoints = new ArrayList<Point>();
+        this.yAxisMarkersPos = new ArrayList<Point>();
         this.dataPoints = new ArrayList<Point>();
+        this.xAxisMarkerLabelsPos = new ArrayList<>();
+        this.yAxisMarkerLabelPos = new ArrayList<>();
         this.paint = new Paint();
         this.graphImage = Bitmap.createBitmap(this.graphImageSize.x, this.graphImageSize.y, Bitmap.Config.ARGB_8888);
 
         //Properties
         this.paint.setAntiAlias(true);
+        this.paint.setColor(ContextCompat.getColor(this.getContext(), R.color.colorWhite));
+        this.paint.setStrokeWidth(this.STROKE_SIZE);
+        this.paint.setStyle(Paint.Style.FILL);
+        this.paint.setTextSize(50);
 
         this.enableDataValueMarkers = false;
         this.displayDataPoint = true;
@@ -197,75 +212,118 @@ public abstract class Graph extends View implements LanguageListener
     {
         this.setGraphImageSize(dim.x, dim.y);
     }
-    protected void drawAxesWithDefaultSettings()
-    {
-        this.drawAxes(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), R.color.colorBlack), this.graphImageSize.x-this.axesPaddingWithPanelEdgeSides, this.axesPaddingWithPanelEdgeTop);
-    }
-    //Draw Sections
-    protected abstract void drawDataPoints(Canvas canvas, Paint paint, int color, int width);
+
+    //Calculate component positioning
     /**
-     * Draws the axes of the cartesian plane (positive x and y only)
-     * @param canvas
-     * @param paint - the new color with its alpha values
-     * @param color
-     * @param xEnd
-     * @param yEnd
+     * Calculates the position of the axes name labels.
      */
-    protected void drawAxes(Canvas canvas, Paint paint, int color, int xEnd, int yEnd)
+    protected void calculateAxisNamesPos()
     {
-        paint.setColor(color);
+        paint.setTypeface(Constants.FONT_GENERAL);
+        Rect bounds = new Rect();
 
-        //Draw X-Axis
-        canvas.drawLine(this.axesOrigin.x, this.axesOrigin.y, xEnd, this.axesOrigin.y, paint);
+        //Calculate X-Axis name position
+        paint.getTextBounds(this.xAxisName, 0, this.xAxisName.length(), bounds);
+        this.xAxisNameTextHeight = bounds.height();
 
-        //Draw Y-Axis
-        canvas.drawLine(this.axesOrigin.x, this.axesOrigin.y, this.axesOrigin.x, yEnd, paint);
+        int textLength = bounds.width();
+        this.xAxisNameLabelPos.set(this.graphImage.getWidth()/2 - textLength/2,
+                this.graphImage.getHeight() - this.axesPaddingWithPanelEdgeBelow);
 
-        //Get length
-        this.axesLength = new Point(xEnd - this.axesOrigin.x, this.axesOrigin.y - yEnd);
-
-        //Get end coordinates
-        this.xAxisEndCoordinates = new Point(xEnd, this.axesOrigin.y);
-        this.yAxisEndCoordinates = new Point(this.axesOrigin.x, yEnd);
+        //Calculate Y-Axis Name position
+        paint.getTextBounds(this.yAxisName, 0, this.yAxisName.length(), bounds);
+        textLength = bounds.width();
+        this.yAxisNameTextHeight = bounds.height();
+        this.yAxisNameLabelPos.set(this.axesPaddingWithPanelEdgeSides,
+                this.graphImage.getHeight()/2 + textLength/2);
     }
-
     /**
-     * Generate the coordinates for the data points (in pixels)
-     * @param dataValues
+     * calculates the Y position of the x-axis marker labels.
      */
-    protected void generateDataPoints(List<Double> dataValues)
+    protected void calculateXAxisMarkerLabelsYPos()
+    {
+        Rect rect = new Rect();
+        this.paint.getTextBounds("A", 0, 1, rect);
+        this.xAxisMarkerLabelYPos = this.xAxisNameLabelPos.y - this.X_AXIS_NAME_PADDING - this.X_AXIS_NAME_PADDING - rect.height()/2;
+    }
+    /**
+     * Calculate the Y position of the x-axis markers.
+     */
+    protected void calculateXAxisMarkersYPos()
+    {
+        //Calculate the size of the x axis marker labels
+        Rect rect = new Rect();
+        this.paint.getTextBounds("A", 0, 1, rect);
+        int height = rect.height();
+
+        this.xAxisMarkerYPos = this.xAxisMarkerLabelYPos - height - this.MARKER_LABEL_PADDING - this.AXES_POINTERS_LENGTH/2;
+    }
+    /**
+     * Calculates the length of the longest y-axis marker label.
+     */
+    protected void calculateYAxisMarkerLabelsMaxLength()
+    {
+        double highestVal = Methods.getHighestValue(this.yAxisValues);		//Get highest value
+        double diff = highestVal/(double)this.MAX_MARKERS_IN_Y_AXIS;			//Get unit increment
+
+        Rect bounds = new Rect();
+        String text = Double.toString(highestVal);
+        paint.getTextBounds(text, 0, text.length(), bounds);
+
+        this.maxYAxisMarkerLabelLength = bounds.width();
+
+        Log.d(TAG, "calculateYAxisMarkerLabelsMaxLength: Highest value is " + text + " with a width of " + bounds.width());
+    }
+    /**
+     * Calculates the x position of the markers in the y-axis
+     */
+    protected void calculateYMarkerXPos()
+    {
+        Log.d(TAG, "calculateYMarkerXPos: this.maxYAxisMarkerLabelLength = " + this.maxYAxisMarkerLabelLength);
+        this.yAxisMarkerXPos = this.yAxisNameLabelPos.x + this.yAxisNameTextHeight + 10 + this.maxYAxisMarkerLabelLength + this.MARKER_LABEL_PADDING + this.AXES_POINTERS_LENGTH/2;
+    }
+    /**
+     * Calculates the position of the origin point and how long the axes lines should be and their end points.
+     */
+    protected void calculateOriginPos()
+    {
+        this.axesOrigin.set(this.yAxisMarkerXPos, this.xAxisMarkerYPos);
+        this.xAxisEndCoordinates = new Point(this.graphImage.getWidth() - this.axesPaddingWithPanelEdgeSides, this.axesOrigin.y);
+        this.yAxisEndCoordinates = new Point(this.axesOrigin.x, this.axesPaddingWithPanelEdgeSides);
+        this.axesLength.set(this.xAxisEndCoordinates.x - this.axesOrigin.x,
+                this.axesOrigin.y - this.yAxisEndCoordinates.y);
+
+    }
+    /**
+     * Generates the positions of the data points.
+     */
+    protected void generateDataPoints()
     {
         //Set Distance between each data entry in the x-axis
-        double xDiff = GNumbers.round(this.axesLength.x/dataValues.size(), 0);
+        double xDiff = GNumbers.round(this.axesLength.x/this.yAxisValues.size(), 0);
         //Set distance between each unit increment in the y-axis
-        double yDiff = (float)this.axesLength.y/(float)Methods.getHighestValue(dataValues);
+        double yDiff = (float)this.axesLength.y/(float)Methods.getHighestValue(this.yAxisValues);
 
         //Translate into coordinate points
         this.dataPoints = new ArrayList<Point>();
         int xPos = (int)GNumbers.round(xDiff, 1);
-        for (int i=0; i<dataValues.size(); i++)
+        for (int i=0; i<this.yAxisValues.size(); i++)
         {
-            Double doubleCoordinate = (double)this.axesOrigin.y - yDiff*dataValues.get(i);
+            Double doubleCoordinate = (double)this.axesOrigin.y - yDiff*this.yAxisValues.get(i);
             int yCoordinate = (int)GNumbers.round(doubleCoordinate, this.DECIMAL_PLACES);
 
             this.dataPoints.add(new Point(this.axesOrigin.x + xPos, yCoordinate));
             xPos+=xDiff;
         }
     }
-
     /**
-     * Draws the axes markers in uniform steps.
-     * @param canvas
-     * @param paint - the new color including its alpha values
-     * @param color
+     * Calculates the positions of the x-axis marker labels (including which to show and which to hide)
      */
-    protected void drawAxesMarkers(Canvas canvas, Paint paint, int color)
+    protected void calculateXAxisMarkerLabelsPos()
     {
-        paint.setColor(color);
-
-        //Draw X-Axis Marker Labels
         int diff = 0;
 
+        //Determine initial skip step.
         if (this.xAxisLabels.size()<=this.maxMarkersXAxis)
         {
             diff = 1;
@@ -279,125 +337,164 @@ public abstract class Graph extends View implements LanguageListener
             }
         }
 
-        for (int i=0; i<this.dataPoints.size(); i+=diff)
+        //Determine skip according to text size (keep trying until it no longer clashes
+        loop:
+        while(true)
         {
-            canvas.drawLine(this.dataPoints.get(i).x,
+            Log.d(TAG, "calculateXAxisMarkerLabelsPos: Calculating X-Axis label pos...");
+            //Add the points first
+            List<String> texts = new ArrayList<>();
+            for (int i = 0; i<this.dataPoints.size(); i+=diff)
+            {
+                String text = this.xAxisLabels.get(i);
+                Rect bounds = new Rect();
+                paint.getTextBounds(text, 0, text.length(), bounds);
+                int textWidth = bounds.width();
+                int textHeight = bounds.height();
+                int x = this.dataPoints.get(i).x - textWidth/2;
+                int y = this.xAxisMarkerLabelYPos;
+                this.xAxisMarkerLabelsPos.add(new Point(x, y));
+                texts.add(text);
+            }
+
+            //Check for clashes
+            for (int i =0; i<this.xAxisMarkerLabelsPos.size()-1; i++)
+            {
+                Point pos1 = this.xAxisMarkerLabelsPos.get(i);
+                Point pos2 = this.xAxisMarkerLabelsPos.get(i+1);
+                String txt1 = texts.get(i);
+                String txt2 = texts.get(i);
+                Rect rect1 = new Rect();
+                Rect rect2 = new Rect();
+
+                this.paint.getTextBounds(txt1, 0, txt1.length(), rect1);
+                this.paint.getTextBounds(txt2, 0, txt2.length(), rect2);
+
+                //If the position of the right side of the left text (with padding) is greater than the the poisiton of the left side of the right text, there's collision
+                int pos1Right = pos1.x + rect1.width()/2 + this.MARKER_LABEL_PADDING;
+                int pos2Left = pos2.x - rect2.width()/2;
+                Log.d(TAG, "calculateXAxisMarkerLabelsPos: Comparing positions: " + pos1Right + " vs " + pos2Left);
+                if (pos1Right > pos2Left)
+                {
+                    this.xAxisMarkerLabelsPos.clear();
+                    Log.d(TAG, "calculateXAxisMarkerLabelsPos: Conflict found, recalculating...");
+                    diff++;
+                    Log.d(TAG, "calculateXAxisMarkerLabelsPos: new diff = " + diff);
+                    continue loop;
+                }
+            }
+            Log.d(TAG, "calculateXAxisMarkerLabelsPos: No more conflicts found.");
+            break loop;
+        }
+        this.xAxisMarkerLabelDiff = diff;
+        Log.d(TAG, "calculateXAxisMarkerLabelsPos: xAxisMarkerLabelDiff = " + this.xAxisMarkerLabelDiff);
+    }
+
+    /**
+     * Calculates the position of the marker labels for the Y-Axis
+     */
+    protected void calculateYAxisMarkerLabelsPos()
+    {
+        double highestVal = Methods.getHighestValue(this.yAxisValues);		//Get highest value
+        this.yAxisMarkerLabelDiff = highestVal/(double)this.MAX_MARKERS_IN_Y_AXIS;			//Get unit increment
+
+        for (double i = 0; i<this.yAxisMarkersPos.size(); i++)
+        {
+            String text = Double.toString(GNumbers.round(this.yAxisMarkerLabelDiff*(i+1), this.DECIMAL_PLACES));		//Rounded to X Decimal Place
+            Rect bounds = new Rect();
+            paint.getTextBounds(text, 0, text.length(), bounds);
+            int textWidth = bounds.width();
+            int x = this.yAxisMarkerXPos - this.AXES_POINTERS_LENGTH - this.MARKER_LABEL_PADDING - textWidth;
+            int y = this.yAxisMarkersPos.get((int)i).y + bounds.height()/2;
+            Point pos = new Point(x, y);
+            Log.d(TAG, "calculateYAxisMarkerLabelsPos: " + text + " location is at " + pos.x + ", " + pos.y);
+            this.yAxisMarkerLabelPos.add(pos);
+        }
+    }
+    protected void calculateYAxisMarkersPos()
+    {
+        this.yAxisMarkersPos.clear();
+        double yDiff = (double)this.axesLength.y/(double)this.MAX_MARKERS_IN_Y_AXIS;
+
+        for (int i=1; i<=this.MAX_MARKERS_IN_Y_AXIS; i++)
+        {
+            int x = this.axesOrigin.x - this.AXES_POINTERS_LENGTH/2;
+            int y = this.axesOrigin.y - (int)GNumbers.round((yDiff*(double)i), 0);
+
+            this.yAxisMarkersPos.add(new Point(x, y));	//Take note of the coordinate position of each Y-Axis markers
+        }
+    }
+
+    //Draw Sections
+    protected abstract void drawDataPoints(Canvas canvas, Paint paint, int color, int width);
+    protected void drawAxes()
+    {
+        int temp = this.paint.getColor();
+        this.paint.setColor(ContextCompat.getColor(this.getContext(), R.color.colorBlack));
+
+        //Draw X-Axis
+        this.graph2DImage.drawLine(this.axesOrigin.x, this.axesOrigin.y, this.axesOrigin.x + this.axesLength.x, this.axesOrigin.y, this.paint);
+
+        //Draw Y-Axis
+        this.graph2DImage.drawLine(this.axesOrigin.x, this.axesOrigin.y, this.axesOrigin.x, this.axesOrigin.y - this.axesLength.y, this.paint);
+
+        this.paint.setColor(temp);
+    }
+    protected void drawAxesMarkers()
+    {
+        this.paint.setColor(ContextCompat.getColor(this.getContext(), R.color.colorBlack));
+
+        //Draw X-Axis Markers
+        for (int i=0; i<this.dataPoints.size(); i+=this.xAxisMarkerLabelDiff)
+        {
+            this.graph2DImage.drawLine(this.dataPoints.get(i).x,
                     this.axesOrigin.y + this.AXES_POINTERS_LENGTH/2,
                     this.dataPoints.get(i).x,
                     this.axesOrigin.y - this.AXES_POINTERS_LENGTH/2,
                     paint);
         }
 
-        //Draw Y-Axis Marker Labels
-        double yDiff = (double)this.axesLength.y/(double)this.MAX_MARKERS_IN_Y_AXIS;
-        this.yAxisMarkerPoints = new ArrayList<Point>();
-        for (int i=1; i<=this.MAX_MARKERS_IN_Y_AXIS; i++)
+        //Draw Y-Axis Markers
+        for (int i=0; i<this.yAxisMarkersPos.size(); i++)
         {
-            int x = this.axesOrigin.x - this.AXES_POINTERS_LENGTH/2;
-            int y = this.axesOrigin.y - (int)GNumbers.round((yDiff*(double)i), 0);
-            canvas.drawLine(x,
+            int x = this.yAxisMarkersPos.get(i).x;
+            int y = this.yAxisMarkersPos.get(i).y;
+            this.graph2DImage.drawLine(x,
                     y,
                     this.axesOrigin.x + this.AXES_POINTERS_LENGTH/2,
                     y,
                     paint);
-
-            this.yAxisMarkerPoints.add(new Point(x, y));	//Take note of the coordinate position of each Y-Axis markers
         }
     }
-
-    /**
-     * Draw the marker labels of the Y-Axis (the value of each steps)
-     * @param canvas
-     * @param paint
-     * @param color - the new color including its alpha values
-     * @param typeface
-     */
-    protected void drawYAxisMarkerLabels(Canvas canvas, Paint paint, int color, Typeface typeface)
+    protected void drawYAxisMarkerLabels()
     {
-        paint.setColor(color);
-        paint.setTypeface(typeface);
-
-        double highestVal = Methods.getHighestValue(this.yAxisValues);		//Get highest value
-        double diff = highestVal/(double)this.MAX_MARKERS_IN_Y_AXIS;			//Get unit increment
-
-        this.maxYAxisMarkerLabelLength = 0;
-
-        for (double i = 0; i<this.yAxisMarkerPoints.size(); i++)
+        int temp = this.paint.getColor();
+        this.paint.setColor(ContextCompat.getColor(this.getContext(), R.color.colorGraphAxesMarkerLabels));
+        for (int i = 0; i<this.yAxisMarkerLabelPos.size(); i++)
         {
-            String text = Double.toString(GNumbers.round(diff*(i+1), this.DECIMAL_PLACES));		//Rounded to X Decimal Place
-            Rect bounds = new Rect();
-            paint.getTextBounds(text, 0, text.length(), bounds);
-            int textWidth = bounds.width();
+            String text = Double.toString(GNumbers.round(this.yAxisMarkerLabelDiff*(i+1), this.DECIMAL_PLACES));		//Rounded to X Decimal Place
 
-            if (textWidth > this.maxYAxisMarkerLabelLength)
-            {
-                this.maxYAxisMarkerLabelLength = textWidth;
-            }
-
-            canvas.drawText(text,
-                    this.axesOrigin.x - this.AXES_POINTERS_LENGTH - this.MARKER_LABEL_PADDING - textWidth,
-                    this.yAxisMarkerPoints.get((int)i).y + 4,
-                    paint);
+            this.graph2DImage.drawText(text,
+                    this.yAxisMarkerLabelPos.get(i).x,
+                    this.yAxisMarkerLabelPos.get(i).y,
+                    this.paint);
         }
+        this.paint.setColor(temp);
     }
-    /**
-     * Draw the marker labels of the X-Axis (the value of each steps)
-     * @param canvas
-     * @param paint
-     * @param color - the new color including its alpha values
-     * @param typeface
-     */
-    protected void drawXAxisMarkerLabels(Canvas canvas, Paint paint, int color, Typeface typeface)
+    protected void drawXAxisMarkerLabels()
     {
-        paint.setColor(color);
-        paint.setTypeface(typeface);
+        paint.setColor(ContextCompat.getColor(this.getContext(), R.color.colorGraphAxesMarkerLabels));
 
-        int diff = 0;
-        this.maxXAxisMarkerLabelHeight = 0;
-
-        if (this.xAxisLabels.size()<=this.maxMarkersXAxis)
-        {
-            diff = 1;
-        }
-        else
-        {
-            diff = (int)GNumbers.round(this.xAxisLabels.size()/this.maxMarkersXAxis, 1);
-            if (diff==1)
-            {
-                diff = 2;
-            }
-        }
-
-        for (int i = 0; i<this.dataPoints.size(); i+=diff)
+        for (int i = 0, j=0; i<this.dataPoints.size(); i+=this.xAxisMarkerLabelDiff, j++)
         {
             String text = this.xAxisLabels.get(i);
-            Rect bounds = new Rect();
-            paint.getTextBounds(text, 0, text.length(), bounds);
-            int textWidth = bounds.width();
-            int textHeight = bounds.height();
-            int x = this.dataPoints.get(i).x - textWidth/2;
-            int y = this.axesOrigin.y + this.AXES_POINTERS_LENGTH + this.MARKER_LABEL_PADDING;
-            canvas.drawText(text, x, y, paint);
-
-            //Get max height
-            if (textHeight > this.maxXAxisMarkerLabelHeight)
-            {
-                this.maxXAxisMarkerLabelHeight = textHeight;
-            }
+            int x = this.xAxisMarkerLabelsPos.get(j).x;
+            int y = this.xAxisMarkerLabelsPos.get(j).y;
+            this.graph2DImage.drawText(text, x, y, paint);
         }
     }
-
-    /**
-     * Draw the data values (the exact value for each data points above them)
-     * @param canvas
-     * @param paint
-     * @param color - the new color including its alpha values
-     */
-    protected void drawDataValues(Canvas canvas, Paint paint, int color)
+    protected void drawDataValues()
     {
-        paint.setColor(color);
-
-        paint.setTypeface(Constants.FONT_GENERAL_BOLD);
         for (int i=0; i<this.yAxisValues.size(); i++)
         {
             Double value = GNumbers.round(this.yAxisValues.get(i), this.DECIMAL_PLACES);
@@ -410,72 +507,36 @@ public abstract class Graph extends View implements LanguageListener
             paint.getTextBounds(text, 0, text.length(), bounds);
             int textWidth = bounds.width();
 
-            canvas.drawText(text, this.dataPoints.get(i).x - textWidth/2, this.dataPoints.get(i).y - this.GENERAL_PADDING, paint);
+            this.graph2DImage.drawText(text, this.dataPoints.get(i).x - textWidth/2, this.dataPoints.get(i).y - this.GENERAL_PADDING, paint);
         }
-        paint.setTypeface(Constants.FONT_GENERAL);
     }
-
-    /**
-     * Draws the names of the axes
-     * @param canvas
-     * @param paint
-     * @param colorx - new color for the X-Axis label including alpha values.
-     * @param colory - new color for the Y-Axis label including alpha values.
-     * @param x
-     * @param y
-     */
-    protected void drawAxisNames(Canvas canvas, Paint paint, int colorx, int colory, String x, String y)
+    protected void drawAxisNames()
     {
-        paint.setTypeface(Constants.FONT_GENERAL);
-        paint.setTextSize(Constants.FONT_SIZE_A_BIT_BIGGER);
-        Rect bounds = new Rect();
-        paint.getTextBounds(x, 0, x.length(), bounds);
-        this.xAxisNameTextHeight = bounds.height();
+        this.paint.setColor(ContextCompat.getColor(this.getContext(), R.color.colorBlack));
+
         //Draw X-Axis name
-        paint.setColor(colorx);
+        this.graph2DImage.drawText(this.xAxisName, this.xAxisNameLabelPos.x, this.xAxisNameLabelPos.y, this.paint);
 
-        int textLength = bounds.width();
-        canvas.drawText(x,
-                this.axesOrigin.x + (this.axesLength.x/2) - textLength/2,
-                this.axesOrigin.y + this.AXES_POINTERS_LENGTH + this.MARKER_LABEL_PADDING + this.maxXAxisMarkerLabelHeight + this.X_AXIS_NAME_PADDING,
-                paint);
-
-        //Draw Y-Axis Name
-        paint.getTextBounds(y, 0, y.length(), bounds);
-        textLength = bounds.width();
-        paint.setColor(colory);
-//		g2.drawString(y, this.axesOrigin.x - this.MARKER_LABEL_PADDING - this.maxYAxisMarkerLabelLength - this.Y_AXIS_NAME_PADDING, this.axesOrigin.y - this.axesLength.y/2 + textLength/2);
-        this.yAxisNameTextHeight = bounds.height();
-        Matrix matrix = new Matrix();
-        matrix.preRotate(90);
-        canvas.setMatrix(matrix);       //Needs evaluating
-        //	g2.drawString(y, (this.axesOrigin.y - this.axesLength.y/2 + textLength/2)*-1, (this.axesLength.y-this.axesLength.y/2+textLength/2)/4 - this.MARKER_LABEL_PADDING - this.maxYAxisMarkerLabelLength*1.8f);
-        canvas.drawText(y,
-                (this.axesOrigin.y - this.axesLength.y/2 + textLength/2)*-1,
-                this.axesOrigin.x - this.AXES_POINTERS_LENGTH - this.MARKER_LABEL_PADDING - this.maxYAxisMarkerLabelLength - this.Y_AXIS_NAME_PADDING,
-                paint);
-        matrix.postRotate(90);
+        //Draw Y-Axis name
+        int cx = this.yAxisNameLabelPos.x;
+        int cy = this.yAxisNameLabelPos.y;
+        this.graph2DImage.rotate(-90, cx, cy);
+        this.graph2DImage.drawText(this.yAxisName, this.yAxisNameLabelPos.x, this.yAxisNameLabelPos.y, this.paint);
+        this.graph2DImage.rotate(90, cx, cy);
     }
-
-    /**
-     * Draws the little graph lines of the cartesian plane
-     * @param canvas
-     * @param paint
-     * @param color - new color for the graph lines including alpha values.
-     */
-    protected void drawGraphLines(Canvas canvas, Paint paint, int color)
+    protected void drawGraphLines()
     {
-        paint.setColor(color);
+        paint.setColor(ContextCompat.getColor(this.getContext(), android.R.color.darker_gray));
 
         if (this.showGraphLinesOfY)		//Displaying Graph Lines of Y
         {
-            for (Point marker : this.yAxisMarkerPoints)
+            for (Point marker : this.yAxisMarkersPos)
             {
-                canvas.drawLine(this.axesOrigin.x+this.STROKE_SIZE, 	//+ SROKE_SIZE so that it does not get drawn on the Y-Axis
-                        marker.y,
-                        this.xAxisEndCoordinates.x,
-                        marker.y,
-                        paint);
+                this.graph2DImage.drawLine(this.axesOrigin.x+this.STROKE_SIZE, 	//+ SROKE_SIZE so that it does not get drawn on the Y-Axis
+                                            marker.y,
+                                            this.xAxisEndCoordinates.x,
+                                            marker.y,
+                                            paint);
             }
         }
 
@@ -483,15 +544,14 @@ public abstract class Graph extends View implements LanguageListener
         {
             for (Point marker : this.dataPoints)
             {
-                canvas.drawLine(marker.x,
-                        this.axesOrigin.y-this.STROKE_SIZE, //- SROKE_SIZE so that it does not get drawn on the X-Axis
-                        marker.x,
-                        this.yAxisEndCoordinates.y,
-                        paint);
+                this.graph2DImage.drawLine(marker.x,
+                                    this.axesOrigin.y-this.STROKE_SIZE, //- SROKE_SIZE so that it does not get drawn on the X-Axis
+                                            marker.x,
+                                            this.yAxisEndCoordinates.y,
+                                            paint);
             }
         }
     }
-
     /**
      * Draws the label of the current medication currently being filtered.
      * @param canvas
@@ -511,7 +571,6 @@ public abstract class Graph extends View implements LanguageListener
 //                    paint);
 //        }
     }
-
     //Graph Settings
     protected void displayDataValues(boolean bool)
     {
@@ -535,6 +594,7 @@ public abstract class Graph extends View implements LanguageListener
     }
 
     //Overridden Methods
+    /*
     @Override
     protected void onDraw(Canvas canvas)
     {
@@ -544,9 +604,9 @@ public abstract class Graph extends View implements LanguageListener
         this.paint.setColor(ContextCompat.getColor(this.getContext(), R.color.colorWhite));
         this.paint.setStrokeWidth(this.STROKE_SIZE);
         this.paint.setStyle(Paint.Style.FILL);
+        this.paint.setTextSize(50);
         this.graph2DImage.drawRect(new Rect(0, 0, this.getWidth(), this.getHeight()), this.paint);
 
-        this.axesOrigin = new Point(this.axesPaddingWithPanelEdgeSides, this.graphImage.getHeight()-this.axesPaddingWithPanelEdgeBelow);
         this.drawAxesWithDefaultSettings();
         try
         {
@@ -581,6 +641,31 @@ public abstract class Graph extends View implements LanguageListener
         {
 //			ex.printStackTrace();
         }
+    }   */
+
+    @Override
+    protected void onDraw(Canvas canvas)
+    {
+        Log.d(TAG, "onDraw: called");
+        super.onDraw(canvas);
+
+        //Draw graph background
+        this.graph2DImage.drawRect(new Rect(0, 0, this.getWidth(), this.getHeight()), this.paint);
+
+        this.drawAxes();
+        try
+        {
+            this.drawAxesMarkers();
+            this.drawXAxisMarkerLabels();
+            this.drawYAxisMarkerLabels();
+            this.drawGraphLines();
+            this.drawAxisNames();
+            if (this.enableDataValueMarkers)
+            {
+                this.drawDataValues();
+            }
+        }
+        catch(ArithmeticException ex){}
     }
 
     @Override
@@ -597,10 +682,27 @@ public abstract class Graph extends View implements LanguageListener
         Log.d(TAG, "onSizeChanged: called");
         super.onSizeChanged(w, h, oldw, oldh);
 
+        //Set the canvas size
         this.graphImageSize.set(w, h);
         Log.d(TAG, "onMeasure: graph image sized to be " + graphImageSize.x + " x " + graphImageSize.y);
         this.graphImage = Bitmap.createBitmap(this.graphImage, 0, 0, this.graphImageSize.x, this.graphImageSize.y);
         this.graph2DImage = new Canvas(this.graphImage);
         Log.d(TAG, "onMeasure: Graph image dims: " + this.graphImage.getWidth() + " x " + this.graphImage.getHeight());
+
+        //Measure padding
+        this.calculateAxisNamesPos();
+        this.calculateXAxisMarkerLabelsYPos();
+        this.calculateXAxisMarkersYPos();
+        this.calculateYAxisMarkerLabelsMaxLength();
+        this.calculateYMarkerXPos();
+        this.calculateOriginPos();
+        this.calculateYAxisMarkersPos();
+        try
+        {
+            this.generateDataPoints();
+            this.calculateXAxisMarkerLabelsPos();
+            this.calculateYAxisMarkerLabelsPos();
+        }
+        catch(ArithmeticException ex){}
     }
 }
