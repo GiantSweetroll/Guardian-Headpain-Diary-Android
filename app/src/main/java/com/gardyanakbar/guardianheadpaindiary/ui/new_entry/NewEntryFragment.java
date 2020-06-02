@@ -93,6 +93,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         //Properties
         this.pager.setAdapter(this.pageAdapter);
         this.pager.setOffscreenPageLimit(this.pageAdapter.getCount());
+        this.bPrev.setVisibility(View.INVISIBLE);
         this.entryLogFormSpinner.setAdapter(this.getFormsSpinnerAdapter());
         this.entryLogFormSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -179,20 +180,20 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
                 entryLogFormSpinner.setSelection(position);
                 if (position == 0)
                 {
-                    bPrev.setEnabled(false);
+                    bPrev.setVisibility(View.INVISIBLE);
                 }
                 else
                 {
-                    bPrev.setEnabled(true);
+                    bPrev.setVisibility(View.VISIBLE);
                 }
 
                 if (position == entryLogFormSpinner.getCount()-1)
                 {
-                    bNext.setEnabled(false);
+                    bNext.setVisibility(View.INVISIBLE);
                 }
                 else
                 {
-                    bNext.setEnabled(true);
+                    bNext.setVisibility(View.VISIBLE);
                 }
             }
 
