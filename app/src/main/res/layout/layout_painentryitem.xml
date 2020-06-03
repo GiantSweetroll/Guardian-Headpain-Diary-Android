@@ -92,4 +92,20 @@
         android:layout_below="@id/commentsLabel"
         android:id="@+id/comments"
         android:paddingLeft="@dimen/general_padding"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/delete_text"
+        android:id="@+id/delete"
+        android:padding="@dimen/general_padding"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@id/comments"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/edit_text"
+        android:id="@+id/edit"
+        android:padding="@dimen/general_padding"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/comments"/>
 </RelativeLayout>

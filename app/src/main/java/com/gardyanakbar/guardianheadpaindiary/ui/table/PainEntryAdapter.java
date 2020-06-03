@@ -1,5 +1,8 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.table;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,11 +11,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
+import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
+import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
+import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import giantsweetroll.date.Date;
@@ -22,11 +33,15 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
     //Fields
     private static final String TAG = "PainEntryAdapter";
     private List<PainEntryData> dataset;
+    private List<Integer> selectedIndexes;
+    private Context context;
+    private boolean selectAll;
 
     //Inner Class
     public static class PainEntryHolder extends RecyclerView.ViewHolder
     {
-        public TextView dateVal, time, painKind, intensity, duration, trigger, recMed, comments;
+        public boolean isSelected;
+        public TextView dateVal, time, painKind, intensity, duration, trigger, recMed, comments, edit, delete;
         public RelativeLayout parentLayout;
 
         public PainEntryHolder(View v)
@@ -40,16 +55,120 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
             trigger = v.findViewById(R.id.trigger);
             recMed = v.findViewById(R.id.recMed);
             comments = v.findViewById(R.id.comments);
+            edit = v.findViewById(R.id.edit);
+            delete = v.findViewById(R.id.delete);
             parentLayout = v.findViewById(R.id.parent_layout);
+            isSelected = false;
             Log.d(TAG, "PainEntryHolder: PainEntryHolder initialized");
         }
     }
 
     //Constructor
-    public PainEntryAdapter(List<PainEntryData> dataset)
+    public PainEntryAdapter(Context context, List<PainEntryData> dataset)
     {
         this.dataset = dataset;
         Log.d(TAG, "PainEntryAdapter: data size: " + dataset.size());
+        this.selectedIndexes = new ArrayList<>();
+        this.context = context;
+        this.selectAll = false;
+    }
+
+    //Public Methods
+    /**
+     * Selects all entries
+     */
+    public void selectAll()
+    {
+        this.selectedIndexes.clear();
+        if (this.dataset.size() > 0)
+        {
+            for (int i=0; i<this.dataset.size(); i++)
+            {
+                this.selectedIndexes.add(i);
+            }
+            this.selectAll = true;
+        }
+    }
+    /**
+     * Deselects all entries
+     */
+    public void deselectAll()
+    {
+        this.selectedIndexes.clear();
+        this.selectAll = false;
+    }
+    /**
+     * Deletes entries
+     */
+    public void deleteEntries()
+    {
+        Log.d(TAG, "deleteEntries: called");
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+        builder.setMessage(R.string.dialog_confirm_delete_text)
+                .setTitle(R.string.dialog_confirm_delete_title_text)
+                .setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        Log.d(TAG, "onClick: user clicked yes");
+                        for (int i=0; i<selectedIndexes.size(); i++)
+                        {
+                            PainEntryData entry = dataset.get(selectedIndexes.get(i));
+                            Date date = entry.getDate();
+                            String path = Methods.generatePainDataFilePathName(Globals.activePatient, entry);
+                            FileOperation.deleteEntry(path);
+                            dataset.remove(selectedIndexes.get(i));
+                            Log.d(TAG, "onClick: entry at " + path + " deleted");
+                            notifyDataSetChanged();
+                        }
+                    }
+                })
+                .setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        Log.d(TAG, "onClick: user clicked cancel");
+                    }
+                });
+        builder.show();
+    }
+
+    //Private Methods
+    /**
+     * Deletes the entry at the selected index.
+     * @param i - the index
+     */
+    private void deleteEntryAtIndex(final int i)
+    {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+        builder.setMessage(R.string.dialog_confirm_delete_text)
+                .setTitle(R.string.dialog_confirm_delete_title_text)
+                .setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        Log.d(TAG, "onClick: user clicked yes");
+                        PainEntryData entry = dataset.get(i);
+                        Date date = entry.getDate();
+                        String path = Methods.generatePainDataFilePathName(Globals.activePatient, entry);
+                        FileOperation.deleteEntry(path);
+                        dataset.remove(i);
+                        Log.d(TAG, "onClick: entry at " + path + " deleted");
+                        notifyDataSetChanged();
+                    }
+                })
+                .setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener()
+                {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which)
+                    {
+                        Log.d(TAG, "onClick: user clicked cancel");
+                    }
+                });
+        builder.show();
     }
 
     //Overridden Methods
@@ -64,7 +183,7 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
     }
 
     @Override
-    public void onBindViewHolder(@NonNull PainEntryHolder holder, int position)
+    public void onBindViewHolder(@NonNull final PainEntryHolder holder, final int position)
     {
         Log.d(TAG, "onBindViewHolder: Holder binded");
         PainEntryData data = this.dataset.get(position);
@@ -76,12 +195,58 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
         holder.recMed.setText(data.getRecentMedication());
         holder.painKind.setText(data.getPainKind());
         holder.comments.setText(data.getComments());
+        holder.delete.setText(HtmlCompat.fromHtml(Methods.giveTextHTMLLinkStyle(context.getString(R.string.delete_text)), HtmlCompat.FROM_HTML_MODE_LEGACY));
+        holder.edit.setText(HtmlCompat.fromHtml(Methods.giveTextHTMLLinkStyle(context.getString(R.string.edit_text)), HtmlCompat.FROM_HTML_MODE_LEGACY));
+
+        if (this.selectAll)
+        {
+            holder.parentLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.recyclerview_item_border_selected));
+            holder.isSelected = true;
+        }
+        else
+        {
+            holder.parentLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.recyclerview_item_border));
+            holder.isSelected = false;
+        }
+
+        holder.edit.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d(TAG, "onClick: Edit text clicked");
+                //TODO: Edit entry
+            }
+        });
+
+        holder.delete.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                Log.d(TAG, "onClick: Delete text clicked");
+                deleteEntryAtIndex(position);
+            }
+        });
 
         holder.parentLayout.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
+                selectAll = false;
+                holder.isSelected = !holder.isSelected;
+                if (holder.isSelected)
+                {
+                    holder.parentLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.recyclerview_item_border_selected));
+                    selectedIndexes.add(position);
+                }
+                else
+                {
+                    holder.parentLayout.setBackground(ContextCompat.getDrawable(context, R.drawable.recyclerview_item_border));
+                    selectedIndexes.remove(Integer.valueOf(position));
+                }
+
                 //TODO: Pop up
             }
         });

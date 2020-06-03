@@ -35,9 +35,24 @@ public class Methods
 {
     private static final String TAG = "Methods";
 
+    /**
+     * Adds a red * as a suffix of the text.
+     * @param text - the text
+     * @return a new html string with a red * at the end
+     */
     public static final String createTextWithRequiredIdentifier(String text)
     {
         return "<html>" + text + "<font color='red'>" + Constants.REQUIRED_IDENTIFIER + "</font></html>";
+    }
+
+    /**
+     * Gives the text the style of an HTML link
+     * @param text - the text
+     * @return a new HTML string with the style of an HTML link.
+     */
+    public static final String giveTextHTMLLinkStyle(String text)
+    {
+        return "<html><font color='blue'><u>" + text + "</u></font></html>";
     }
 
     public static String frameStringWithDashes(String text)

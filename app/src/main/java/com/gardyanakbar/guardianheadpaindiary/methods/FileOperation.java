@@ -139,6 +139,18 @@ public class FileOperation
     }
 
     /**
+     * Delete entries
+     * @param filePaths
+     */
+    public static void deleteEntries(List<String> filePaths)
+    {
+        for (int i=0; i<filePaths.size(); i++)
+        {
+            deleteEntry(filePaths.get(i));
+        }
+    }
+
+    /**
      * Get pain data entries from the specified range of dates (inclusive).
      * @param patientID - the user id
      * @param from - date to start checking

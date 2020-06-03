@@ -64,6 +64,8 @@
     <string name="dialog_confirm_overwrite_text">Another entry of the same start time already exists. Overwrite?</string>
     <string name="dialog_required_fields_title_text">Fill in all required fields</string>
     <string name="dialog_required_fields_text">Please fill all required fields (marked with *)</string>
+    <string name="dialog_confirm_delete_title_text">Delete entry?</string>
+    <string name="dialog_confirm_delete_text">Are you sure you want to delete the selected entries?</string>
 
     <!-- Graph -->
     <string name="graph_switch_text">Switch</string>
@@ -133,4 +135,5 @@
     <string name="refresh_text">Refresh</string>
     <string name="filter_by_text">Filter By</string>
     <string name="keyword_text">Keyword</string>
+    <string name="edit_text">Edit</string>
 </resources>

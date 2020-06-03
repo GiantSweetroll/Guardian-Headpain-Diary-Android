@@ -94,7 +94,7 @@ public class TableFragment extends Fragment
         this.recView = root.findViewById(R.id.tableEntriesListView);
         this.entries = new ArrayList<>();
         this.updateEntries();
-        this.adapter = new PainEntryAdapter(this.entries);
+        this.adapter = new PainEntryAdapter(this.getContext(), this.entries);
 
         //Properties
         this.recView.setLayoutManager(new LinearLayoutManager(this.getContext()));
@@ -118,6 +118,32 @@ public class TableFragment extends Fragment
                 entries.clear();
                 updateEntries();
                 adapter.notifyDataSetChanged();
+            }
+        });
+        this.btnSelectAll.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                adapter.selectAll();
+                adapter.notifyDataSetChanged();
+            }
+        });
+        this.btnDeselectAll.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                adapter.deselectAll();
+                adapter.notifyDataSetChanged();
+            }
+        });
+        this.btnDelete.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                adapter.deleteEntries();
             }
         });
 
