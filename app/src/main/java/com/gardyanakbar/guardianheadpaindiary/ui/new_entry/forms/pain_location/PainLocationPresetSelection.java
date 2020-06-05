@@ -16,6 +16,7 @@ import androidx.core.content.ContextCompat;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.GUIFunctions;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.LanguageListener;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
@@ -29,7 +30,7 @@ import java.util.Map;
 public class PainLocationPresetSelection extends FormElement implements GUIFunctions, LanguageListener
 {
     //Fields
-    private static final String TAG = "PainLocationPresetSelec";
+    private static final String TAG = "PainLocationPresetSelection";
     private List<Button> buttons;
     private List<String> selectedPos;
     private GridLayout grid;
@@ -186,6 +187,11 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
 
         //Initialization
         this.initButtons();
+        if (!Globals.isNewEntry)
+        {
+            Log.d(TAG, "onCreateView: not a new entry, so preset location will be updated");
+            this.setData(Globals.activeEntry);
+        }
 
         return this.view;
     }
@@ -199,12 +205,17 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
     @Override
     public void setData(Object obj)
     {
-        //TODO: Create PainEntryData class
-//        if (obj instanceof PainEntryData)
-//        {
-//            String painKind = ((PainEntryData)obj).getPainKind();
-//            this.setPainKind(painKind);
-//        }
+        if (obj instanceof PainEntryData)
+        {
+            Log.d(TAG, "setData: obj is an instance of PainEntryData");
+            List<String> presets = ((PainEntryData)obj).getPresetPainLocations();
+            Log.d(TAG, "setData: size of preets " + presets.size());
+            for (String location : presets)
+            {
+                Log.d(TAG, "setData: pain location " + location);
+                this.setSelected(location);
+            }
+        }
     }
 
     @Override

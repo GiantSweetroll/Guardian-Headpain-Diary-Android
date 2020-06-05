@@ -60,11 +60,11 @@ public class PainLocationSelection extends FormElement
     }
     public boolean presetLocationSelected()
     {
-        return this.radPresets.isSelected();
+        return this.radPresets.isChecked();
     }
     public boolean customLocationSelected()
     {
-        return this.radCustom.isSelected();
+        return this.radCustom.isChecked();
     }
 
     public void setSelectedPosition(PainEntryData entry)
