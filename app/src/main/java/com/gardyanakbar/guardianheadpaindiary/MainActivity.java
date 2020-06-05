@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        Globals.bottomNavigationView = (BottomNavigationView)findViewById(R.id.nav_view);
 //        navView.setBackgroundColor(this.getResources().getColor(R.color.colorButtonBase));    //Set the background color of the navigation bar
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
@@ -33,10 +33,11 @@ public class MainActivity extends AppCompatActivity
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
-        NavigationUI.setupWithNavController(navView, navController);
+        NavigationUI.setupWithNavController(Globals.bottomNavigationView, navController);
         Globals.settings = new Settings(this);
         Globals.activePatient = new PatientData();
         Globals.tableSettings = new TableSettings();
         Globals.graphSettings = new GraphSettings();
+        Globals.isNewEntry = true;
     }
 }

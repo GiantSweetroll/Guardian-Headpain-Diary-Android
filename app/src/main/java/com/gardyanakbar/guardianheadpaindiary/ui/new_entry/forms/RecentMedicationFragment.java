@@ -103,7 +103,7 @@ public class RecentMedicationFragment extends FormElement implements HistoryList
                                                     PatientData.LAST_RECENT_MEDS,
                                                     Methods.getDefaultRecentMedications(this.getContext()),
                                                     true,
-                                                    false);
+                true);
         layout = this.view.findViewById(R.id.entryLogSideEffectsPanel);
         this.medicineComplaint = new HistoryPanel(this.getContext(),
                                             (Spinner)layout.findViewById(R.id.historySpinner),
@@ -112,12 +112,16 @@ public class RecentMedicationFragment extends FormElement implements HistoryList
                                             PatientData.LAST_MEDICINE_COMPLAINT,
                                             Constants.EMPTY_STRING_ARRAY,
                                             true,
-                                            false);
+                                            true);
 
         //Properties
         this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         this.labRecMed.setTextSize(Constants.FONT_HEADER_SIZER);
         this.labMedCom.setTextSize(Constants.FONT_HEADER_SIZER);
+        if (!Globals.isNewEntry)
+        {
+            this.setData(Globals.activeEntry.getRecentMedication(), Globals.activeEntry.getMedicineComplaint());
+        }
 
         return this.view;
     }

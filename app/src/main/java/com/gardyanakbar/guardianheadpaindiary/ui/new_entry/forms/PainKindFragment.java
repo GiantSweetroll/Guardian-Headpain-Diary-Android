@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.gardyanakbar.guardianheadpaindiary.ui.history.HistoryPanel;
 public class PainKindFragment extends FormElement implements HistoryListener
 {
     //Fields
+    private static final String TAG = "PainKindFragment";
     private HistoryPanel painKind;
 
     //Constructor
@@ -57,6 +59,10 @@ public class PainKindFragment extends FormElement implements HistoryListener
 
         //Properties
         this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
+        if (!Globals.isNewEntry)
+        {
+            this.setData(Globals.activeEntry);
+        }
 
         return this.view;
     }
@@ -73,6 +79,7 @@ public class PainKindFragment extends FormElement implements HistoryListener
         if (obj instanceof PainEntryData)
         {
             String painKind = ((PainEntryData)obj).getPainKind();
+            Log.d(TAG, "setData: Not new entry, setting up pain kind as " + painKind);
             this.setPainKind(painKind);
         }
     }

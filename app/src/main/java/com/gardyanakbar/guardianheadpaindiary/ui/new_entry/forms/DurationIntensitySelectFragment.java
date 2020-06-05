@@ -1,23 +1,22 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
-import com.gardyanakbar.guardianheadpaindiary.constants.XMLIdentifier;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
@@ -27,6 +26,7 @@ import java.util.List;
 public class DurationIntensitySelectFragment extends FormElement
 {
     //Fields
+    private static final String TAG = "DurationIntensitySelect";
     private TextView durationLabel, durationValueLabel, intensityValueLabel, intensityLabel;
     private Spinner durationUnits;
     private SeekBar durationSlider, intensitySlider;
@@ -190,6 +190,12 @@ public class DurationIntensitySelectFragment extends FormElement
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {}
         });
+        if (!Globals.isNewEntry)
+        {
+            Log.d(TAG, "onCreateView: not entry setting up intensity " + Globals.activeEntry.getIntensity() + " and duration " + Globals.activeEntry.getDuration());
+            this.setIntensity(Globals.activeEntry.getIntensity());
+            this.setDuration(Globals.activeEntry.getDuration());
+        }
 
         return this.view;
     }

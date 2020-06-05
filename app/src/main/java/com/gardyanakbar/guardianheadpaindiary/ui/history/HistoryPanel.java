@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.history;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +18,7 @@ import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 public class HistoryPanel implements GUIFunctions, LanguageListener, AdapterView.OnItemSelectedListener, View.OnTouchListener
 {
     //Fields
+    private static final String TAG = "HistoryPanel";
     private HistorySpinner historySpinner;
     private EditText tfHistory;
     private History history;

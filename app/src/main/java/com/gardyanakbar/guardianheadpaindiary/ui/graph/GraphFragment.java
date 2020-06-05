@@ -184,7 +184,6 @@ public class GraphFragment extends Fragment implements GUIFunctions
         return root;
     }
 
-
     @Override
     public void resetDefaults() {}
 

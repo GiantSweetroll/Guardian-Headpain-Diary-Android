@@ -2,6 +2,7 @@ package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,10 +12,10 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
@@ -23,6 +24,7 @@ import giantsweetroll.date.Date;
 public class DateTimeSelectFragment extends FormElement
 {
     //Fields
+    private static final String TAG = "DateTimeSelectFragment";
     private DatePicker date;
     private TimePicker time;
 
@@ -67,10 +69,12 @@ public class DateTimeSelectFragment extends FormElement
     {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             this.time.setHour(Integer.parseInt(entry.getTimeHour()));
+            this.time.setMinute(Integer.parseInt(entry.getTimeMinutes()));
         }
         else
         {
             this.time.setCurrentHour(Integer.parseInt(entry.getTimeHour()));
+            this.time.setCurrentMinute(Integer.parseInt(entry.getTimeMinutes()));
         }
     }
     public void setData(PainEntryData entry)
@@ -96,6 +100,12 @@ public class DateTimeSelectFragment extends FormElement
         //Properties
         this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         this.time.setIs24HourView(true);
+        if (!Globals.isNewEntry)
+        {
+            Log.d(TAG, "onCreateView: not new entry, setting up date and time " + Globals.activeEntry.getFullTimeAndDate());
+            this.setDate(Globals.activeEntry.getDate());
+            this.setTime(Globals.activeEntry);
+        }
 
         return this.view;
     }

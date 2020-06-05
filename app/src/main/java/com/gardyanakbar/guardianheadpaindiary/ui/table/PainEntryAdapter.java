@@ -16,13 +16,11 @@ import androidx.core.text.HtmlCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
-import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,37 +100,40 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
      */
     public void deleteEntries()
     {
-        Log.d(TAG, "deleteEntries: called");
-        AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
-        builder.setMessage(R.string.dialog_confirm_delete_text)
-                .setTitle(R.string.dialog_confirm_delete_title_text)
-                .setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
+        if (this.selectedIndexes.size() > 0)
+        {
+            Log.d(TAG, "deleteEntries: called");
+            AlertDialog.Builder builder = new AlertDialog.Builder(this.context);
+            builder.setMessage(R.string.dialog_confirm_delete_text)
+                    .setTitle(R.string.dialog_confirm_delete_title_text)
+                    .setPositiveButton(R.string.ok_text, new DialogInterface.OnClickListener()
                     {
-                        Log.d(TAG, "onClick: user clicked yes");
-                        for (int i=0; i<selectedIndexes.size(); i++)
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
                         {
-                            PainEntryData entry = dataset.get(selectedIndexes.get(i));
-                            Date date = entry.getDate();
-                            String path = Methods.generatePainDataFilePathName(Globals.activePatient, entry);
-                            FileOperation.deleteEntry(path);
-                            dataset.remove(selectedIndexes.get(i));
-                            Log.d(TAG, "onClick: entry at " + path + " deleted");
-                            notifyDataSetChanged();
+                            Log.d(TAG, "onClick: user clicked yes");
+                            for (int i=0; i<selectedIndexes.size(); i++)
+                            {
+                                PainEntryData entry = dataset.get(selectedIndexes.get(i));
+                                Date date = entry.getDate();
+                                String path = Methods.generatePainDataFilePathName(Globals.activePatient, entry);
+                                FileOperation.deleteEntry(path);
+                                dataset.remove(selectedIndexes.get(i));
+                                Log.d(TAG, "onClick: entry at " + path + " deleted");
+                                notifyDataSetChanged();
+                            }
                         }
-                    }
-                })
-                .setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener()
-                {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which)
+                    })
+                    .setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener()
                     {
-                        Log.d(TAG, "onClick: user clicked cancel");
-                    }
-                });
-        builder.show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which)
+                        {
+                            Log.d(TAG, "onClick: user clicked cancel");
+                        }
+                    });
+            builder.show();
+        }
     }
 
     //Private Methods
@@ -186,7 +187,7 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
     public void onBindViewHolder(@NonNull final PainEntryHolder holder, final int position)
     {
         Log.d(TAG, "onBindViewHolder: Holder binded");
-        PainEntryData data = this.dataset.get(position);
+        final PainEntryData data = this.dataset.get(position);
         holder.dateVal.setText(data.getDate().toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
         holder.time.setText(data.getFullTime());
         holder.intensity.setText(data.getIntensity());
@@ -215,7 +216,9 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
             public void onClick(View v)
             {
                 Log.d(TAG, "onClick: Edit text clicked");
-                //TODO: Edit entry
+                Globals.activeEntry = data;
+                Globals.isNewEntry = false;
+                Globals.bottomNavigationView.setSelectedItemId(R.id.navigation_new_entry);
             }
         });
 

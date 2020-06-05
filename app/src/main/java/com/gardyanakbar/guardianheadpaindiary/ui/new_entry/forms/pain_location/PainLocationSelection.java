@@ -1,17 +1,22 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 import com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.FormElement;
@@ -22,6 +27,7 @@ import java.util.List;
 public class PainLocationSelection extends FormElement
 {
     //Fields
+    private static final String TAG = "PainLocationSelection";
     private RadioButton radPresets, radCustom;
     private PainLocationCustomSelection custom;
     private PainLocationPresetSelection presets;
@@ -64,29 +70,29 @@ public class PainLocationSelection extends FormElement
     public void setSelectedPosition(PainEntryData entry)
     {
         List<String> presetLocations = entry.getPresetPainLocations();
-        List<String> customLocations = entry.getCustomPainLocations();
+//        List<String> customLocations = entry.getCustomPainLocations();
 
         if (presetLocations.size() == 0)
         {
-            this.radCustom.setSelected(true);
-            List<String> list = new ArrayList<String>();
-            for (String location : customLocations)
-            {
-                try
-                {
-                    list.add(location);
-                }
-                catch(Exception ex) {}
-            }
-            this.custom.setLocations(list);
+            this.radCustom.setChecked(true);
+//            List<String> list = new ArrayList<String>();
+//            for (String location : customLocations)
+//            {
+//                try
+//                {
+//                    list.add(location);
+//                }
+//                catch(Exception ex) {}
+//            }
+//            this.custom.setLocations(list);
         }
         else
         {
-            this.radPresets.setSelected(true);
-            for (String location : presetLocations)
-            {
-                this.presets.setSelected(location);
-            }
+            this.radPresets.setChecked(true);
+//            for (String location : presetLocations)
+//            {
+//                this.presets.setSelected(location);
+//            }
         }
     }
     public boolean isPainLocationSelected()
@@ -98,6 +104,7 @@ public class PainLocationSelection extends FormElement
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        Log.d(TAG, "onCreateView: called");
         this.view = inflater.inflate(R.layout.fragment_entry_log_painloc, container, false);
 
         //Initialization
@@ -114,6 +121,22 @@ public class PainLocationSelection extends FormElement
         this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         this.radPresets.setTextSize(Constants.FONT_HEADER_SIZER);
         this.radCustom.setTextSize(Constants.FONT_HEADER_SIZER);
+        this.radPresets.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                radCustom.setChecked(!isChecked);
+            }
+        });
+        this.radCustom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
+        {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
+            {
+                radPresets.setChecked(!isChecked);
+            }
+        });
 
         return this.view;
     }
@@ -147,5 +170,22 @@ public class PainLocationSelection extends FormElement
         this.radPresets.setText(R.string.entry_log_form_painloc_presets_text);
         this.custom.revalidateLanguage();
         this.presets.revalidateLanguage();
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+        if (!Globals.isNewEntry)
+        {
+            Log.d(TAG, "onResume: Selecting locations...");
+            this.setSelectedPosition(Globals.activeEntry);
+        }
+        Log.d(TAG, "onResume: called");
     }
 }

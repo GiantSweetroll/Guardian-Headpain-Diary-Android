@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 
 public class CommentsFragment extends FormElement
 {
@@ -42,6 +43,12 @@ public class CommentsFragment extends FormElement
         this.setFormTitle("");
         this.taComments = (EditText)this.view.findViewById(R.id.entryLogCommentsTextArea);
         this.setName(this.getString(R.string.entry_log_map_button_comments_text));
+
+        //Properties
+        if (!Globals.isNewEntry)
+        {
+            this.setData(Globals.activeEntry.getComments());
+        }
 
         return this.view;
     }

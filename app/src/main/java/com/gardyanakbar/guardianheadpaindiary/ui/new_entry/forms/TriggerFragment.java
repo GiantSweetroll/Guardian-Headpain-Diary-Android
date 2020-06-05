@@ -54,6 +54,10 @@ public class TriggerFragment extends FormElement implements HistoryListener
 
         //Properties
         this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
+        if (!Globals.isNewEntry)
+        {
+            this.setData(Globals.activeEntry);
+        }
 
         return this.view;
     }

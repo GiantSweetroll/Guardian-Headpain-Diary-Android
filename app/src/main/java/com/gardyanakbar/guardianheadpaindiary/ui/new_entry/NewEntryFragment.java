@@ -3,6 +3,7 @@ package com.gardyanakbar.guardianheadpaindiary.ui.new_entry;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
@@ -44,7 +46,8 @@ import giantsweetroll.date.Date;
 
 public class NewEntryFragment extends Fragment implements HistoryListener, GUIFunctions, LanguageListener
 {
-
+    //Fields
+    private static final String TAG = "NewEntryFragment";
     private NewEntryViewModel dashboardViewModel;
     private View view;
     private Spinner entryLogFormSpinner;
@@ -61,7 +64,6 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
     private CommentsFragment fComments;
     private PainEntryData oldEntry;
     private PatientData oldPatient;
-    private boolean isNewEntry;
 
     //Overridden Methods
     @Override
@@ -88,12 +90,11 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         this.bSave = (Button)this.view.findViewById(R.id.entryLogSaveButton);
         this.bNext = (Button)this.view.findViewById(R.id.entryLogNextButton);
         this.oldPatient = Globals.activePatient;
-        this.setAsNewEntry(true);
+//        this.setAsNewEntry(true);
 
         //Properties
         this.pager.setAdapter(this.pageAdapter);
         this.pager.setOffscreenPageLimit(this.pageAdapter.getCount());
-        this.bPrev.setVisibility(View.INVISIBLE);
         this.entryLogFormSpinner.setAdapter(this.getFormsSpinnerAdapter());
         this.entryLogFormSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
@@ -148,6 +149,10 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
                 {
                     pager.setCurrentItem(index-1);
                 }
+                else
+                {
+                    getFragmentManager().popBackStackImmediate();
+                }
             }
         });
         this.bSave.setOnClickListener(new View.OnClickListener()
@@ -180,11 +185,11 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
                 entryLogFormSpinner.setSelection(position);
                 if (position == 0)
                 {
-                    bPrev.setVisibility(View.INVISIBLE);
+                    bPrev.setText(getString(R.string.cancel_text));
                 }
                 else
                 {
-                    bPrev.setVisibility(View.VISIBLE);
+                    bPrev.setText(getString(R.string.previous_text));
                 }
 
                 if (position == entryLogFormSpinner.getCount()-1)
@@ -237,6 +242,14 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         }
     }
 
+    @Override
+    public void onPause()
+    {
+        Log.d(TAG, "onPause: called");
+        super.onPause();
+        Globals.isNewEntry = true;
+    }
+
     //Private Methods
     /**
      * Add the FormElement objects from a list of FormElement to a list of Fragments
@@ -286,18 +299,24 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         this.forms.add(this.fRecMed);
         this.forms.add(this.fComments);
     }
-    private void fillData(PatientData patient, PainEntryData entry)
+    private void fillData(PainEntryData entry)
     {
-        this.fComments.setData(entry.getComments());
-        this.fDateTime.setDate(entry.getDate());
-        this.fDateTime.setTime(entry);
-//        this.dateTime.setAsDefaultThis();
-        this.fDurationIntensity.setDuration(entry.getDuration());
-        this.fDurationIntensity.setIntensity(entry.getIntensity());
-        this.fPainKind.setData(entry);
-        this.fPainLoc.setData(entry);
-        this.fRecMed.setData(entry.getRecentMedication(), entry.getMedicineComplaint());
-        this.fTrigger.setData(entry);
+        if (this.fComments != null)
+        {
+            this.fComments.setData(entry.getComments());
+            this.fDateTime.setDate(entry.getDate());
+            this.fDateTime.setTime(entry);
+            this.fDurationIntensity.setDuration(entry.getDuration());
+            this.fDurationIntensity.setIntensity(entry.getIntensity());
+            this.fPainKind.setData(entry);
+            this.fPainLoc.setSelectedPosition(entry);
+            this.fRecMed.setData(entry.getRecentMedication(), entry.getMedicineComplaint());
+            this.fTrigger.setData(entry);
+        }
+        else
+        {
+            Log.d(TAG, "fillData: fComments is null");
+        }
     }
     private void setOldPatientData(PatientData patient)
     {
@@ -319,10 +338,8 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
 //        this.activeUser.setData(patient);
         this.setOldEntry(entry);
         this.setOldPatientData(patient);
-        this.fillData(patient, entry);
-        this.setAsNewEntry(false);
-//        this.revalidate();
-//        this.invalidate();
+   //     this.fillData(patient, entry);
+//        this.setAsNewEntry(false);
     }
 
     /**
@@ -391,22 +408,6 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         return list;
     }
 
-    /**
-     * Flags the current entry as a new entry.
-     * @param bool - Whether it's a new entry.
-     */
-    public void setAsNewEntry(boolean bool)
-    {
-        this.isNewEntry = bool;
-    }
-    /**
-     * Checks if the current entry is a new entry.
-     * @return true if it's a new entry.
-     */
-    public boolean isNewEntry()
-    {
-        return this.isNewEntry;
-    }
     public PainEntryData getOldPainEntryData()
     {
         return this.oldEntry;
@@ -496,7 +497,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         FileOperation.updateHistory(Globals.HISTORY_TRIGGER, patient, entry.getTrigger());
         FileOperation.exportPainData(patient, entry);
 
-        if (!this.isNewEntry())
+        if (!Globals.isNewEntry)
         {
             if (!Date.areSameDate(this.fDateTime.getDate(), oldEntry.getDate()) || Methods.isSameTime(Integer.parseInt(this.fDateTime.getTimeHour()), Integer.parseInt(this.fDateTime.getTimeMinutes()), Integer.parseInt(oldEntry.getTimeHour()), Integer.parseInt(oldEntry.getTimeMinutes())))		//Check if the start time or date has been altered
             {
@@ -553,7 +554,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         {
             if(entry.isSingleEntry())
             {
-                if (FileOperation.entryExists(patient, entry) && this.isNewEntry())
+                if (FileOperation.entryExists(patient, entry) && Globals.isNewEntry)
                 {
                     AlertDialog.Builder builder = new AlertDialog.Builder(this.getContext());
                     builder.setTitle(this.getString(R.string.dialog_confirm_overwrite_title_text));
@@ -590,6 +591,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
                 this.exportMultiple(patient, entry);
             }
             Toast.makeText(this.getContext(), this.getString(R.string.entry_log_entry_saved_text), Toast.LENGTH_SHORT).show();
+            this.getFragmentManager().popBackStackImmediate();
         }
         else
         {

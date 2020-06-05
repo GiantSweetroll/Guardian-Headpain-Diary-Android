@@ -2,9 +2,11 @@ package com.gardyanakbar.guardianheadpaindiary.constants;
 
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.GraphSettings;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.History;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.TableSettings;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public final class Globals
 {
@@ -19,4 +21,9 @@ public final class Globals
     public static PatientData activePatient;
     public static TableSettings tableSettings;
     public static GraphSettings graphSettings;
+
+    public static PainEntryData activeEntry;
+    public static boolean isNewEntry;
+
+    public static BottomNavigationView bottomNavigationView;
 }

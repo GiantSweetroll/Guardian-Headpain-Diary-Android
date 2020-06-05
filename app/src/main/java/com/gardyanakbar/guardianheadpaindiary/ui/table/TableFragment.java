@@ -97,6 +97,7 @@ public class TableFragment extends Fragment
         this.adapter = new PainEntryAdapter(this.getContext(), this.entries);
 
         //Properties
+        Globals.isNewEntry = true;
         this.recView.setLayoutManager(new LinearLayoutManager(this.getContext()));
         this.recView.setAdapter(adapter);
         this.btnSettings.setOnClickListener(new View.OnClickListener()

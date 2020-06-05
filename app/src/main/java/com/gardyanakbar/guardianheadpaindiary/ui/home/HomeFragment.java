@@ -13,11 +13,13 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 
 public class HomeFragment extends Fragment {
 
     private HomeViewModel homeViewModel;
 
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState)
     {

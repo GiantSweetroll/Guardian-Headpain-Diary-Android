@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.GridLayout;
 import androidx.annotation.NonNull;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.GUIFunctions;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.LanguageListener;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
@@ -26,6 +28,7 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
 {
 
     //Fields
+    private static final String TAG = "PainLocationCustomSelec";
     private Map<String, ImagePiece> imagePuzzles;
     private GridLayout grid;
     private Button bReset;
@@ -150,6 +153,7 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        Log.d(TAG, "onCreateView: called");
         this.view = inflater.inflate(R.layout.fragment_entry_log_painloc_custom, container, false);
 
         //Initialization
@@ -210,5 +214,11 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
     public void revalidateLanguage()
     {
         this.bReset.setText(R.string.reset_text);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: called");
     }
 }

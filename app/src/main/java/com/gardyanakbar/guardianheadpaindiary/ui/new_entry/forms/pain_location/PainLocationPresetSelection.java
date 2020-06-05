@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms.pain_location;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.cardview.widget.CardView;
 import androidx.core.content.ContextCompat;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.GUIFunctions;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.LanguageListener;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
@@ -27,6 +29,7 @@ import java.util.Map;
 public class PainLocationPresetSelection extends FormElement implements GUIFunctions, LanguageListener
 {
     //Fields
+    private static final String TAG = "PainLocationPresetSelec";
     private List<Button> buttons;
     private List<String> selectedPos;
     private GridLayout grid;
@@ -178,6 +181,7 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        Log.d(TAG, "onCreateView: called");
         this.view = inflater.inflate(R.layout.fragment_entry_log_painloc_preset, container, false);
 
         //Initialization
@@ -223,4 +227,10 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
     @Override
     public void revalidateLanguage()
     {}
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        Log.d(TAG, "onResume: called");
+    }
 }
