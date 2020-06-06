@@ -213,6 +213,8 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         //Properties
         this.dateFrom = Globals.graphSettings.getDateFrom();
         this.dateTo = Globals.graphSettings.getDateTo();
+        Methods.setDateOnPicker(this.dateFromDialog.getDatePicker(), this.dateFrom);
+        Methods.setDateOnPicker(this.dateToDialog.getDatePicker(), this.dateTo);
         updateDateSelection(dateFrom, labDateFromValue);
         updateDateSelection(dateTo, labDateToValue);
         this.checkDataPoints.setChecked(Globals.graphSettings.isShowDataPoints());
