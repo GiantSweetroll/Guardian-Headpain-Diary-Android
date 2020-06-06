@@ -18,10 +18,12 @@ public class LineGraph extends Graph
     public LineGraph(Context context,  LinkedHashMap<String, Double> dataMap)
     {
         super(context, dataMap);
+        this.dataPointColor = ContextCompat.getColor(this.getContext(), android.R.color.holo_green_light);
     }
     public LineGraph(Context context, LinkedHashMap<String, Double> dataMap, String xAxisName, String yAxisName)
     {
         super(context, dataMap, xAxisName, yAxisName);
+        this.dataPointColor = ContextCompat.getColor(this.getContext(), android.R.color.holo_green_light);
     }
 
     //Private Methods

@@ -138,6 +138,29 @@ public class GraphFragment extends Fragment implements GUIFunctions
         this.graph.setLayoutParams(params);
         this.scroll.addView(this.graph);
     }
+    private void initReverseGraph()
+    {
+        try
+        {
+            this.scroll.removeView(this.graph);
+        }
+        catch(NullPointerException ex){}
+
+        if (this.graph instanceof LineGraph)
+        {
+            this.graph = new BarGraph(this.getContext(), this.graph.getDataMap(), this.graph.getXAxisName(), this.graph.getYAxisName());
+        }
+        else
+        {
+            this.graph = new LineGraph(this.getContext(), this.graph.getDataMap(), this.graph.getXAxisName(), this.graph.getYAxisName());
+            this.graph.displayDataPoint(Globals.graphSettings.isShowDataPoints());
+        }
+
+        //Add to scroll
+        HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(HorizontalScrollView.LayoutParams.MATCH_PARENT, HorizontalScrollView.LayoutParams.MATCH_PARENT);
+        this.graph.setLayoutParams(params);
+        this.scroll.addView(this.graph);
+    }
 
     //Overridden Methods
     @Override
@@ -178,6 +201,14 @@ public class GraphFragment extends Fragment implements GUIFunctions
             public void onClick(View v)
             {
                 initGraph();
+            }
+        });
+        this.btnSwitch.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                initReverseGraph();
             }
         });
 

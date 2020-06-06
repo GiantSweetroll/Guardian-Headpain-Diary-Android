@@ -51,6 +51,7 @@ public abstract class Graph extends View implements LanguageListener
     protected int xAxisMarkerLabelYPos;
     protected int xAxisMarkerYPos;
     protected int yAxisMarkerXPos;
+    protected int dataPointColor;
     protected int distanceBetweenDataPoints;
     protected int xAxisMarkerLabelDiff;
     protected double yAxisMarkerLabelDiff;
@@ -121,6 +122,7 @@ public abstract class Graph extends View implements LanguageListener
         this.xAxisMarkerLabelsPos = new ArrayList<>();
         this.yAxisMarkerLabelPos = new ArrayList<>();
         this.paint = new Paint();
+        this.dataPointColor = ContextCompat.getColor(this.getContext(), android.R.color.holo_green_light);
 
         //Properties
         this.paint.setAntiAlias(true);
@@ -622,7 +624,7 @@ public abstract class Graph extends View implements LanguageListener
 
             if (this.displayDataPoint)
             {
-                this.drawDataPoints(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), android.R.color.holo_green_light), 20);
+                this.drawDataPoints(this.graph2DImage, this.paint, this.dataPointColor, 20);
             }
 
             if (this.enableDataValueMarkers)

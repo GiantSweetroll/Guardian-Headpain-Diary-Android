@@ -17,11 +17,13 @@ public class BarGraph extends Graph
     {
         super(context, dataMap);
         super.setMaxMarkersInXAxis(dataMap.size());
+        this.dataPointColor = ContextCompat.getColor(this.getContext(), android.R.color.holo_red_dark);
     }
     public BarGraph(Context context, LinkedHashMap<String, Double> dataMap, String xAxisName, String yAxisName)
     {
         super(context, dataMap, xAxisName, yAxisName);
         super.setMaxMarkersInXAxis(dataMap.size());
+        this.dataPointColor = ContextCompat.getColor(this.getContext(), android.R.color.holo_red_dark);
     }
 
     //Private Methods
@@ -51,7 +53,7 @@ public class BarGraph extends Graph
     {
         super.onDraw(canvas);
 
-        this.drawDataPoints(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), android.R.color.holo_red_light), this.distanceBetweenDataPoints/2);
+        this.drawDataPoints(this.graph2DImage, this.paint, ContextCompat.getColor(this.getContext(), android.R.color.holo_red_dark), this.distanceBetweenDataPoints/2);
         canvas.drawBitmap(this.getGraphImage(), 0, 0, this.paint);
     }
 
