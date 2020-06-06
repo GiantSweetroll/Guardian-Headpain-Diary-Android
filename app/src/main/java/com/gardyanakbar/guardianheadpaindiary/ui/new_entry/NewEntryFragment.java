@@ -90,6 +90,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         this.bSave = (Button)this.view.findViewById(R.id.entryLogSaveButton);
         this.bNext = (Button)this.view.findViewById(R.id.entryLogNextButton);
         this.oldPatient = Globals.activePatient;
+        this.oldEntry = Globals.activeEntry;
 //        this.setAsNewEntry(true);
 
         //Properties
@@ -499,8 +500,21 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
 
         if (!Globals.isNewEntry)
         {
-            if (!Date.areSameDate(this.fDateTime.getDate(), oldEntry.getDate()) || Methods.isSameTime(Integer.parseInt(this.fDateTime.getTimeHour()), Integer.parseInt(this.fDateTime.getTimeMinutes()), Integer.parseInt(oldEntry.getTimeHour()), Integer.parseInt(oldEntry.getTimeMinutes())))		//Check if the start time or date has been altered
+            Date curDate = this.fDateTime.getDate();
+            Date oldDate = oldEntry.getDate();
+            Log.d(TAG, "exportSingle: " + curDate.toString(Date.DAY, Date.MONTH, Date.YEAR, "-") + " vs " + oldDate.toString(Date.DAY, Date.MONTH, Date.YEAR, "-"));
+            boolean sameDate = Date.areSameDate(curDate, oldDate);
+            Log.d(TAG, "exportSingle: dates the same = " + sameDate);
+            int curHour = Integer.parseInt(this.fDateTime.getTimeHour());
+            int curMin = Integer.parseInt(this.fDateTime.getTimeMinutes());
+            int oldHour = Integer.parseInt(oldEntry.getTimeHour());
+            int oldMin = Integer.parseInt(oldEntry.getTimeMinutes());
+            Log.d(TAG, "exportSingle: " + curHour + ":" + curMin + " vs " + oldHour + ":" + oldMin);
+            boolean sameTime = Methods.isSameTime(curHour, curMin, oldHour, oldMin);
+            Log.d(TAG, "exportSingle: time is the same = " + sameTime);
+            if (!sameDate||!sameTime)		//Check if the start time or date has been altered
             {
+                Log.d(TAG, "exportSingle: date or time of current entry is different from the old one. The old one will be deleted.");
                 FileOperation.deleteEntry(Methods.generatePainDataFilePathName(this.getSelectedPatient(), this.oldEntry));
             }
         }
