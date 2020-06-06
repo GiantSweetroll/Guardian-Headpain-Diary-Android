@@ -51,6 +51,7 @@ public abstract class Graph extends View implements LanguageListener
     protected int xAxisMarkerLabelYPos;
     protected int xAxisMarkerYPos;
     protected int yAxisMarkerXPos;
+    protected int distanceBetweenDataPoints;
     protected int xAxisMarkerLabelDiff;
     protected double yAxisMarkerLabelDiff;
     protected List<Point> yAxisMarkerLabelPos;
@@ -312,6 +313,15 @@ public abstract class Graph extends View implements LanguageListener
 
             this.dataPoints.add(new Point(this.axesOrigin.x + xPos, yCoordinate));
             xPos+=xDiff;
+        }
+
+        if (this.dataPoints.size() > 0)
+        {
+            this.distanceBetweenDataPoints = this.dataPoints.get(0).x - this.axesOrigin.x;
+        }
+        else
+        {
+            this.distanceBetweenDataPoints = 0;
         }
     }
     /**
