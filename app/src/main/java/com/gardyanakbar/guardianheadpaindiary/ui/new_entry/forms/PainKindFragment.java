@@ -63,6 +63,12 @@ public class PainKindFragment extends FormElement implements HistoryListener
         {
             this.setData(Globals.activeEntry);
         }
+        else
+        {
+            //Set the selection to the previous selection if it is present
+            Log.d(TAG, "onCreateView: Last pain kind was " + Globals.activePatient.getLastPainKind());
+            this.setPainKind(Globals.activePatient.getLastPainKind());
+        }
 
         return this.view;
     }
@@ -112,6 +118,7 @@ public class PainKindFragment extends FormElement implements HistoryListener
     {
         try
         {
+            Log.d(TAG, "refreshHistory: history refreshed");
             this.painKind.refresh(Globals.HISTORY_PAIN_KIND, patient);
             this.painKind.setActiveItem(patient.getLastPainKind());
         }

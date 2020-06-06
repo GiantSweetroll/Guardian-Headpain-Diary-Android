@@ -122,6 +122,10 @@ public class RecentMedicationFragment extends FormElement implements HistoryList
         {
             this.setData(Globals.activeEntry.getRecentMedication(), Globals.activeEntry.getMedicineComplaint());
         }
+        else
+        {
+            this.setData(Globals.activePatient.getLastRecentMeds(), Globals.activePatient.getLastMedicineComplaint());
+        }
 
         return this.view;
     }

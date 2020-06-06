@@ -58,6 +58,10 @@ public class TriggerFragment extends FormElement implements HistoryListener
         {
             this.setData(Globals.activeEntry);
         }
+        else
+        {
+            this.trigger.setActiveItem(Globals.activePatient.getLastTrigger());
+        }
 
         return this.view;
     }
