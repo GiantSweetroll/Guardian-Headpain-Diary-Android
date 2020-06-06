@@ -14,7 +14,6 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProviders;
 import androidx.viewpager.widget.ViewPager;
@@ -518,12 +517,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
                 FileOperation.deleteEntry(Methods.generatePainDataFilePathName(this.getSelectedPatient(), this.oldEntry));
             }
         }
-        //TODO: Create Graph and Table panels
-//        Globals.GRAPH_PANEL.refresh();
-//        Globals.PAIN_TABLE.refresh();
-//        Methods.refreshHistories(this.getSelectedPatient());
         Methods.refreshHistories(this.getSelectedPatient());
-//        Globals.GRAPH_FILTER_PANEL.refresh(Globals.GRAPH_PANEL.getActivePatientPanel().getSelectedPatientData());
         this.resetDefaults();
     }
     /**
@@ -548,12 +542,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
             FileOperation.exportPainData(patient, painEntry);
         }
 
-//        Globals.MAIN_FRAME.changePanel(PanelName.MAIN_MENU);  //TODO: Go to homepage
-        //TODO: Create graph and table panels
-//        Globals.GRAPH_PANEL.refresh();
-//        Globals.PAIN_TABLE.refresh();
         Methods.refreshHistories(this.getSelectedPatient());
-//        Globals.GRAPH_FILTER_PANEL.refresh(Globals.GRAPH_PANEL.getActivePatientPanel().getSelectedPatientData());
         this.refresh();
         this.resetDefaults();
     }
