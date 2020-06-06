@@ -1,6 +1,8 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.graph;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
@@ -13,7 +15,10 @@ import androidx.core.content.ContextCompat;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.interfaces.LanguageListener;
+import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
 import java.util.ArrayList;
@@ -21,6 +26,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import giantsweetroll.date.Date;
 import giantsweetroll.numbers.GNumbers;
 
 public abstract class Graph extends View implements LanguageListener
@@ -29,6 +35,7 @@ public abstract class Graph extends View implements LanguageListener
     private static final String TAG = "Graph";
     private String xAxisName;
     private String yAxisName;
+    private String lastXAxisMarkerLabelText;
     private LinkedHashMap<String, Double> dataMap;
     private Bitmap graphImage;
 
@@ -47,6 +54,7 @@ public abstract class Graph extends View implements LanguageListener
     protected int axesPaddingWithPanelEdgeSides = 50;
     protected int axesPaddingWithPanelEdgeBelow = 20;
     protected int axesPaddingWithPanelEdgeTop = 50;
+    protected int lastDataPointPaddingWithAxesEdge;
     protected int xAxisNameTextHeight;
     protected int xAxisMarkerLabelYPos;
     protected int xAxisMarkerYPos;
@@ -110,6 +118,7 @@ public abstract class Graph extends View implements LanguageListener
         this.dataMap = dataMap;
         this.xAxisName = xAxisName;
         this.yAxisName = yAxisName;
+        this.lastXAxisMarkerLabelText = "";
         this.maxYAxisMarkerLabelLength = 0;
         this.maxXAxisMarkerLabelHeight = 0;
         this.yAxisNameTextHeight = 0;
@@ -300,13 +309,13 @@ public abstract class Graph extends View implements LanguageListener
      */
     protected void generateDataPoints()
     {
+        this.dataPoints.clear();
         //Set Distance between each data entry in the x-axis
-        double xDiff = GNumbers.round(this.axesLength.x/this.yAxisValues.size(), 0);
+        double xDiff = GNumbers.round((this.axesLength.x - this.lastDataPointPaddingWithAxesEdge)/this.yAxisValues.size(), 0);
         //Set distance between each unit increment in the y-axis
         double yDiff = (float)this.axesLength.y/(float)Methods.getHighestValue(this.yAxisValues);
 
         //Translate into coordinate points
-        this.dataPoints = new ArrayList<Point>();
         int xPos = (int)GNumbers.round(xDiff, 1);
         for (int i=0; i<this.yAxisValues.size(); i++)
         {
@@ -331,6 +340,7 @@ public abstract class Graph extends View implements LanguageListener
      */
     protected void calculateXAxisMarkerLabelsPos()
     {
+        this.xAxisMarkerLabelsPos.clear();
         int diff = 0;
 
         //Determine initial skip step.
@@ -365,6 +375,11 @@ public abstract class Graph extends View implements LanguageListener
                 int y = this.xAxisMarkerLabelYPos;
                 this.xAxisMarkerLabelsPos.add(new Point(x, y));
                 texts.add(text);
+            }
+
+            if (texts.size() > 0)
+            {
+                this.lastXAxisMarkerLabelText = texts.get(texts.size()-1);
             }
 
             //Check for clashes
@@ -405,6 +420,7 @@ public abstract class Graph extends View implements LanguageListener
      */
     protected void calculateYAxisMarkerLabelsPos()
     {
+        this.yAxisMarkerLabelPos.clear();
         double highestVal = Methods.getHighestValue(this.yAxisValues);		//Get highest value
         this.yAxisMarkerLabelDiff = highestVal/(double)this.MAX_MARKERS_IN_Y_AXIS;			//Get unit increment
 
@@ -650,6 +666,7 @@ public abstract class Graph extends View implements LanguageListener
         super.onSizeChanged(w, h, oldw, oldh);
 
         //Set the canvas size
+        this.lastDataPointPaddingWithAxesEdge = 0;
         Log.d(TAG, "onMeasure: graph image sized to be " + w + " x " + h);
         this.graphImage = Bitmap.createBitmap(w, h, Bitmap.Config.ARGB_8888);
         this.graph2DImage = new Canvas(this.graphImage);
@@ -665,9 +682,34 @@ public abstract class Graph extends View implements LanguageListener
         this.calculateYAxisMarkersPos();
         try
         {
-            this.generateDataPoints();
-            this.calculateXAxisMarkerLabelsPos();
-            this.calculateYAxisMarkerLabelsPos();
+            while(true)
+            {
+                this.generateDataPoints();
+                this.calculateXAxisMarkerLabelsPos();
+                this.calculateYAxisMarkerLabelsPos();
+
+                //Check if last visible data point surpasses the size of the graph
+                Rect rect = new Rect();
+                this.paint.getTextBounds(this.lastXAxisMarkerLabelText, 0, this.lastXAxisMarkerLabelText.length(), rect);
+                int endPoint = this.dataPoints.get(this.dataPoints.size()-1).x + rect.width()/2;
+                int border = this.graphImage.getWidth() - this.axesPaddingWithPanelEdgeSides;
+                Log.d(TAG, "onSizeChanged: endPoint " + endPoint + " vs border " + border);
+                if (endPoint > border)
+                {
+                    Log.d(TAG, "onSizeChanged: conflict found, recalculating...");
+                    if (this.lastDataPointPaddingWithAxesEdge == 0)
+                    {
+                        this.lastDataPointPaddingWithAxesEdge = endPoint - border;
+                    }
+                    else
+                    {
+                        this.lastDataPointPaddingWithAxesEdge += endPoint - border;
+                    }
+                    Log.d(TAG, "onSizeChanged: new padding value " + this.lastDataPointPaddingWithAxesEdge);
+                    continue;
+                }
+                break;
+            }
         }
         catch(ArithmeticException ex){}
     }
