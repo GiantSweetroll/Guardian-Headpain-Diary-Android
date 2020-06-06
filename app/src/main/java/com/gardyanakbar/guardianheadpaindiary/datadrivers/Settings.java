@@ -27,6 +27,7 @@ public class Settings
     public static final String ROOT_NODE_NAME = "settings";
     public static final String DATABASE_PATH = "database_path";
     public static final String DATABASE_USERS_PATH = "database_users_path";
+    public static final String DATABASE_HISTORY_PATH = "database_history_path";
     public static final String WINDOW_MODE = "window_mode";
     public static final String FULLSCREEN = "fullscreen";
     public static final String WINDOWED = "windowed";
@@ -106,6 +107,8 @@ public class Settings
         this.map.put(Settings.DATABASE_PATH, file.getAbsolutePath());
         file = new File(Methods.getPatientsDatabasePath(this.context));
         this.map.put(Settings.DATABASE_USERS_PATH, file.getAbsolutePath());
+        file = new File(Methods.getHistoryFolderPath(this.context));
+        this.map.put(Settings.DATABASE_HISTORY_PATH, file.getAbsolutePath());
 //        this.map.put(Settings.LANGUAGE, Constants.DEFAULT_LANGUAGE);
     }
 
@@ -167,5 +170,9 @@ public class Settings
     {
         File file = new File(this.getEntriesDatabasePath());
         return file.getName();
+    }
+    public String getHistoryDatabaseFolderPath()
+    {
+        return this.getDataMap().get(Settings.DATABASE_HISTORY_PATH);
     }
 }
