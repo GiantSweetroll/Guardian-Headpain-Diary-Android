@@ -5,16 +5,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.HorizontalScrollView;
-import android.widget.ScrollView;
-import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
@@ -34,7 +29,7 @@ public class GraphFragment extends Fragment implements GUIFunctions
 
     //Fields
     private GraphViewModel graphViewModel;
-    public static GraphSettingsFragment graphSettings;
+    private GraphSettingsFragment graphSettings;
     public Graph graph;
     private Button btnSettings, btnExport, btnSwitch, btnRefresh;
     public HorizontalScrollView scroll;
@@ -51,9 +46,9 @@ public class GraphFragment extends Fragment implements GUIFunctions
 
         this.graphReversed = false;
 
-        String category = GraphFragment.graphSettings.getGraphCategory();
-        Date dateFrom = GraphFragment.graphSettings.getDateFrom();
-        Date dateTo = GraphFragment.graphSettings.getDateTo();
+        String category = Globals.graphSettings.getCategory();
+        Date dateFrom = Globals.graphSettings.getDateFrom();
+        Date dateTo = Globals.graphSettings.getDateTo();
 
         List<PainEntryData> list = null;
         try
@@ -71,7 +66,7 @@ public class GraphFragment extends Fragment implements GUIFunctions
 //            list = PainDataOperation.filter(list, PainDataIdentifier.RECENT_MEDICATION, Globals.GRAPH_FILTER_PANEL.getRecentMedicationFilter());
 //        }
 
-        if (GraphFragment.graphSettings.isDisplayEmptyDataSelected())
+        if (Globals.graphSettings.isShowDataVoid())
         {
             list = PainDataOperation.insertEmptyData(list, dateFrom, dateTo);
         }
@@ -130,8 +125,8 @@ public class GraphFragment extends Fragment implements GUIFunctions
             this.graph.setXAxisName(this.getString(R.string.trigger_text));
             this.graph.setYAxisName(this.getString(R.string.amount_text));
         }
-        this.graph.displayDataValues(GraphFragment.graphSettings.isShowDataValuesSelected());
-        this.graph.displayDataPoint(GraphFragment.graphSettings.isDisplayDataPointsSelected());
+        this.graph.displayDataValues(Globals.graphSettings.isShowDataValues());
+        this.graph.displayDataPoint(Globals.graphSettings.isShowDataPoints());
 
         //Add to scroll
         HorizontalScrollView.LayoutParams params = new HorizontalScrollView.LayoutParams(HorizontalScrollView.LayoutParams.MATCH_PARENT, HorizontalScrollView.LayoutParams.MATCH_PARENT);
@@ -191,7 +186,7 @@ public class GraphFragment extends Fragment implements GUIFunctions
             public void onClick(View v)
             {
                 FragmentTransaction transaction = getFragmentManager().beginTransaction();
-                transaction.replace(R.id.graphFragmentContainer, GraphFragment.graphSettings);
+                transaction.replace(R.id.graphFragmentContainer, graphSettings);
                 transaction.addToBackStack(null);
                 transaction.commit();
             }
