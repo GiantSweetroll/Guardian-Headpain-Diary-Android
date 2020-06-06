@@ -120,8 +120,8 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
                                 FileOperation.deleteEntry(path);
                                 dataset.remove(selectedIndexes.get(i));
                                 Log.d(TAG, "onClick: entry at " + path + " deleted");
-                                notifyDataSetChanged();
                             }
+                            notifyDataSetChanged();
                         }
                     })
                     .setNegativeButton(R.string.cancel_text, new DialogInterface.OnClickListener()
