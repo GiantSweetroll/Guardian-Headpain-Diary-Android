@@ -651,43 +651,40 @@ public abstract class Graph extends View implements LanguageListener
         Log.d(TAG, "onMeasure: called");
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
 
-        while(true)
+        //Set the canvas size
+        Log.d(TAG, "onMeasure: graph image sized to be " + widthMeasureSpec + " x " + heightMeasureSpec);
+        this.graphImage = Bitmap.createBitmap(widthMeasureSpec + (this.axesPaddingWithPanelEdgeRight - this.axesPaddingWithPanelEdgeLeft), heightMeasureSpec, Bitmap.Config.ARGB_8888);
+        this.graph2DImage = new Canvas(this.graphImage);
+        Log.d(TAG, "onMeasure: Graph image dims: " + this.graphImage.getWidth() + " x " + this.graphImage.getHeight());
+
+        //Measure padding
+        this.calculateAxisNamesPos();
+        this.calculateXAxisMarkerLabelsYPos();
+        this.calculateXAxisMarkersYPos();
+        this.calculateYAxisMarkerLabelsMaxLength();
+        this.calculateYMarkerXPos();
+        this.calculateOriginPos();
+        this.calculateYAxisMarkersPos();
+        try
         {
-            //Set the canvas size
-            Log.d(TAG, "onMeasure: graph image sized to be " + widthMeasureSpec + " x " + heightMeasureSpec);
-            this.graphImage = Bitmap.createBitmap(widthMeasureSpec + (this.axesPaddingWithPanelEdgeRight - this.axesPaddingWithPanelEdgeLeft), heightMeasureSpec, Bitmap.Config.ARGB_8888);
-            this.graph2DImage = new Canvas(this.graphImage);
-            Log.d(TAG, "onMeasure: Graph image dims: " + this.graphImage.getWidth() + " x " + this.graphImage.getHeight());
+            this.generateDataPoints();
+            this.calculateXAxisMarkerLabelsPos();
+            this.calculateYAxisMarkerLabelsPos();
 
-            //Measure padding
-            this.calculateAxisNamesPos();
-            this.calculateXAxisMarkerLabelsYPos();
-            this.calculateXAxisMarkersYPos();
-            this.calculateYAxisMarkerLabelsMaxLength();
-            this.calculateYMarkerXPos();
-            this.calculateOriginPos();
-            this.calculateYAxisMarkersPos();
-            try
-            {
-                this.generateDataPoints();
-                this.calculateXAxisMarkerLabelsPos();
-                this.calculateYAxisMarkerLabelsPos();
-
-                //Check if last visible data point surpasses the size of the graph
-                Rect rect = new Rect();
-                this.paint.getTextBounds(this.lastXAxisMarkerLabelText, 0, this.lastXAxisMarkerLabelText.length(), rect);
-                int endPoint = this.dataPoints.get(this.dataPoints.size()-1).x + rect.width()/2;
-                int border = this.graphImage.getWidth() - this.axesPaddingWithPanelEdgeLeft;
-                Log.d(TAG, "onSizeChanged: endPoint " + endPoint + " vs border " + border);
-                if (endPoint > border) {
-                    Log.d(TAG, "onSizeChanged: conflict found, recalculating...");
-                    this.axesPaddingWithPanelEdgeRight += endPoint - border;
-                    continue;
-                }
+            //Check if last visible data point surpasses the size of the graph
+            Rect rect = new Rect();
+            this.paint.getTextBounds(this.lastXAxisMarkerLabelText, 0, this.lastXAxisMarkerLabelText.length(), rect);
+            int endPoint = this.dataPoints.get(this.dataPoints.size()-1).x + rect.width()/2;
+            int border = this.graphImage.getWidth() - this.axesPaddingWithPanelEdgeLeft;
+            Log.d(TAG, "onSizeChanged: endPoint " + endPoint + " vs border " + border);
+            if (endPoint > border) {
+                Log.d(TAG, "onSizeChanged: conflict found, recalculating...");
+                int diff = endPoint - border;
+                this.axesPaddingWithPanelEdgeRight += diff;
+                this.measure(widthMeasureSpec + diff, heightMeasureSpec);
             }
-            catch(ArithmeticException ex){}
-            break;
         }
+        catch(ArithmeticException ex){}
 
         this.setMeasuredDimension(this.graphImage.getWidth(), this.graphImage.getHeight());
     }
