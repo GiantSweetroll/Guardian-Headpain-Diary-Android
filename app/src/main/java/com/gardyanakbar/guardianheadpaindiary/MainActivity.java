@@ -1,12 +1,14 @@
 package com.gardyanakbar.guardianheadpaindiary;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.GraphSettings;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.TableSettings;
+import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -35,7 +37,15 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(Globals.bottomNavigationView, navController);
         Globals.settings = new Settings(this);
-        Globals.activePatient = new PatientData();
+        try
+        {
+            Globals.activePatient = FileOperation.getListOfPatients().get(0);
+        }
+        catch(IndexOutOfBoundsException ex)
+        {
+            //If no new patient has been registered
+            Globals.activePatient = new PatientData();
+        }
         Globals.tableSettings = new TableSettings();
         Globals.graphSettings = new GraphSettings();
         Globals.isNewEntry = true;
