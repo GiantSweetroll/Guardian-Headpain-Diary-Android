@@ -39,5 +39,10 @@ public class MainActivity extends AppCompatActivity
         Globals.tableSettings = new TableSettings();
         Globals.graphSettings = new GraphSettings();
         Globals.isNewEntry = true;
+
+        Globals.HISTORY_MEDICINE_COMPLAINT.refresh(Globals.activePatient);
+        Globals.HISTORY_PAIN_KIND.refresh(Globals.activePatient);
+        Globals.HISTORY_RECENT_MEDICATION.refresh(Globals.activePatient);
+        Globals.HISTORY_TRIGGER.refresh(Globals.activePatient);
     }
 }
