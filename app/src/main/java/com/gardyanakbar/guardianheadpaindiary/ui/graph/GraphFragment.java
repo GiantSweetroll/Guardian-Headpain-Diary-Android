@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.graph;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -119,7 +120,7 @@ public class GraphFragment extends Fragment implements GUIFunctions
             this.graph.setXAxisName(this.getString(R.string.kinds_of_headpains_text));
             this.graph.setYAxisName(this.getString(R.string.amount_text));
         }
-        else if (category.equals(this.getString(R.string.trigger_text)))
+        else if (category.equals(this.getString(R.string.graph_settings_category_trigger_vs_amount)))
         {
             this.graph = new BarGraph(this.getContext(), PainDataOperation.getAmountOfActivity(list));
             this.graph.setXAxisName(this.getString(R.string.trigger_text));
