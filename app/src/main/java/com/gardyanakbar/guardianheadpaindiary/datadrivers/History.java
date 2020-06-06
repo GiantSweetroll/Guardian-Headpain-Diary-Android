@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.datadrivers;
 
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
 
 import java.io.File;
@@ -54,7 +55,7 @@ public class History
 
     public String getFilePath(PatientData patient)
     {
-        return Constants.HISTORY_FOLDER_PATH + patient.getID() + File.separator + this.getFileName();
+        return Globals.settings.getHistoryDatabaseFolderPath() + File.separator + patient.getID() + File.separator + this.getFileName();
     }
 
     public List<String> getHistory()

@@ -80,7 +80,6 @@ public class FileOperation
     }
 
     //History
-
     /**
      * Saves the history data relevant to the specified patient.
      * @param history - the history data
@@ -90,7 +89,7 @@ public class FileOperation
     {
         try
         {
-            File file = new File(Constants.HISTORY_FOLDER_PATH + patient.getID() + File.separator + history.getFileName());
+            File file = new File(history.getFilePath(patient));
 
             if (!file.exists())
             {
@@ -113,6 +112,7 @@ public class FileOperation
         catch(IOException ex)
         {
             ex.printStackTrace();
+            Log.e(TAG, "saveHistory: " + ex.getMessage());
         }
     }
 
