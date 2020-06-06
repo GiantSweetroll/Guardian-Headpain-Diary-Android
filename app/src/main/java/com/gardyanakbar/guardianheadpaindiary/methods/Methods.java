@@ -748,6 +748,16 @@ public class Methods
     }
 
     /**
+     * Get the string path to the history database (where all history data are stored)
+     * @param context
+     * @return the string of the absolute path
+     */
+    public static String getHistoryFolderPath(Context context)
+    {
+        return context.getFilesDir() + File.separator + "data" + File.separator + "history" + File.separator;
+    }
+
+    /**
      * Get the string path to the entries database (where all entries are stored)
      * @param context
      * @return the string of the absolute path
