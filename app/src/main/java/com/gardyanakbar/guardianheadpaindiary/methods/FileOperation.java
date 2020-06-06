@@ -806,9 +806,17 @@ public class FileOperation
      */
     public static void savePatientData(PatientData patientData)
     {
+        String folderPath = Globals.settings.getUserDatabasePath() + File.separator;
+        File file = new File(folderPath);
+        if (!file.exists())				//Check if the folder directory exists, if not make it
+        {
+            file.mkdirs();
+        }
+
         try
         {
-            XMLManager.exportXML(patientData.getXMLDocument(), new File(Globals.settings.getUserDatabasePath() + File.separator + patientData.getFileName()), 5);
+            Log.d(TAG, "savePatientData: will be saved at " + folderPath + patientData.getFileName());
+            XMLManager.exportXML(patientData.getXMLDocument(), new File(folderPath + patientData.getFileName()), 5);
         }
         catch (TransformerException e)
         {
