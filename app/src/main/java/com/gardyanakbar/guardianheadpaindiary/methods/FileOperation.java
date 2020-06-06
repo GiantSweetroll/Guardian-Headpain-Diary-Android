@@ -825,6 +825,39 @@ public class FileOperation
     }
 
     /**
+     * Gets a list of registered patient data
+     * @return a list of PatientData objects
+     */
+    public static List<PatientData> getListOfPatients()
+    {
+        List<PatientData> list = new ArrayList<PatientData>();
+        List<String> files = new ArrayList<String>();
+
+        try
+        {
+            Log.d(TAG, "getListOfPatients: getting list from path " + Globals.settings.getUserDatabasePath() + File.separator);
+            FileManager.getListOfFiles(files, Globals.settings.getUserDatabasePath() + File.separator, false, FileManager.FILE_ONLY, FileManager.ABSOLUTE_PATH);
+
+            for (int i=0; i<files.size(); i++)
+            {
+                try
+                {
+                    list.add(new PatientData(FileOperation.createDocument(files.get(i))));
+                }
+                catch (ParserConfigurationException | SAXException | IOException e)
+                {
+                    e.printStackTrace();
+                }
+            }
+        }
+        catch(NullPointerException ex) {};
+
+        Log.d(TAG, "getListOfPatients: found " + list.size() + " patient data");
+
+        return list;
+    }
+
+    /**
      * Delete the PatientData that corresponds to the specified ID
      * @param medID - ID of the patient to look for.
      */
