@@ -131,6 +131,7 @@ public class DurationIntensitySelectFragment extends FormElement
         //Properties
         this.durationLabel.setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         this.durationUnits.setAdapter(this.getDurationSpinnerAdapter());
+        this.durationSlider.setMin(1);
         this.durationUnits.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
             @Override
