@@ -47,10 +47,16 @@ public class HistoryPanel implements GUIFunctions, LanguageListener, AdapterView
         {
             this.historySpinner.setSelectedItem(item);
         }
+        else if (item == "")
+        {
+            this.historySpinner.setSelectedIndex(0);
+        }
         else
         {
             this.historySpinner.setSelectedToOther();
+            Log.d(TAG, "setActiveItem: setting " + item + " to text field");
             this.tfHistory.setText(item);
+            Log.d(TAG, "setActiveItem: text field text is now " + this.tfHistory.getText().toString());
         }
     }
     public String getItem()
