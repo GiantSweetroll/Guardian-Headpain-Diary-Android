@@ -3,7 +3,6 @@ package com.gardyanakbar.guardianheadpaindiary.datadrivers;
 import android.content.Context;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
-import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Document;
@@ -22,6 +21,7 @@ import giantsweetroll.xml.dom.XMLManager;
 public class PatientData
 {
     //Constants
+    private static final String TAG = "PatientData";
     public static final String MEDICAL_RECORD_ID = "medical_record_id";
     public static final String NAME = "patient_name";
     public static final String DOB_DAY = "patient_dob_day";
@@ -337,7 +337,7 @@ public class PatientData
     {
         try
         {
-            return this.dataMap.get(PatientData.LAST_PAIN_KIND).toString();
+            return this.dataMap.get(PatientData.LAST_PAIN_KIND);
         }
         catch(NullPointerException ex)
         {
