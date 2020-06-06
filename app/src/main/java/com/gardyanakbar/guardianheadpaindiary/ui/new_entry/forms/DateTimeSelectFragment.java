@@ -63,7 +63,7 @@ public class DateTimeSelectFragment extends FormElement
     }
     public void setDate(Date date)
     {
-        this.date.updateDate(date.getYear(), date.getMonth(), date.getDay());
+        this.date.updateDate(date.getYear(), date.getMonth()-1, date.getDay());
     }
     public void setTime(PainEntryData entry)
     {
