@@ -49,6 +49,7 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
         list.add(this.getView().getResources().getString(R.string.graph_settings_category_avg_intensity_vs_date));
         list.add(this.getView().getResources().getString(R.string.graph_settings_category_avg_duration_vs_date));
         list.add(this.getView().getResources().getString(R.string.graph_settings_category_avg_intensity_vs_month));
+        list.add(this.getView().getResources().getString(R.string.graph_settings_category_avg_duration_vs_month));
         list.add(this.getView().getResources().getString(R.string.graph_settings_category_intensity_vs_episode));
         list.add(this.getView().getResources().getString(R.string.graph_settings_category_duration_vs_episode));
         list.add(this.getView().getResources().getString(R.string.graph_settings_category_pain_kind_vs_amount));
