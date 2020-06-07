@@ -55,6 +55,11 @@ public class Methods
         return "<html><font color='blue'><u>" + text + "</u></font></html>";
     }
 
+    public static final String giveHTMLUnderline(String text)
+    {
+        return "<html><u>" + text + "</u></html>";
+    }
+
     public static String frameStringWithDashes(String text)
     {
         return "-- " + text + " --";
