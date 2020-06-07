@@ -253,7 +253,6 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
-                //TODO: Update Graph data with new date range
                 Methods.updateDateFromPicker(view, dateFrom);
                 updateDateSelection(dateFrom, labDateFromValue);
             }
@@ -263,7 +262,6 @@ public class GraphSettingsFragment extends Fragment implements LanguageListener
             @Override
             public void onDateSet(DatePicker view, int year, int month, int dayOfMonth)
             {
-                //TODO: Update Graph data with new date range
                 Methods.updateDateFromPicker(view, dateTo);
                 updateDateSelection(dateTo, labDateToValue);
             }
