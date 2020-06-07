@@ -95,7 +95,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
         //Properties
         this.bPrev.setText(this.getString(R.string.cancel_text));
         this.pager.setAdapter(this.pageAdapter);
-        this.pager.setOffscreenPageLimit(this.pageAdapter.getCount());
+//        this.pager.setOffscreenPageLimit(this.pageAdapter.getCount());
         this.entryLogFormSpinner.setAdapter(this.getFormsSpinnerAdapter());
         this.entryLogFormSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
         {
