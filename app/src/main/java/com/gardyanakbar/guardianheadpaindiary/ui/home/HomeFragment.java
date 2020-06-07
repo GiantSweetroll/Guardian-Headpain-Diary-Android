@@ -3,11 +3,9 @@ package com.gardyanakbar.guardianheadpaindiary.ui.home;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -32,8 +30,7 @@ public class HomeFragment extends Fragment
     //Fields
     private static final String TAG = "HomeFragment";
     private HomeViewModel homeViewModel;
-    private TextView tvEntriesCount, tvSeeMore, tvMaxIntensity, tvMaxDuration, tvMaxDurationUnit, tvRecap;
-    private Button btnNewEntry;
+    private TextView tvEntriesCount, tvNewEntry, tvMaxIntensity, tvMaxDuration, tvMaxDurationUnit, tvRecap;
     //Constants
     private final int SECONDS_INDEX = 0,
             MINUTES_INDEX = 1,
@@ -90,15 +87,14 @@ public class HomeFragment extends Fragment
 
         //Initialization
         this.tvEntriesCount = view.findViewById(R.id.entriesCount);
-        this.tvSeeMore = view.findViewById(R.id.seeMore);
+        this.tvNewEntry = view.findViewById(R.id.newEntry);
         this.tvMaxIntensity = view.findViewById(R.id.maxIntensity);
         this.tvMaxDuration = view.findViewById(R.id.maxDuration);
         this.tvMaxDurationUnit = view.findViewById(R.id.durationUnit);
         this.tvRecap = view.findViewById(R.id.todayRecap);
-        this.btnNewEntry = view.findViewById(R.id.btnNewEntry);
 
         //Properties
-        this.tvSeeMore.setText(HtmlCompat.fromHtml(Methods.giveTextHTMLLinkStyle(this.getString(R.string.see_more_text)), HtmlCompat.FROM_HTML_MODE_LEGACY));
+        this.tvNewEntry.setText(HtmlCompat.fromHtml(Methods.giveTextHTMLLinkStyle(this.getString(R.string.home_new_entry_text)), HtmlCompat.FROM_HTML_MODE_LEGACY));
         //Underlines the "Today's Recap" text
         SpannableString content = new SpannableString(this.getString(R.string.home_today_recap_title));
         content.setSpan(new UnderlineSpan(), 0, content.length(), 0);
@@ -106,15 +102,7 @@ public class HomeFragment extends Fragment
         this.tvEntriesCount.setText("0");
         this.tvMaxIntensity.setText("0");
         this.tvMaxDuration.setText("0");
-        this.tvSeeMore.setOnClickListener(new View.OnClickListener()
-        {
-            @Override
-            public void onClick(View v)
-            {
-                Globals.bottomNavigationView.setSelectedItemId(R.id.navigation_table);
-            }
-        });
-        this.btnNewEntry.setOnClickListener(new View.OnClickListener()
+        this.tvNewEntry.setOnClickListener(new View.OnClickListener()
         {
             @Override
             public void onClick(View v)

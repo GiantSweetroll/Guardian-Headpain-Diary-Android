@@ -10,7 +10,7 @@
     <string name="home_entry_count_text">Entries today:</string>
     <string name="home_max_intensity_text">Highest intensity:</string>
     <string name="home_max_duration_text">Longest head pain:</string>
-    <string name="home_new_entry_text">Add a new entry</string>
+    <string name="home_new_entry_text">Add</string>
 
     <!--  Entry Log  -->
     <string name="entry_log_title">Input Your Data Here</string>
