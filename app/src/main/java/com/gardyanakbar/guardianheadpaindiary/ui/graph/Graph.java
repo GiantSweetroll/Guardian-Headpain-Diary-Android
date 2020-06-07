@@ -25,11 +25,19 @@ import giantsweetroll.numbers.GNumbers;
 
 public abstract class Graph extends View implements LanguageListener
 {
+    /*TODO:
+    1. Fix Bar Graph not showing all x-axis marker labels
+    2. Rotate X-Axis marker labels
+    3. Resize graph height to use value of the screen width when phone is in landscape mode
+    4. Implement a minimum padding between data points. If the distance between data points < 2x the padding, move length of the x-axis accordingly.
+     */
+
     //Fields
     private static final String TAG = "Graph";
     private String xAxisName;
     private String yAxisName;
     private String lastXAxisMarkerLabelText;
+    private String longestXAxisMarkerLabelText;
     private LinkedHashMap<String, Double> dataMap;
     private Bitmap graphImage;
 
@@ -49,8 +57,10 @@ public abstract class Graph extends View implements LanguageListener
     protected int axesPaddingWithPanelEdgeRight = this.axesPaddingWithPanelEdgeLeft;
     protected int axesPaddingWithPanelEdgeBelow = 20;
     protected int axesPaddingWithPanelEdgeTop = 50;
+    protected int xAxisMarkerLabelRotate = 20;
     protected int xAxisNameTextHeight;
     protected int xAxisMarkerLabelYPos;
+    protected int xAxisMarkerLabelYPosExtra;        //For rotation handling
     protected int xAxisMarkerYPos;
     protected int yAxisMarkerXPos;
     protected int dataPointColor;
@@ -75,7 +85,7 @@ public abstract class Graph extends View implements LanguageListener
     protected final int AXES_POINTERS_LENGTH = 40;
     protected final int MARKER_LABEL_PADDING = 10;
     protected final int MAX_MARKERS_IN_Y_AXIS = 10;
-    protected final int MAX_MARKERS_IN_X_AXIS = 5;
+//    protected final int MAX_MARKERS_IN_X_AXIS = 5;
     protected final int GENERAL_PADDING = 10;
     protected final int DECIMAL_PLACES = 1;
     protected final int X_AXIS_NAME_PADDING = 20;
@@ -113,9 +123,11 @@ public abstract class Graph extends View implements LanguageListener
         this.xAxisName = xAxisName;
         this.yAxisName = yAxisName;
         this.lastXAxisMarkerLabelText = "";
+        this.longestXAxisMarkerLabelText = "";
         this.maxYAxisMarkerLabelLength = 0;
         this.maxXAxisMarkerLabelHeight = 0;
         this.yAxisNameTextHeight = 0;
+        this.xAxisMarkerLabelYPosExtra = 0;
         this.axesOrigin = new Point();
         this.axesLength = new Point();
         this.xAxisLabels = new ArrayList<String>();
@@ -136,7 +148,8 @@ public abstract class Graph extends View implements LanguageListener
 
         this.enableDataValueMarkers = false;
         this.displayDataPoint = true;
-        this.maxMarkersXAxis = this.MAX_MARKERS_IN_X_AXIS;
+    //    this.maxMarkersXAxis = this.MAX_MARKERS_IN_X_AXIS;
+        this.maxMarkersXAxis = dataMap.size();
         this.showGraphLinesOfX = true;
         this.showGraphLinesOfY = true;
 
@@ -248,7 +261,7 @@ public abstract class Graph extends View implements LanguageListener
     {
         Rect rect = new Rect();
         this.paint.getTextBounds("A", 0, 1, rect);
-        this.xAxisMarkerLabelYPos = this.xAxisNameLabelPos.y - this.X_AXIS_NAME_PADDING - this.X_AXIS_NAME_PADDING - rect.height()/2;
+        this.xAxisMarkerLabelYPos = this.xAxisNameLabelPos.y - this.X_AXIS_NAME_PADDING - this.X_AXIS_NAME_PADDING - rect.height()/2 - this.xAxisMarkerLabelYPosExtra;
     }
     /**
      * Calculate the Y position of the x-axis markers.
@@ -335,21 +348,7 @@ public abstract class Graph extends View implements LanguageListener
     protected void calculateXAxisMarkerLabelsPos()
     {
         this.xAxisMarkerLabelsPos.clear();
-        int diff = 0;
-
-        //Determine initial skip step.
-        if (this.xAxisLabels.size()<=this.maxMarkersXAxis)
-        {
-            diff = 1;
-        }
-        else
-        {
-            diff = (int)GNumbers.round(this.xAxisLabels.size()/this.maxMarkersXAxis, 1);
-            if (diff==1)
-            {
-                diff = 2;
-            }
-        }
+        int diff = 1;
 
         //Determine skip according to text size (keep trying until it no longer clashes
         loop:
@@ -365,8 +364,20 @@ public abstract class Graph extends View implements LanguageListener
                 paint.getTextBounds(text, 0, text.length(), bounds);
                 int textWidth = bounds.width();
                 int textHeight = bounds.height();
-                int x = this.dataPoints.get(i).x - textWidth/2;
+                int x = 0;
+                if (this.xAxisMarkerLabelRotate == 0)
+                {
+                    x = this.dataPoints.get(i).x - textWidth/2;
+                }
+                else
+                {
+                    x = this.dataPoints.get(i).x;
+                }
                 int y = this.xAxisMarkerLabelYPos;
+                if (textWidth > this.longestXAxisMarkerLabelText.length())
+                {
+                    this.longestXAxisMarkerLabelText = text;
+                }
                 this.xAxisMarkerLabelsPos.add(new Point(x, y));
                 texts.add(text);
             }
@@ -390,10 +401,19 @@ public abstract class Graph extends View implements LanguageListener
                 this.paint.getTextBounds(txt2, 0, txt2.length(), rect2);
 
                 //If the position of the right side of the left text (with padding) is greater than the the poisiton of the left side of the right text, there's collision
-                int pos1Right = pos1.x + rect1.width()/2 + this.MARKER_LABEL_PADDING;
-                int pos2Left = pos2.x - rect2.width()/2;
-                Log.d(TAG, "calculateXAxisMarkerLabelsPos: Comparing positions: " + pos1Right + " vs " + pos2Left);
-                if (pos1Right > pos2Left)
+                int borderRight = pos1.x + this.MARKER_LABEL_PADDING;
+                if (this.xAxisMarkerLabelRotate == 0)
+                {
+                    borderRight += rect1.width()/2;
+                }
+                else
+                {
+//                    borderRight += rect1.width();
+              //      borderRight += rect1.width()-(int)GNumbers.round(rect1.width() * ((double)this.xAxisMarkerLabelRotate/90d), 0);
+                }
+                int borderLeft = pos2.x - rect2.width()/2;
+                Log.d(TAG, "calculateXAxisMarkerLabelsPos: Comparing positions: " + borderRight + " vs " + borderLeft);
+                if (borderRight > borderLeft)
                 {
                     this.xAxisMarkerLabelsPos.clear();
                     Log.d(TAG, "calculateXAxisMarkerLabelsPos: Conflict found, recalculating...");
@@ -510,7 +530,9 @@ public abstract class Graph extends View implements LanguageListener
             String text = this.xAxisLabels.get(i);
             int x = this.xAxisMarkerLabelsPos.get(j).x;
             int y = this.xAxisMarkerLabelsPos.get(j).y;
+            this.graph2DImage.rotate(this.xAxisMarkerLabelRotate, x, y);
             this.graph2DImage.drawText(text, x, y, paint);
+            this.graph2DImage.rotate(this.xAxisMarkerLabelRotate * -1, x, y);
         }
     }
     protected void drawDataValues()
@@ -671,10 +693,30 @@ public abstract class Graph extends View implements LanguageListener
             this.calculateXAxisMarkerLabelsPos();
             this.calculateYAxisMarkerLabelsPos();
 
-            //Check if last visible data point surpasses the size of the graph
+            //Calculate X-Axis marker labels rotation pos
+            ///Just take into account the longest text
             Rect rect = new Rect();
+            this.paint.getTextBounds(this.longestXAxisMarkerLabelText, 0, this.longestXAxisMarkerLabelText.length(), rect);
+            this.xAxisMarkerLabelYPosExtra = (int)GNumbers.round(rect.width() * ((double)this.xAxisMarkerLabelRotate /90d), 0) + rect.height();
+            //Check for conflict with X-Axis name Y-pos
+            if (this.xAxisMarkerLabelYPos + this.xAxisMarkerLabelYPosExtra > this.xAxisNameLabelPos.y)
+            {
+                int diff = this.xAxisMarkerLabelYPos + this.xAxisMarkerLabelYPosExtra - this.xAxisNameLabelPos.y;
+                this.xAxisMarkerLabelYPos -= diff;
+                this.measure(widthMeasureSpec, heightMeasureSpec);
+            }
+
+            //Check if last visible data point surpasses the size of the graph
             this.paint.getTextBounds(this.lastXAxisMarkerLabelText, 0, this.lastXAxisMarkerLabelText.length(), rect);
-            int endPoint = this.dataPoints.get(this.dataPoints.size()-1).x + rect.width()/2;
+            int endPoint = this.dataPoints.get(this.dataPoints.size()-1).x;
+            if (this.xAxisMarkerLabelRotate == 0)
+            {
+                endPoint += rect.width()/2;
+            }
+            else
+            {
+                endPoint += rect.width() - (int)GNumbers.round(rect.width() * ((double)this.xAxisMarkerLabelRotate /90d), 0);
+            }
             int border = this.graphImage.getWidth() - this.axesPaddingWithPanelEdgeLeft;
             Log.d(TAG, "onSizeChanged: endPoint " + endPoint + " vs border " + border);
             if (endPoint > border) {
