@@ -145,9 +145,9 @@ public class TableFragment extends Fragment
             public void onClick(View v)
             {
                 adapter.deleteEntries();
-                adapter.notifyDataSetChanged();
             }
         });
+        this.btnExport.setVisibility(View.GONE);        //Remove the Export button for now until functionality can be developed
 
         return root;
     }

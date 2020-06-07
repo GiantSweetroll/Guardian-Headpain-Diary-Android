@@ -207,6 +207,7 @@ public class GraphFragment extends Fragment implements GUIFunctions
                 initReverseGraph();
             }
         });
+        this.btnExport.setVisibility(View.GONE);        //Remove the Export button for now until functionality can be developed.
 
         return root;
     }
