@@ -40,11 +40,15 @@ public class MainActivity extends AppCompatActivity
         try
         {
             Globals.activePatient = FileOperation.getListOfPatients().get(0);
+            Log.d(TAG, "onCreate: Patient data found");
         }
         catch(IndexOutOfBoundsException ex)
         {
+            Log.d(TAG, "onCreate: No patient data detected");
             //If no new patient has been registered
             Globals.activePatient = new PatientData();
+            FileOperation.savePatientData(Globals.activePatient);
+            Log.d(TAG, "onCreate: New patient data saved");
         }
         Globals.tableSettings = new TableSettings();
         Globals.graphSettings = new GraphSettings();
