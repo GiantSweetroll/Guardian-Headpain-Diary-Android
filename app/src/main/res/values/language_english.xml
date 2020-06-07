@@ -5,6 +5,13 @@
     <string name="nav_bar_graph">Graph</string>
     <string name="nav_bar_table">Table</string>
 
+    <!-- Home page -->
+    <string name="home_today_recap_title">Today\'s Recap</string>
+    <string name="home_entry_count_text">Entries today:</string>
+    <string name="home_max_intensity_text">Highest intensity:</string>
+    <string name="home_max_duration_text">Longest head pain:</string>
+    <string name="home_new_entry_text">Add a new entry</string>
+
     <!--  Entry Log  -->
     <string name="entry_log_title">Input Your Data Here</string>
     <string name="entry_log_map_button_date_time_text">Date \u0026 Time</string>
@@ -136,4 +143,5 @@
     <string name="filter_by_text">Filter By</string>
     <string name="keyword_text">Keyword</string>
     <string name="edit_text">Edit</string>
+    <string name="see_more_text">See More</string>
 </resources>

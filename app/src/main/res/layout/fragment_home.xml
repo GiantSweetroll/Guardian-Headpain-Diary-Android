@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/colorAppBase"
-    android:paddingTop="@dimen/general_padding"
-    android:orientation="vertical">
+    android:background="@color/colorAppBase">
 
 <!--    <TextView-->
 <!--        android:id="@+id/text_home"-->
@@ -21,12 +19,133 @@
 <!--        app:layout_constraintStart_toStartOf="parent"-->
 <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
-    <ImageView
-        android:layout_width="502dp"
-        android:layout_height="173dp"
-        android:layout_gravity="center_horizontal"
-        android:contentDescription="@string/logo_image"
-        android:src="@drawable/logo_guardian" />
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/buttonLayout"
+        android:layout_alignParentTop="true">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView
+                android:layout_alignParentTop="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:id="@+id/logo"
+                android:contentDescription="@string/logo_image"
+                android:src="@drawable/logo_guardian"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_above="@id/entriesTodayLayout"
+                android:textSize="@dimen/header_font_size"
+                android:paddingBottom="20dp"
+                android:id="@+id/todayRecap"
+                android:text="@string/home_today_recap_title"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/logo"
+                android:gravity="center"
+                android:id="@+id/entriesTodayLayout"
+                android:padding="@dimen/general_padding">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/general_padding"
+                    android:textSize="@dimen/header_font_size"
+                    android:text="@string/home_entry_count_text"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/entriesCount"
+                    android:padding="@dimen/general_padding"
+                    android:textSize="@dimen/header_font_size"
+                    android:text="23"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/seeMore"
+                    android:padding="@dimen/general_padding"
+                    android:textSize="@dimen/header_font_size"
+                    android:text="@string/see_more_text"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/entriesTodayLayout"
+                android:gravity="center"
+                android:id="@+id/intensityLayout"
+                android:padding="@dimen/general_padding">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/general_padding"
+                    android:textSize="@dimen/header_font_size"
+                    android:text="@string/home_max_intensity_text"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/maxIntensity"
+                    android:padding="@dimen/general_padding"
+                    android:textSize="@dimen/header_font_size"
+                    android:text="8"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_below="@id/intensityLayout"
+                android:gravity="center"
+                android:id="@+id/maxDurationLayout"
+                android:padding="@dimen/general_padding">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:padding="@dimen/general_padding"
+                    android:textSize="@dimen/header_font_size"
+                    android:text="@string/home_max_duration_text"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/maxDuration"
+                    android:padding="@dimen/general_padding"
+                    android:textSize="@dimen/header_font_size"
+                    android:text="16"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/durationUnit"
+                    android:padding="@dimen/general_padding"
+                    android:textSize="@dimen/header_font_size"
+                    android:text="@string/entry_log_form_duration_intensity_unit_minutes_text"/>
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_alignParentBottom="true"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/buttonLayout"
+        android:background="@drawable/raised_border"
+        android:paddingBottom="60dp"
+        android:gravity="center">
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/home_new_entry_text"
+            android:padding="@dimen/general_padding"
+            android:layout_margin="@dimen/general_padding"
+            android:background="@drawable/rounded_button"
+            android:textColor="@color/colorWhite"
+            android:id="@+id/btnNewEntry"/>
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -34,4 +153,4 @@
         android:id="@+id/fragmentHomeChildFragmentContainer">
     </FrameLayout>
 
-</LinearLayout>
+</RelativeLayout>
