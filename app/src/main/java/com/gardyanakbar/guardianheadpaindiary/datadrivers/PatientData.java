@@ -414,6 +414,7 @@ public class PatientData
         this.dataMap.put(PatientData.FINAL_DIAGNOSIS, "");
         this.dataMap.put(PatientData.LAST_PAIN_KIND, "");
         this.dataMap.put(PatientData.LAST_RECENT_MEDS, "");
+        this.dataMap.put(PatientData.LAST_MEDICINE_COMPLAINT, "");
         this.dataMap.put(PatientData.LAST_TRIGGER, "");
     }
 
