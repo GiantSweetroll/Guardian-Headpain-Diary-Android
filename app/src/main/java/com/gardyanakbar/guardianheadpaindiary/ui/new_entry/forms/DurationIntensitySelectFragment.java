@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.ui.new_entry.forms;
 
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
@@ -129,6 +131,7 @@ public class DurationIntensitySelectFragment extends FormElement
         this.setName(this.getString(R.string.entry_log_map_button_duration_intensity_text));
 
         //Properties
+        this.durationLabel.setText(HtmlCompat.fromHtml(Methods.createTextWithRequiredIdentifier(this.getString(R.string.entry_log_form_duration_intensity_duration_text)), HtmlCompat.FROM_HTML_MODE_LEGACY));
         this.durationLabel.setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         this.durationUnits.setAdapter(this.getDurationSpinnerAdapter());
         this.durationSlider.setMin(1);
@@ -163,6 +166,7 @@ public class DurationIntensitySelectFragment extends FormElement
 
             }
         });
+        this.intensityLabel.setText(HtmlCompat.fromHtml(Methods.createTextWithRequiredIdentifier(this.getString(R.string.entry_log_form_duration_intensity_intensity_text)), HtmlCompat.FROM_HTML_MODE_LEGACY));
         this.intensityLabel.setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         this.intensitySlider.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener()
         {

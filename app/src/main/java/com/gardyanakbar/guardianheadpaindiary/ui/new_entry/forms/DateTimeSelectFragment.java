@@ -31,7 +31,7 @@ public class DateTimeSelectFragment extends FormElement
     //Constructor
     public DateTimeSelectFragment()
     {
-        super(false);
+        super(true);
     }
 
     //Public Methods

@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.core.text.HtmlCompat;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
@@ -28,7 +29,7 @@ public class PainKindFragment extends FormElement implements HistoryListener
     private HistoryPanel painKind;
 
     //Constructor
-    public PainKindFragment() {super(false);}
+    public PainKindFragment() {super(true);}
 
     //Public Methods
     public void setPainKind(String painKind)
@@ -47,7 +48,6 @@ public class PainKindFragment extends FormElement implements HistoryListener
         this.setScroll((ScrollView)this.view.findViewById(R.id.entryLogPainKindScroll));
         this.setFormTitleLabel((TextView)view.findViewById(R.id.entryLogPainKindLabel));
         View layout = this.view.findViewById(R.id.entryLogPainKindHistoryPanel);
-        this.setName(this.getString(R.string.entry_log_map_button_pain_kind));
         this.painKind = new HistoryPanel(this.getContext(),
                                             (Spinner)layout.findViewById(R.id.historySpinner),
                                             (EditText) layout.findViewById(R.id.historyEditText),
@@ -58,6 +58,7 @@ public class PainKindFragment extends FormElement implements HistoryListener
                                         false);
 
         //Properties
+        this.getFormTitleLabel().setText(HtmlCompat.fromHtml(Methods.createTextWithRequiredIdentifier(this.getString(R.string.entry_log_form_painkind_label)), HtmlCompat.FROM_HTML_MODE_LEGACY));
         this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
         if (!Globals.isNewEntry)
         {

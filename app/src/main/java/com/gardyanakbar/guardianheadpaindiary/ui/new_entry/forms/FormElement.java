@@ -5,6 +5,7 @@ import android.view.View;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import androidx.core.text.HtmlCompat;
 import androidx.fragment.app.Fragment;
 
 import com.gardyanakbar.guardianheadpaindiary.interfaces.GUIFunctions;
@@ -54,7 +55,7 @@ public abstract class FormElement<T> extends Fragment implements GUIFunctions, L
     {
         if (this.required)
         {
-            this.labName.setText(Html.fromHtml(Methods.createTextWithRequiredIdentifier(title)), TextView.BufferType.SPANNABLE);
+            this.labName.setText(HtmlCompat.fromHtml(Methods.createTextWithRequiredIdentifier(title), Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
         }
         else
         {
