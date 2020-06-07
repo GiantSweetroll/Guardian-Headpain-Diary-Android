@@ -172,16 +172,22 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
                 }
             }
         });
+       if (!Globals.isNewEntry)
+       {
+            this.setLocations(Globals.activeEntry.getCustomPainLocations());
+       }
 
         return this.view;
     }
 
+    @Deprecated
     @Override
     public Object getData()
     {
         return null;
     }
 
+    @Deprecated
     @Override
     public void setData(Object data)
     {
