@@ -145,6 +145,7 @@ public class TableFragment extends Fragment
             public void onClick(View v)
             {
                 adapter.deleteEntries();
+                adapter.notifyDataSetChanged();
             }
         });
 
