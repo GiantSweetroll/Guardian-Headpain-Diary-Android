@@ -345,7 +345,7 @@ public class NewEntryFragment extends Fragment implements HistoryListener, GUIFu
 
     /**
      * Gets the user inputs from each of the individual forms as a PainEntryData object
-     * @return a PainEtnryData object containing the inputs of the individual forms.
+     * @return a PainEntryData object containing the inputs of the individual forms.
      */
     public PainEntryData getData()
     {
