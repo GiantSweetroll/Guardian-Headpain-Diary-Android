@@ -169,6 +169,7 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
                 for (Map.Entry<String, ImagePiece> entrySet : imagePuzzles.entrySet())
                 {
                     entrySet.getValue().setColored(false);
+                    entrySet.getValue().invalidate();
                 }
             }
         });
