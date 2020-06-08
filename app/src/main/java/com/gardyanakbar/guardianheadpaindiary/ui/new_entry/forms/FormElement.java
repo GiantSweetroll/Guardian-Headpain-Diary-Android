@@ -55,7 +55,7 @@ public abstract class FormElement<T> extends Fragment implements GUIFunctions, L
     {
         if (this.required)
         {
-            this.labName.setText(HtmlCompat.fromHtml(Methods.createTextWithRequiredIdentifier(title), Html.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
+            this.labName.setText(HtmlCompat.fromHtml(Methods.createTextWithRequiredIdentifier(title), HtmlCompat.FROM_HTML_MODE_LEGACY), TextView.BufferType.SPANNABLE);
         }
         else
         {
