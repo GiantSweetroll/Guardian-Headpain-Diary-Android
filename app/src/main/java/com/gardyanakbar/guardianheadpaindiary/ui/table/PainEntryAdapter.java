@@ -96,7 +96,7 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
         this.selectAll = false;
     }
     /**
-     * Deletes entries
+     * Deletes selected entries
      */
     public void deleteEntries()
     {
@@ -134,6 +134,15 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
                     });
             builder.show();
         }
+    }
+
+    /**
+     * Returns the indexes of the selected entries
+     * @return a list of Integer of the selected indexes
+     */
+    public List<Integer> getSelectedIndexes()
+    {
+        return this.selectedIndexes;
     }
 
     //Private Methods
