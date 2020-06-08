@@ -796,7 +796,6 @@ public class FileOperation
         catch (TransformerException e)
         {
             e.printStackTrace();
-            MessageManager.showErrorDialog(e);
         }
     }
 
