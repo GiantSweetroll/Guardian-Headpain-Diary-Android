@@ -26,10 +26,9 @@ import giantsweetroll.numbers.GNumbers;
 public abstract class Graph extends View implements LanguageListener
 {
     /*TODO:
-    1. Fix Bar Graph not showing all x-axis marker labels
-    2. Rotate X-Axis marker labels
-    3. Resize graph height to use value of the screen width when phone is in landscape mode
-    4. Implement a minimum padding between data points. If the distance between data points < 2x the padding, move length of the x-axis accordingly.
+    1. Bar Graph when only one entry the bar is too big
+    2. Sometimes the x-axis marker label longest label isnt properly calculated
+    3. Data is not ordered properly when compared per episode (the time isnt ordered)
      */
 
     //Fields
