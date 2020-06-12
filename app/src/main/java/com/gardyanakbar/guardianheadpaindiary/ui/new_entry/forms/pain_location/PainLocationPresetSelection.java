@@ -117,15 +117,6 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
             }
         }
     }
-
-    //Public Methods
-    public void unmarkAllButtons()
-    {
-        for (Button button : this.buttons)
-        {
-            this.setMarked(button, false);
-        }
-    }
     private void setMarked(Button button, boolean mark)
     {
         if (mark)
@@ -135,6 +126,26 @@ public class PainLocationPresetSelection extends FormElement implements GUIFunct
         else
         {
             button.setBackground(ContextCompat.getDrawable(this.getContext(), R.drawable.preset_pain_location_unselected));
+        }
+    }
+
+    //Public Methods
+    /**
+     * Sets the visibility mode of the custom pain locations
+     * @param visibility - the visibility mode
+     */
+    public void setVisibility(int visibility)
+    {
+        for (Button b : this.buttons)
+        {
+            b.setVisibility(visibility);
+        }
+    }
+    public void unmarkAllButtons()
+    {
+        for (Button button : this.buttons)
+        {
+            this.setMarked(button, false);
         }
     }
     public List<String> getSelectedPosition()

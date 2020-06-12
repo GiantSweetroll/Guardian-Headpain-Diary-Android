@@ -74,7 +74,11 @@ public class PainLocationSelection extends FormElement
 
         if (presetLocations.size() == 0)
         {
+//            this.radPresets.setChecked(false);
             this.radCustom.setChecked(true);
+//            this.presets.setVisibility(View.GONE);
+//            this.custom.setVisibility(View.VISIBLE);
+
 //            List<String> list = new ArrayList<String>();
 //            for (String location : customLocations)
 //            {
@@ -88,7 +92,11 @@ public class PainLocationSelection extends FormElement
         }
         else
         {
+//            this.radCustom.setChecked(false);
             this.radPresets.setChecked(true);
+//            this.custom.setVisibility(View.GONE);
+//            this.presets.setVisibility(View.VISIBLE);
+
 //            for (String location : presetLocations)
 //            {
 //                this.presets.setSelected(location);
@@ -119,6 +127,7 @@ public class PainLocationSelection extends FormElement
 
         //Properties
         this.getFormTitleLabel().setTextSize(Constants.FONT_SUB_TITLE_SIZE);
+        this.custom.setVisibility(View.GONE);
         this.radPresets.setTextSize(Constants.FONT_HEADER_SIZER);
         this.radCustom.setTextSize(Constants.FONT_HEADER_SIZER);
         this.radPresets.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
@@ -126,7 +135,12 @@ public class PainLocationSelection extends FormElement
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                radCustom.setChecked(!isChecked);
+                if (isChecked)
+                {
+                    presets.setVisibility(View.VISIBLE);
+                    radCustom.setChecked(false);
+                    custom.setVisibility(View.GONE);
+                }
             }
         });
         this.radCustom.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener()
@@ -134,9 +148,18 @@ public class PainLocationSelection extends FormElement
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                radPresets.setChecked(!isChecked);
+                if(isChecked)
+                {
+                    presets.setVisibility(View.GONE);
+                    radPresets.setChecked(false);
+                    custom.setVisibility(View.VISIBLE);
+                }
             }
         });
+        if (!Globals.isNewEntry)
+        {
+            this.setSelectedPosition(Globals.activeEntry);
+        }
 
         return this.view;
     }
@@ -181,11 +204,8 @@ public class PainLocationSelection extends FormElement
     public void onResume()
     {
         super.onResume();
-        if (!Globals.isNewEntry)
-        {
-            Log.d(TAG, "onResume: Selecting locations...");
-            this.setSelectedPosition(Globals.activeEntry);
-        }
         Log.d(TAG, "onResume: called");
+
+        Log.d(TAG, "onResume: radPreset selected = " + this.radPresets.isChecked());
     }
 }

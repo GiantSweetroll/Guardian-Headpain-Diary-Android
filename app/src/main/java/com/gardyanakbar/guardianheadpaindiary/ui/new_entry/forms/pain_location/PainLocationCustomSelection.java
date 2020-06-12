@@ -149,6 +149,19 @@ public class PainLocationCustomSelection extends FormElement implements GUIFunct
         }
     }
 
+    /**
+     * Sets the visibility mode of the custom pain locations
+     * @param visibility - the visibility mode
+     */
+    public void setVisibility(int visibility)
+    {
+        for (Map.Entry entry : this.imagePuzzles.entrySet())
+        {
+            ((ImagePiece)entry.getValue()).setVisibility(visibility);
+        }
+        this.bReset.setVisibility(visibility);
+    }
+
     //Overridden Methods
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
