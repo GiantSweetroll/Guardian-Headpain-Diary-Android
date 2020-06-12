@@ -109,6 +109,7 @@
                     android:textSize="@dimen/header_font_size"/>
                 <EditText
                     android:id="@+id/tableFilterKeywordEditText"
+                    android:inputType="text"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"/>
             </GridLayout>
