@@ -55,21 +55,41 @@ public class Methods
         return "<html><font color='blue'><u>" + text + "</u></font></html>";
     }
 
+    /**
+     * Give the selected text an HTML underline.
+     * @param text - the text to be manipulated
+     * @return a new HTML string with underline tag
+     */
     public static final String giveHTMLUnderline(String text)
     {
         return "<html><u>" + text + "</u></html>";
     }
 
+    /**
+     * Frames the selected text with -- (e.g. -- Text -- )
+     * @param text - the text to be manipulated
+     * @return a new String framed with dashes
+     */
     public static String frameStringWithDashes(String text)
     {
         return "-- " + text + " --";
     }
 
+    /**
+     * Gets the string contents of a text view
+     * @param tf - the text view
+     * @return the String content of the text view
+     */
     public static String getTextData(TextView tf)
     {
         return tf.getText().toString().trim();
     }
 
+    /**
+     * Maps the available preset pain locations with its ID being the key.
+     * @param context - the application context
+     * @return a linked hash map with the pain locations
+     */
     public static final LinkedHashMap<String, LinkedHashMap<Integer, String>> generatePainLocationsTextIDMap(Context context)
     {
         LinkedHashMap<String, LinkedHashMap<Integer, String>> map = new LinkedHashMap<>();
@@ -237,6 +257,11 @@ public class Methods
     }
 
     //Custom Pain Locations
+    /**
+     * Gets a list of ImagePiece objects for the custom pain locations for the back head
+     * @param context - the application context
+     * @return a List of ImagePiece objects
+     */
     public static List<ImagePiece> getPainLocationBack(Context context)
     {
         List<ImagePiece> images = new ArrayList<>();
@@ -268,6 +293,11 @@ public class Methods
 
         return images;
     }
+    /**
+     * Gets a list of ImagePiece objects for the custom pain locations for the front head
+     * @param context - the application context
+     * @return a List of ImagePiece objects
+     */
     public static List<ImagePiece> getPainLocationFront(Context context)
     {
         List<ImagePiece> images = new ArrayList<>();
@@ -299,6 +329,11 @@ public class Methods
 
         return images;
     }
+    /**
+     * Gets a list of ImagePiece objects for the custom pain locations for the right head
+     * @param context - the application context
+     * @return a List of ImagePiece objects
+     */
     public static List<ImagePiece> getPainLocationRight(Context context)
     {
         List<ImagePiece> images = new ArrayList<>();
@@ -330,6 +365,11 @@ public class Methods
 
         return images;
     }
+    /**
+     * Gets a list of ImagePiece objects for the custom pain locations for the left head
+     * @param context - the application context
+     * @return a List of ImagePiece objects
+     */
     public static List<ImagePiece> getPainLocationLeft(Context context)
     {
         List<ImagePiece> images = new ArrayList<>();
@@ -361,6 +401,11 @@ public class Methods
 
         return images;
     }
+    /**
+     * Gets a list of ImagePiece objects for the custom pain locations. Ordered to fill one GridLayout.
+     * @param context - the application context
+     * @return a List of ImagePiece objects
+     */
     public static List<ImagePiece> getCustomPainLocationList(Context context)
     {
         List<ImagePiece> images = new ArrayList<>();

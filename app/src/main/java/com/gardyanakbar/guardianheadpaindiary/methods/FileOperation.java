@@ -1,15 +1,12 @@
 package com.gardyanakbar.guardianheadpaindiary.methods;
 
-import android.content.Context;
 import android.util.Log;
 
-import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.History;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
-import com.gardyanakbar.guardianheadpaindiary.ui.table.PainEntryAdapter;
 
 import org.w3c.dom.Document;
 import org.xml.sax.SAXException;
@@ -34,7 +31,6 @@ import javax.xml.transform.TransformerException;
 
 import giantsweetroll.date.Date;
 import giantsweetroll.files.FileManager;
-import giantsweetroll.message.MessageManager;
 import giantsweetroll.xml.dom.XMLManager;
 
 public class FileOperation

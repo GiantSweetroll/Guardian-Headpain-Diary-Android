@@ -1,16 +1,12 @@
 package com.gardyanakbar.guardianheadpaindiary.constants;
 
-import android.content.res.Resources;
 import android.graphics.Typeface;
-
-import androidx.core.content.ContextCompat;
-
-import com.gardyanakbar.guardianheadpaindiary.R;
-
-import java.io.File;
 
 import giantsweetroll.numbers.GNumbers;
 
+/**
+ * Class to contain global constants
+ */
 public final class Constants
 {
     public static final String REQUIRED_IDENTIFIER = "*";

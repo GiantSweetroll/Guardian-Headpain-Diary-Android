@@ -246,6 +246,7 @@ public class PainEntryAdapter extends RecyclerView.Adapter<PainEntryAdapter.Pain
             @Override
             public void onClick(View v)
             {
+                //When cell is clicked, select it if has not been selected previously. Otherwise clear that selection.
                 selectAll = false;
                 holder.isSelected = !holder.isSelected;
                 if (holder.isSelected)

@@ -43,6 +43,7 @@ public class HistoryPanel implements GUIFunctions, LanguageListener, AdapterView
     //Public Methods
     public void setActiveItem(String item)
     {
+        //Check if item exists in history
         if (this.history.itemExists(item))
         {
             this.historySpinner.setSelectedItem(item);
@@ -61,6 +62,7 @@ public class HistoryPanel implements GUIFunctions, LanguageListener, AdapterView
     }
     public String getItem()
     {
+        //Check if the "Other" options is selected
         if (this.historySpinner.otherOptionSelected())
         {
             return Methods.getTextData(this.tfHistory);

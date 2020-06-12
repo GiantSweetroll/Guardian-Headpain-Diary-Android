@@ -17,6 +17,11 @@ import giantsweetroll.date.Date;
 
 public class PainDataOperation
 {
+    /**
+     * Gets a linked hash map of the amount of entries with the dates being the key.
+     * @param list - list of PainEntryData objects
+     * @return - a LinkedHashMap<String, Double> object
+     */
     public static LinkedHashMap<String, Double> getAmountOfEntriesVSDate(List<PainEntryData> list)
     {
         LinkedHashMap<String, Double> map = new LinkedHashMap<String, Double>();
@@ -40,7 +45,11 @@ public class PainDataOperation
 
         return map;
     }
-
+    /**
+     * Gets a linked hash map of the level of intensity with the time/episode being the key.
+     * @param list - list of PainEntryData objects
+     * @return - a LinkedHashMap<String, Double> object
+     */
     public static LinkedHashMap<String, Double> getIntensityVSTime(List<PainEntryData> list)
     {
         LinkedHashMap<String, Double> map = new LinkedHashMap<String, Double>();
@@ -52,6 +61,11 @@ public class PainDataOperation
 
         return map;
     }
+    /**
+     * Gets a linked hash map of the average level of intensity with the date being the key.
+     * @param list - list of PainEntryData objects
+     * @return - a LinkedHashMap<String, Double> object
+     */
     public static LinkedHashMap<String, Double> getAverageIntensityVSDate(List<PainEntryData> list)
     {
         LinkedHashMap<String, Double> map = new LinkedHashMap<String, Double>();
@@ -85,7 +99,11 @@ public class PainDataOperation
         }
         return map;
     }
-
+    /**
+     * Gets a linked hash map of the duration with the time/episode being the key.
+     * @param list - list of PainEntryData objects
+     * @return - a LinkedHashMap<String, Double> object
+     */
     public static LinkedHashMap<String, Double> getDurationVSTime(List<PainEntryData> list)
     {
         LinkedHashMap<String, Double> map = new LinkedHashMap<String, Double>();
@@ -97,6 +115,11 @@ public class PainDataOperation
 
         return map;
     }
+    /**
+     * Gets a linked hash map of the average duration with the date being the key.
+     * @param list - list of PainEntryData objects
+     * @return - a LinkedHashMap<String, Double> object
+     */
     public static LinkedHashMap<String, Double> getAverageDurationVSDate(List<PainEntryData> list)
     {
         LinkedHashMap<String, Double> map = new LinkedHashMap<String, Double>();
@@ -130,7 +153,11 @@ public class PainDataOperation
         }
         return map;
     }
-
+    /**
+     * Gets a linked hash map of the amount of different pain kind occurances.
+     * @param list - list of PainEntryData objects
+     * @return - a LinkedHashMap<String, Double> object
+     */
     public static LinkedHashMap<String, Double> getNumberOfDifferentPainKind(List<PainEntryData> list)
     {
         LinkedHashMap<String, Double> map = new LinkedHashMap<String, Double>();
@@ -156,7 +183,11 @@ public class PainDataOperation
 
         return map;
     }
-
+    /**
+     * Gets a linked hash map of the amount of different triggers.
+     * @param list - list of PainEntryData objects
+     * @return - a LinkedHashMap<String, Double> object
+     */
     public static LinkedHashMap<String, Double> getAmountOfActivity(List<PainEntryData> list)
     {
         LinkedHashMap<String, Double> map = new LinkedHashMap<String, Double>();
@@ -183,7 +214,11 @@ public class PainDataOperation
 
         return map;
     }
-
+    /**
+     * Gets a linked hash map of the average level of intensity with the month being the key.
+     * @param entries - list of PainEntryData objects
+     * @return - a LinkedHashMap<String, Double> object
+     */
     public static LinkedHashMap<String, Double> getAverageIntensityVSMonth(List<PainEntryData> entries)
     {
         LinkedHashMap<String, Double> map = new LinkedHashMap<String, Double>();
@@ -218,6 +253,11 @@ public class PainDataOperation
 
         return map;
     }
+    /**
+     * Gets a linked hash map of the average duration with the month being the key.
+     * @param entries - list of PainEntryData objects
+     * @return - a LinkedHashMap<String, Double> object
+     */
     public static LinkedHashMap<String, Double> getAverageDurationVSMonth(List<PainEntryData> entries)
     {
         LinkedHashMap<String, Double> map = new LinkedHashMap<String, Double>();
@@ -385,7 +425,13 @@ public class PainDataOperation
             }
         }
     }
-
+    /**
+     * Injects dummy/empty entries between the existing entries in a particular interval.
+     * @param source - the original list of PainEntryData objects
+     * @param dateFrom - Date object to start measuring (inclusive)
+     * @param dateTo - Date object to end measuring (inclusive)
+     * @return - a List of PainEntryData objects.
+     */
     public static List<PainEntryData> insertEmptyData(List<PainEntryData> source, Date dateFrom, Date dateTo)
     {
         List<PainEntryData> list = new ArrayList<PainEntryData>();
@@ -485,20 +531,20 @@ public class PainDataOperation
         return list;
     }
 
-    public static List<PainEntryData> filter(List<PainEntryData> source, String filterComponent, String medication)		//filterComponent is the constant from PainDataIdentifier
-    {
-        List<PainEntryData> list = new ArrayList<PainEntryData>();
-
-        for (PainEntryData entry : source)
-        {
-            if (entry.getDataMap().get(filterComponent).equals(medication))
-            {
-                list.add(entry);
-            }
-        }
-
-        return list;
-    }
+//    public static List<PainEntryData> filter(List<PainEntryData> source, String filterComponent, String medication)		//filterComponent is the constant from PainDataIdentifier
+//    {
+//        List<PainEntryData> list = new ArrayList<PainEntryData>();
+//
+//        for (PainEntryData entry : source)
+//        {
+//            if (entry.getDataMap().get(filterComponent).equals(medication))
+//            {
+//                list.add(entry);
+//            }
+//        }
+//
+//        return list;
+//    }
 
     /**
      * Generates duplicates of entries with different dates but other information are identical.

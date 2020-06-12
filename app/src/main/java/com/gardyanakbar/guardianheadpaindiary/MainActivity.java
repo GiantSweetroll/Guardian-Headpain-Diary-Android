@@ -24,6 +24,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
+        //Initialization
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Globals.bottomNavigationView = (BottomNavigationView)findViewById(R.id.nav_view);
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity
         Globals.settings = new Settings(this);
         try
         {
+            //Try to load patient data
             Globals.activePatient = FileOperation.getListOfPatients().get(0);
             Log.d(TAG, "onCreate: Patient data found");
         }
@@ -54,6 +56,7 @@ public class MainActivity extends AppCompatActivity
         Globals.graphSettings = new GraphSettings();
         Globals.isNewEntry = true;
 
+        //Refresh history to match patient
         Globals.HISTORY_MEDICINE_COMPLAINT.refresh(Globals.activePatient);
         Globals.HISTORY_PAIN_KIND.refresh(Globals.activePatient);
         Globals.HISTORY_RECENT_MEDICATION.refresh(Globals.activePatient);
