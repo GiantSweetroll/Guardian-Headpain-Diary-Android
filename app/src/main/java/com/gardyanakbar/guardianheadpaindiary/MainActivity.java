@@ -1,21 +1,16 @@
 package com.gardyanakbar.guardianheadpaindiary;
 
 import android.os.Bundle;
-import android.util.Log;
-
-import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
-import com.gardyanakbar.guardianheadpaindiary.datadrivers.GraphSettings;
-import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
-import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
-import com.gardyanakbar.guardianheadpaindiary.datadrivers.TableSettings;
-import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+
+import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.Settings;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -38,28 +33,5 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(Globals.bottomNavigationView, navController);
         Globals.settings = new Settings(this);
-        try
-        {
-            //Try to load patient data
-            Globals.activePatient = FileOperation.getListOfPatients().get(0);
-            Log.d(TAG, "onCreate: Patient data found");
-        }
-        catch(IndexOutOfBoundsException ex)
-        {
-            Log.d(TAG, "onCreate: No patient data detected");
-            //If no new patient has been registered
-            Globals.activePatient = new PatientData();
-            FileOperation.savePatientData(Globals.activePatient);
-            Log.d(TAG, "onCreate: New patient data saved");
-        }
-        Globals.tableSettings = new TableSettings();
-        Globals.graphSettings = new GraphSettings();
-        Globals.isNewEntry = true;
-
-        //Refresh history to match patient
-        Globals.HISTORY_MEDICINE_COMPLAINT.refresh(Globals.activePatient);
-        Globals.HISTORY_PAIN_KIND.refresh(Globals.activePatient);
-        Globals.HISTORY_RECENT_MEDICATION.refresh(Globals.activePatient);
-        Globals.HISTORY_TRIGGER.refresh(Globals.activePatient);
     }
 }

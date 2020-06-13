@@ -3,6 +3,7 @@ package com.gardyanakbar.guardianheadpaindiary.ui.home;
 import android.os.Bundle;
 import android.text.SpannableString;
 import android.text.style.UnderlineSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +17,10 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Globals;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.GraphSettings;
 import com.gardyanakbar.guardianheadpaindiary.datadrivers.PainEntryData;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.PatientData;
+import com.gardyanakbar.guardianheadpaindiary.datadrivers.TableSettings;
 import com.gardyanakbar.guardianheadpaindiary.methods.FileOperation;
 import com.gardyanakbar.guardianheadpaindiary.methods.Methods;
 
@@ -110,7 +114,40 @@ public class HomeFragment extends Fragment
                 Globals.bottomNavigationView.setSelectedItemId(R.id.navigation_new_entry);
             }
         });
+    }
 
+    @Override
+    public void onResume()
+    {
+        super.onResume();
+
+        //Reload Patient
+        try
+        {
+            //Try to load patient data
+            Globals.activePatient = FileOperation.getListOfPatients().get(0);
+            Log.d(TAG, "onCreate: Patient data found");
+        }
+        catch(IndexOutOfBoundsException ex)
+        {
+            Log.d(TAG, "onCreate: No patient data detected");
+            //If no new patient has been registered
+            Globals.activePatient = new PatientData();
+            FileOperation.savePatientData(Globals.activePatient);
+            Log.d(TAG, "onCreate: New patient data saved");
+        }
+        Globals.tableSettings = new TableSettings();
+        Globals.graphSettings = new GraphSettings();
+        Globals.isNewEntry = true;
+
+        //Refresh history to match patient
+        Globals.HISTORY_MEDICINE_COMPLAINT.refresh(Globals.activePatient);
+        Globals.HISTORY_PAIN_KIND.refresh(Globals.activePatient);
+        Globals.HISTORY_RECENT_MEDICATION.refresh(Globals.activePatient);
+        Globals.HISTORY_TRIGGER.refresh(Globals.activePatient);
+
+
+        //Get daily stats
         //Get entries from today
         List<PainEntryData> entries = FileOperation.getListOfEntries(Globals.activePatient.getID(), new Date(), new Date());
         int maxInt = 0;
