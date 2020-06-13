@@ -190,6 +190,7 @@ public abstract class Graph extends View implements LanguageListener
     {
         return this.dataMap;
     }
+    @Deprecated
     protected int getMinWidth()
     {
         return this.yAxisNameTextHeight +
@@ -200,16 +201,19 @@ public abstract class Graph extends View implements LanguageListener
                 this.axesLength.x +
                 this.axesPaddingWithPanelEdgeLeft;
     }
+    @Deprecated
     protected int getBehindAxesDifferenceWithPanelEdgeLeft()
     {
         int usage = this.yAxisNameTextHeight + this.Y_AXIS_NAME_PADDING + this.maxYAxisMarkerLabelLength + this.MARKER_LABEL_PADDING + this.AXES_POINTERS_LENGTH;
         return usage - this.axesPaddingWithPanelEdgeLeft;
     }
+    @Deprecated
     protected int getBelowAxesDifferenceWithPanelEdgeBelow()
     {
         int usage = this.xAxisNameTextHeight + this.X_AXIS_NAME_PADDING + this.maxXAxisMarkerLabelHeight + this.MARKER_LABEL_PADDING + this.AXES_POINTERS_LENGTH;
         return usage - this.axesPaddingWithPanelEdgeBelow;
     }
+    @Deprecated
     protected void setXAxisLabels(List<String> labels)
     {
         this.xAxisLabels = labels;
