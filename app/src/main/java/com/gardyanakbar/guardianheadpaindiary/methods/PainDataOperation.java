@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.methods;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.PainDataIdentifier;
@@ -17,6 +18,8 @@ import giantsweetroll.date.Date;
 
 public class PainDataOperation
 {
+    private static final String TAG = "PainDataOperation";
+
     /**
      * Gets a linked hash map of the amount of entries with the dates being the key.
      * @param list - list of PainEntryData objects
@@ -440,21 +443,7 @@ public class PainDataOperation
         //Check if there are no entries in the dateFrom
         try
         {
-            if (source.get(0).getDate().getYear() == dateFrom.getYear())
-            {
-                if (source.get(0).getDate().getMonth() == dateFrom.getMonth())
-                {
-                    if (source.get(0).getDate().getDay() != dateFrom.getDay())
-                    {
-                        source.add(0, new PainEntryDataVoid(dateFrom));
-                    }
-                }
-                else
-                {
-                    source.add(0, new PainEntryDataVoid(dateFrom));
-                }
-            }
-            else
+            if (!Date.areSameDate(source.get(0).getDate(), dateFrom))
             {
                 source.add(0, new PainEntryDataVoid(dateFrom));
             }
@@ -464,27 +453,14 @@ public class PainDataOperation
         //Check if there are no entries in the dateTo
         try
         {
-            if (source.get(source.size()-1).getDate().getYear() == dateTo.getYear())
-            {
-                if (source.get(source.size()-1).getDate().getMonth() == dateTo.getMonth())
-                {
-                    if (source.get(source.size()-1).getDate().getDay() !=dateTo.getDay())
-                    {
-                        source.add(new PainEntryDataVoid(dateTo));
-                    }
-                }
-                else
-                {
-                    source.add(new PainEntryDataVoid(dateTo));
-                }
-            }
-            else
+            if (!Date.areSameDate(source.get(source.size()-1).getDate(), dateTo))
             {
                 source.add(new PainEntryDataVoid(dateTo));
             }
         }
         catch(Exception ex) {}
 
+        //Fill in the rest
         for (int i=0; i<source.size()-1; i++)
         {
             List<PainEntryData> subList = new ArrayList<PainEntryData>();		//Array between 2 dates
@@ -527,6 +503,8 @@ public class PainDataOperation
             }
             catch(NullPointerException ex) {}
         }
+
+        Log.d(TAG, "insertEmptyData: size of list " + list.size());
 
         return list;
     }
