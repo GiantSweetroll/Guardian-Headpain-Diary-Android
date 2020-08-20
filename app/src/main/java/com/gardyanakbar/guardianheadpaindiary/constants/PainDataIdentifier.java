@@ -28,6 +28,7 @@ public final class PainDataIdentifier
     public static final String DATE_DAY = "date_day";
     public static final String DATE_MONTH = "date_month";
     public static final String DATE_YEAR = "date_year";
+    public static final String DATE = "date";
 
     //Time
     public static final String TIME_HOUR = "time_hour";
