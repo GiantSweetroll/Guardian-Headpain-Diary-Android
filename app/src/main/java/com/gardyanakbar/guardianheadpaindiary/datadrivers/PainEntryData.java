@@ -1,6 +1,7 @@
 package com.gardyanakbar.guardianheadpaindiary.datadrivers;
 
 import android.content.Context;
+import android.os.Bundle;
 
 import com.gardyanakbar.guardianheadpaindiary.R;
 import com.gardyanakbar.guardianheadpaindiary.constants.Constants;
@@ -56,6 +57,30 @@ public class PainEntryData
         this.setRecentMedicaiton(Methods.getElementTextContent(doc, PainDataIdentifier.RECENT_MEDICATION));
         this.setMedicineComplaint(Methods.getElementTextContent(doc, PainDataIdentifier.MEDICINE_COMPLAINT));
         this.setTrigger(Methods.getElementTextContent(doc, PainDataIdentifier.ACTIVITY));
+    }
+    public PainEntryData(Bundle bundle)
+    {
+        this.dataMap = new HashMap<String, Object>();
+
+        this.setComments(bundle.getString(PainDataIdentifier.COMMENTS, ""));
+        try
+        {
+            this.setDate(new Date(bundle.getString(PainDataIdentifier.DATE), Date.DAY, Date.MONTH, Date.YEAR, Constants.PAIN_ENTRY_DATE_SEPARATOR));
+        }
+        catch(Exception ex)
+        {
+            this.setDate(new Date());
+        }
+        this.setTime(bundle.getString(PainDataIdentifier.TIME_HOUR, "00"),
+                        bundle.getString(PainDataIdentifier.TIME_MINUTE, "00"));
+        this.setDuration(bundle.getString(PainDataIdentifier.DURATION, "0"));
+        this.setIntensity(bundle.getString(PainDataIdentifier.INTENSITY, "0"));
+        this.setPainKind(bundle.getString(PainDataIdentifier.PAIN_KIND, ""));
+        this.setCustomPainLocations(bundle.getStringArrayList(PainDataIdentifier.PAIN_LOCATION_CUSTOM));
+        this.setPresetPainLocations(bundle.getStringArrayList(PainDataIdentifier.PAIN_LOCATION_PRESET));
+        this.setRecentMedicaiton(bundle.getString(PainDataIdentifier.RECENT_MEDICATION, ""));
+        this.setMedicineComplaint(bundle.getString(PainDataIdentifier.MEDICINE_COMPLAINT, ""));
+        this.setTrigger(bundle.getString(PainDataIdentifier.ACTIVITY, ""));
     }
 
     //Public Methods
@@ -387,5 +412,29 @@ public class PainEntryData
         arr.add(this.getMedicineComplaint());
 
         return arr.toArray(new String[arr.size()]);
+    }
+
+    /**
+     * Converts data as a Bundle object
+     * @return Bundle object containing pain entry data
+     */
+    public Bundle asBundle()
+    {
+        Bundle bundle = new Bundle();
+
+        bundle.putString(PainDataIdentifier.DATE, this.getDate().toString(Date.DAY, Date.MONTH, Date.YEAR, Constants.PAIN_ENTRY_DATE_SEPARATOR));   //Date
+        bundle.putString(PainDataIdentifier.TIME_HOUR, this.getTimeHour());     //Time hour
+        bundle.putString(PainDataIdentifier.TIME_MINUTE, this.getTimeMinutes());    //Time minutes
+        bundle.putString(PainDataIdentifier.DURATION, this.getDuration());      //Duration
+        bundle.putString(PainDataIdentifier.INTENSITY, this.getIntensity());    //Intensity
+        bundle.putString(PainDataIdentifier.PAIN_KIND, this.getPainKind());     //Pain Kind
+        bundle.putStringArrayList(PainDataIdentifier.PAIN_LOCATION_CUSTOM, (ArrayList<String>)this.getCustomPainLocations());   //Custom pain locations
+        bundle.putStringArrayList(PainDataIdentifier.PAIN_LOCATION_PRESET, (ArrayList<String>)this.getPresetPainLocations());   //Preset pain locations
+        bundle.putString(PainDataIdentifier.RECENT_MEDICATION, this.getRecentMedication()); //Recent medication
+        bundle.putString(PainDataIdentifier.MEDICINE_COMPLAINT, this.getMedicineComplaint());   //Medicine complaint
+        bundle.putString(PainDataIdentifier.ACTIVITY, this.getTrigger());   //Trigger
+        bundle.putString(PainDataIdentifier.COMMENTS, this.getComments());  //Comments
+
+        return bundle;
     }
 }
