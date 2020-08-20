@@ -430,6 +430,8 @@ public class FileOperation
                         String directory = userDatabasePath + year + File.separator + month + File.separator + day;
                         Log.d(TAG, "getListOfEntries: directory: " + directory);
                         FileManager.getListOfFiles(fileList, directory, false, FileManager.FILE_ONLY, FileManager.ABSOLUTE_PATH);
+
+                        //Collect the list of files
                         for (int a=0; a<fileList.size(); a++)
                         {
                             filePaths.add(fileList.get(a));
